@@ -1,0 +1,55 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:1:1-13:12
+	package
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:2:5-32
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:1:11-69
+	android:versionCode
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+application
+ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:4:5-11:19
+MERGED from [com.android.support:appcompat-v7:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.1.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.1.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.1.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.0\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-compat:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.0\AndroidManifest.xml:25:5-20
+	android:label
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:7:9-41
+	android:supportsRtl
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:8:9-35
+	android:allowBackup
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:5:9-35
+	android:icon
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:6:9-43
+	android:theme
+		ADDED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml:9:9-40
+uses-sdk
+INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.1.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.1.0\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.1.0\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.0\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-compat:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.0\AndroidManifest.xml:21:5-23:58
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.1.0] C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Carson\Documents\AndroidStudioProjects\USUEvents\app\src\main\AndroidManifest.xml
