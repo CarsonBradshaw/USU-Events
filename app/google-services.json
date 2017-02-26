@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "879673521254",
+    "project_id": "usuevents-159823"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879673521254:android:ba7bbb9c3ac73e97",
+        "android_client_info": {
+          "package_name": "redteam.usuevents"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879673521254-hob7o5o5fl2uct4bl48tblecg18anpbb.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "879673521254-40i73c080s97ja768tc1tbesd3ejt7ki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "redteam.usuevents",
+            "certificate_hash": "6fe231f04ad15187e000c7585f9e3849399d604e"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHUikrVpjQyT-8EB7e8Qz-7yOI9UNgsrY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
