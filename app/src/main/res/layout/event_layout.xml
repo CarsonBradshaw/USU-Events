@@ -13,23 +13,11 @@
         android:paddingTop="15dp" />
 
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView
+        android:text="TextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="273dp"
-            android:layout_height="70dp"
-            android:id="@+id/eventDetailRow"
-            android:padding="5dp" />
-
-        <CheckBox
-            android:text="Subscribe"
-            android:layout_width="117dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/subscribeBox" />
-    </LinearLayout>
+        android:layout_height="70dp"
+        android:id="@+id/eventDetailRow"
+        android:padding="5dp" />
 
 </LinearLayout>
