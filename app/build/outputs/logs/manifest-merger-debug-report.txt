@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:2:1-22:12
+ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:2:1-27:12
 	package
 		ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:3:5-32
 		INJECTED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml
@@ -21,7 +21,7 @@ MERGED from [com.google.firebase:firebase-iid:9.8.0] C:\Users\chris_000\Document
 	android:name
 		ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:5:22-64
 application
-ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:7:5-20:19
+ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:7:5-25:19
 MERGED from [com.android.support:appcompat-v7:25.1.0] C:\Users\chris_000\Documents\Android\USU-Events\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:animated-vector-drawable:25.1.0] C:\Users\chris_000\Documents\Android\USU-Events\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-vector-drawable:25.1.0] C:\Users\chris_000\Documents\Android\USU-Events\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.0\AndroidManifest.xml:23:5-20
@@ -64,6 +64,10 @@ category#android.intent.category.LAUNCHER
 ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:16:17-77
 	android:name
 		ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:16:27-74
+activity#redteam.usuevents.FirstTimeSubscriptionsActivity
+ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:22:9-23:20
+	android:name
+		ADDED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml:22:19-65
 uses-sdk
 INJECTED from C:\Users\chris_000\Documents\Android\USU-Events\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:25.1.0] C:\Users\chris_000\Documents\Android\USU-Events\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\AndroidManifest.xml:21:5-23:78

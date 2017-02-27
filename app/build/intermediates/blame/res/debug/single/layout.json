@@ -40,6 +40,10 @@
         "source": "C:\\Users\\chris_000\\Documents\\Android\\USU-Events\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\abc_select_dialog_material.xml"
     },
     {
+        "merged": "C:\\Users\\chris_000\\Documents\\Android\\USU-Events\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_first_time_subscriptions.xml",
+        "source": "C:\\Users\\chris_000\\Documents\\Android\\USU-Events\\app\\src\\main\\res\\layout\\activity_first_time_subscriptions.xml"
+    },
+    {
         "merged": "C:\\Users\\chris_000\\Documents\\Android\\USU-Events\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_chronometer.xml",
         "source": "C:\\Users\\chris_000\\Documents\\Android\\USU-Events\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\notification_template_part_chronometer.xml"
     },

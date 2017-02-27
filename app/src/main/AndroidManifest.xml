@@ -17,6 +17,11 @@
             </intent-filter>
         </activity>
 
+
+
+        <activity android:name=".FirstTimeSubscriptionsActivity">
+        </activity>
+
     </application>
 
 </manifest>
