@@ -19,8 +19,8 @@
 
 
 
-        <activity android:name=".FirstTimeSubscriptionsActivity">
-        </activity>
+        <activity android:name=".FirstTimeSubscriptionsActivity"></activity>
+        <activity android:name=".EventList"></activity>
 
     </application>
 
