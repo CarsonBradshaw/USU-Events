@@ -88,7 +88,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String email = account.getEmail();
-            String img_url = account.getPhotoUrl().toString();
+            String img_url;
+            if(account.getPhotoUrl()==null){
+
+                img_url= "app\\src\\main\\res\\drawable\\nopicture.png ";
+            }
+            else {
+                img_url = account.getPhotoUrl().toString();
+            }
             Name.setText(name);
             Email.setText(email);
             Glide.with(this).load(img_url).into(Prof_Pic);
