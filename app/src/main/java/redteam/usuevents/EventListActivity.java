@@ -2,16 +2,12 @@ package redteam.usuevents;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,13 +20,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import redteam.usuevents.models.EventModel;
 
-public class EventList extends Activity {
+public class EventListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +45,7 @@ public class EventList extends Activity {
                     @Override
                     public void onItemClick(AdapterView<?> parent,View view, int position, long id){
                         String eventList= String.valueOf(parent.getItemAtPosition(position));
-                        Toast.makeText(EventList.this, eventList, Toast.LENGTH_LONG).show();
+                        Toast.makeText(EventListActivity.this, eventList, Toast.LENGTH_LONG).show();
                     }
                 }
         );
