@@ -13,6 +13,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +25,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.List;
+
+import redteam.usuevents.models.EventModel;
 
 public class EventList extends Activity {
 
@@ -50,10 +58,10 @@ public class EventList extends Activity {
         new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
     }
 
-    public class DatabaseJsonRetriever extends AsyncTask<String, String, String>{
+    public class DatabaseJsonRetriever extends AsyncTask<String, String, List<EventModel>>{
 
         @Override
-        protected String doInBackground(String... params) {
+        protected List<EventModel> doInBackground(String... params) {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
@@ -72,11 +80,37 @@ public class EventList extends Activity {
                     buffer.append(line);
                 }
 
-                return buffer.toString();
+                String finalJson = buffer.toString();
+
+                JSONObject parentObject = new JSONObject(finalJson);
+                JSONArray parentArray = parentObject.getJSONArray("Events");
+
+                List<EventModel> eventModelList = new ArrayList<>();
+
+                for(int i = 0; i < parentArray.length(); i++) {
+                    JSONObject finalObject = parentArray.getJSONObject(i);
+
+                    String category_id = finalObject.getString("category_id");
+                    String event_id = finalObject.getString("event_id");
+                    String title = finalObject.getString("title");
+                    String description = finalObject.getString("description");
+                    String date_time = finalObject.getString("date_time");
+                    String address = finalObject.getString("address");
+                    String lat = finalObject.getString("lat");
+                    String lng = finalObject.getString("lng");
+                    String voteCt = finalObject.getString("voteCt");
+
+                    EventModel eventModel = new EventModel(category_id, event_id, title, description, date_time, address, lat, lng, voteCt);
+                    eventModelList.add(eventModel);
+                }
+
+                return eventModelList;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
                 if(connection != null) {
@@ -94,9 +128,9 @@ public class EventList extends Activity {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(List<EventModel> result) {
             super.onPostExecute(result);
-            Log.v("Result", result);
+            //TODO need to set data from EventModel to the list
         }
     }
 }
