@@ -1,12 +1,18 @@
 package redteam.usuevents;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -22,33 +28,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 import redteam.usuevents.models.EventModel;
 
 public class EventListActivity extends Activity {
 
+    private ListView eventListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
-
-        //eventListTestArray integrating database
-        final String[] eventListTestArray={"Event 1","Event 2", "Event 3","Event 4","Event 5","Event 6"};
+        eventListView=(ListView)findViewById(R.id.eventListView);
 
 
-        ListAdapter eventAdapter = new CustomEventRow(this,eventListTestArray);
-        ListView eventListView=(ListView) findViewById(R.id.eventListView);
-        eventListView.setAdapter(eventAdapter);
 
-        eventListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener(){
-                    @Override
-                    public void onItemClick(AdapterView<?> parent,View view, int position, long id){
-                        String eventList= String.valueOf(parent.getItemAtPosition(position));
-                        Toast.makeText(EventListActivity.this, eventList, Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+
 
         new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
     }
@@ -123,9 +119,57 @@ public class EventListActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(List<EventModel> result) {
+        protected void onPostExecute(final List<EventModel> result) {
             super.onPostExecute(result);
-            //TODO need to set data from EventModel to the list
-        }
+            if(result!=null){
+                EventAdapter adapter=new EventAdapter(getApplicationContext(),R.layout.event_layout,result);
+                eventListView.setAdapter(adapter);
+                eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                        EventModel eventModel=result.get(position);
+                        Intent intent=new Intent(EventListActivity.this,EventDetailActivity.class);
+                        intent.putExtra("EventModel",eventModel);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+        } //TODO need to set data from EventModel to the list
     }
+    public class EventAdapter extends ArrayAdapter<EventModel> {
+
+        private List<EventModel> eventModelList;
+        private int resource;
+        private LayoutInflater inflater;
+        public EventAdapter(Context context, int resource, List<EventModel> objects) {
+            super(context, resource, objects);
+            eventModelList=objects;
+            this.resource=resource;
+            inflater=(LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public View getView(int position,View convertView, ViewGroup parent){
+           if(convertView==null){
+               convertView=inflater.inflate(R.layout.event_layout,null);
+           }
+            TextView eventNameRow;
+            TextView eventDetailRow;
+
+            eventNameRow=(TextView)convertView.findViewById(R.id.eventNameRow);
+            eventDetailRow=(TextView)convertView.findViewById(R.id.eventDetailRow);
+
+            eventNameRow.setText(eventModelList.get(position).getTitle());
+            eventDetailRow.setText(eventModelList.get(position).getDescription());
+
+            return convertView;
+        }
+
+    }
+
+
+
+
+
 }

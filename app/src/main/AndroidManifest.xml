@@ -20,6 +20,8 @@
 
         <activity android:name=".FirstTimeSubscriptionsActivity"></activity>
         <activity android:name=".EventListActivity"></activity>
+        <activity android:name=".EventDetailActivity"></activity>
+
 
     </application>
 

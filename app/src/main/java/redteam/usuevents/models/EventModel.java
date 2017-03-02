@@ -1,6 +1,7 @@
 package redteam.usuevents.models;
+import java.io.Serializable;
 
-public class EventModel {
+public class EventModel implements Serializable {
 
     private String category_id;
     private String event_id;
@@ -12,7 +13,8 @@ public class EventModel {
     private String lng;
     private String voteCt;
 
-    public EventModel(String category_id, String event_id, String title, String description, String date_time, String address, String lat, String lng, String voteCt) {
+    public EventModel(String category_id, String event_id, String title, String description,
+                      String date_time, String address, String lat, String lng, String voteCt) {
         this.setCategory_id(category_id);
         this.setEvent_id(event_id);
         this.setTitle(title);
