@@ -11,6 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
@@ -24,6 +31,9 @@ import com.google.android.gms.common.api.Status;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
+    TextView textStatus;
+    LoginButton login_button;
+    CallbackManager callbackManager;
 
     private LinearLayout Prof_Section;
     private Button SignOut;
@@ -48,6 +58,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Prof_Section.setVisibility(View.GONE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        initializeControls();
+        loginWithFB();
+
+
     }
 
     @Override
@@ -129,5 +145,49 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
         }
+
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
+
+
+
+    private void initializeControls(){
+        callbackManager = CallbackManager.Factory.create();
+        textStatus = (TextView)findViewById(R.id.textStatus);
+        login_button = (LoginButton)findViewById(R.id.login_button);
+    }
+
+
+    private void loginWithFB(){
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                textStatus.setText("Login Success\n"+loginResult.getAccessToken());
+
+                Intent myIntent = new Intent(LoginActivity.this, FirstTimeSubscriptionsActivity.class);
+                startActivity(myIntent);
+            }
+
+            @Override
+            public void onCancel() {
+                textStatus.setText("Login Cancelled.");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                textStatus.setText("Login Error: "+error.getMessage());
+            }
+        });
+    }
+
+
+
+
+
+
+
 }

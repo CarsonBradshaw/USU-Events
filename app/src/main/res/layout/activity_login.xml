@@ -57,6 +57,7 @@
                 android:id="@+id/bn_logout"/>
 
         </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.gms.common.SignInButton
@@ -68,5 +69,34 @@
         android:id="@+id/bn_login"
         ></com.google.android.gms.common.SignInButton>
 
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Facebook"/>
+
+
+    </LinearLayout>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        />
 
 </LinearLayout>
