@@ -110,4 +110,15 @@
         android:textSize="15dp"
         android:onClick="xmlButtonOnClickCall"/>
 
+    <Button
+        android:text="Create an event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/submitButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/createEventButton"
+        android:textStyle="normal|bold"
+        android:textSize="15dp"/>
+
 </RelativeLayout>

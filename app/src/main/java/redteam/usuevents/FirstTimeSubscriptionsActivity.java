@@ -5,16 +5,32 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
 public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
+
+    public Button createEventButton;
+    public void createEvent(){
+        createEventButton = (Button)findViewById(R.id.createEventButton);
+        createEventButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent create = new Intent(FirstTimeSubscriptionsActivity.this, EventCreateActivity.class);
+                startActivity(create);
+            }
+        });
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
+        createEvent();
     }
 
     protected void xmlButtonOnClickCall(View v){
@@ -22,6 +38,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, EventListActivity.class);
         startActivity(myIntent);
     }
+
 
     protected String createCheckBoxCsvString(){
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:id="@+id/result">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Title"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/title" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Description"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/description" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Address"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/address" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:hint="Category"
+        android:id="@+id/category_id" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:hint="Event"
+        android:id="@+id/event_id" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Date and Time"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/date_time" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Latitude"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/lat" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Longitude"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/lng" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Vote Count"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:id="@+id/voteCt" />
+
+    <Button
+        android:text="Submit Event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/insert"
+        android:layout_marginTop="20dp"/>
+
+    <!--<Button
+        android:text="List Events"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listevents" />-->
+
+
+</LinearLayout>
