@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="redteam.usuevents.LoginActivity">
+    tools:context="redteam.usuevents.LoginActivity"
+    android:background="@color/cardview_dark_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +14,8 @@
         android:orientation="horizontal"
         android:id="@+id/prof_section"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        >
 
         <ImageView
             android:layout_width="90dp"
