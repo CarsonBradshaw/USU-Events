@@ -31,8 +31,8 @@
             android:id="@+id/bn_login"
             ></com.google.android.gms.common.SignInButton>
         <Button
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="276dp"
+            android:layout_height="40dp"
             android:text="LogOut Google Account"
             android:id="@+id/bn_logout"
             android:layout_gravity="center_horizontal"
