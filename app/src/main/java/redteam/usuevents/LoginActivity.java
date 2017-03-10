@@ -35,12 +35,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LoginButton login_button;
     CallbackManager callbackManager;
 
-    private LinearLayout Prof_Section;
     private LinearLayout login_section;
     private Button SignOut;
     private SignInButton SignIn;
-    private TextView Name,Email;
-    private ImageView Prof_Pic;
     private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 9001;
 
@@ -48,16 +45,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Prof_Section = (LinearLayout)findViewById(R.id.prof_section);
         login_section = (LinearLayout)findViewById(R.id.login_section);
         SignOut = (Button)findViewById(R.id.bn_logout);
         SignIn = (SignInButton)findViewById(R.id.bn_login);
-        Name = (TextView)findViewById(R.id.name);
-        Email = (TextView)findViewById(R.id.email);
-        Prof_Pic = (ImageView)findViewById(R.id.prof_pic);
         SignIn.setOnClickListener(this);
         SignOut.setOnClickListener(this);
-        Prof_Section.setVisibility(View.GONE);
         SignOut.setVisibility(View.GONE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
@@ -65,8 +57,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FacebookSdk.sdkInitialize(getApplicationContext());
         initializeControls();
         loginWithFB();
-
-
     }
 
     @Override
@@ -80,14 +70,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 signOut();
                 break;
         }
-
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
 
     private void signIn(){
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
@@ -105,39 +93,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()){
             GoogleSignInAccount account = result.getSignInAccount();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String img_url;
-            if(account.getPhotoUrl()==null){
-
-                img_url= "app\\src\\main\\res\\drawable\\nopicture.png ";
-            }
-            else {
-                img_url = account.getPhotoUrl().toString();
-            }
-            Name.setText(name);
-            Email.setText(email);
-            Glide.with(this).load(img_url).into(Prof_Pic);
             updateUI(true);
             Intent myIntent = new Intent(this, FirstTimeSubscriptionsActivity.class);
             startActivity(myIntent);
-
         }
         else {
             updateUI(false);
-
         }
     }
 
     private void updateUI(boolean isLogin){
         if(isLogin){
-            Prof_Section.setVisibility(View.GONE);
             SignIn.setVisibility(View.GONE);
             SignOut.setVisibility(View.VISIBLE);
             login_section.setVisibility(View.VISIBLE);
         }
         else {
-            Prof_Section.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
             SignOut.setVisibility(View.GONE);
             login_section.setVisibility(View.VISIBLE);
@@ -153,21 +124,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             handleResult(result);
         }
 
-
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
-
-
-
-
 
     private void initializeControls(){
         callbackManager = CallbackManager.Factory.create();
         textStatus = (TextView)findViewById(R.id.textStatus);
         login_button = (LoginButton)findViewById(R.id.login_button);
     }
-
 
     private void loginWithFB(){
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
