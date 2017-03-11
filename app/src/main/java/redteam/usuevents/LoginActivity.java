@@ -1,5 +1,6 @@
 package redteam.usuevents;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
@@ -74,7 +76,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        CharSequence text = "Connection Failed";
+        Toast.makeText(context, text, duration).show();
     }
 
     private void signIn(){
@@ -86,6 +91,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResult(@NonNull Status status) {
                 updateUI(false);
+
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                CharSequence text = "Google Logout Successful";
+                Toast.makeText(context, text, duration).show();
             }
         });
 
@@ -107,6 +117,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             SignIn.setVisibility(View.GONE);
             SignOut.setVisibility(View.VISIBLE);
             login_section.setVisibility(View.VISIBLE);
+
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+            CharSequence text = "Google Login Successful";
+            Toast.makeText(context, text, duration).show();
         }
         else {
             SignIn.setVisibility(View.VISIBLE);
@@ -123,7 +138,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
         }
-
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -137,15 +151,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                textStatus.setText("Login Success\n"+loginResult.getAccessToken());
+                //textStatus.setText("Login Success\n"+loginResult.getAccessToken());
+                textStatus.setText("Login Success\n");
 
                 Intent myIntent = new Intent(LoginActivity.this, FirstTimeSubscriptionsActivity.class);
                 startActivity(myIntent);
+
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                CharSequence text = "Facebook Login Successful";
+                Toast.makeText(context, text, duration).show();
             }
 
             @Override
             public void onCancel() {
-                textStatus.setText("Login Cancelled.");
+                textStatus.setText("Login Cancelled.\n");
             }
 
             @Override
