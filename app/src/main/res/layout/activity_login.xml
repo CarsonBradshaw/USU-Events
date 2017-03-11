@@ -14,13 +14,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/login_section"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@android:color/transparent">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="354dp"
+            android:layout_height="296dp"
             android:id="@+id/events_pic"
-            android:src="@drawable/usuevents"
-            android:layout_gravity="center_horizontal"/>
+            android:src="@drawable/mountain"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="USU Events"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="40dp"
+            android:textStyle="bold"/>
 
         <com.google.android.gms.common.SignInButton
             android:layout_width="match_parent"
