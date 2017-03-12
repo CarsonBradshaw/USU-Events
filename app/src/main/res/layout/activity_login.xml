@@ -15,49 +15,45 @@
         android:orientation="vertical"
         android:id="@+id/login_section"
         android:layout_gravity="center"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:weightSum="1">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="296dp"
-            android:id="@+id/events_pic"
-            android:src="@drawable/mountain"
-            android:layout_gravity="center_horizontal"
-            />
-        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="USU Events"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="40dp"
-            android:textStyle="bold"/>
+            android:layout_height="325dp"
+            android:id="@+id/events_pic"
+            android:src="@drawable/usueventslogo"
+            android:layout_gravity="center_horizontal" />
 
         <com.google.android.gms.common.SignInButton
-            android:layout_width="match_parent"
+            android:layout_width="276dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:layout_marginRight="50dp"
             android:layout_marginLeft="50dp"
             android:id="@+id/bn_login"
+            android:layout_gravity="center_horizontal"
             ></com.google.android.gms.common.SignInButton>
         <Button
-            android:layout_width="276dp"
+            android:layout_width="272dp"
             android:layout_height="40dp"
             android:text="LogOut Google Account"
             android:id="@+id/bn_logout"
             android:layout_gravity="center_horizontal"
-            android:background="@color/cardview_light_background"/>
+            android:background="@color/cardview_light_background"
+            />
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
-            android:layout_width="wrap_content"
+            android:layout_width="272dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
             />
         <TextView
             android:id="@+id/textStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:textColor="@color/cardview_light_background"
             android:text="Facebook"/>
     </LinearLayout>
 
