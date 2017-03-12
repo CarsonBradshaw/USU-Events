@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
             CharSequence text = "Google Login Successful";
-            Toast.makeText(context, text, duration).show();
+            //Toast.makeText(context, text, duration).show();
         }
         else {
             SignIn.setVisibility(View.VISIBLE);
@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Context context = getApplicationContext();
                 int duration = Toast.LENGTH_SHORT;
                 CharSequence text = "Facebook Login Successful";
-                Toast.makeText(context, text, duration).show();
+                //Toast.makeText(context, text, duration).show();
             }
 
             @Override

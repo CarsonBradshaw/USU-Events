@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">USU Events</string>
     <string name="facebook_app_id">1926381957591933</string>
+    <string name="notification_management">Notification Management</string>
 </resources>

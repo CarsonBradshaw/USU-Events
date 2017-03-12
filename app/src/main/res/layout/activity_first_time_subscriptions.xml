@@ -1,124 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_first_time_subscriptions"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_first_time_subscriptions"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
 
     <TextView
-        android:text="Notification Subscriptions"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
-        android:textColor="#000"
-        android:id="@+id/title_subscriptions"
-        tools:text="Notification Subscriptions"
-        android:textSize="28dp" />
+        android:text="@string/notification_management"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
 
-    <CheckBox
-        android:text="Men's Football"
-        android:textColor="#000"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox"
-        android:layout_alignLeft="@+id/checkBox"
-        android:layout_alignStart="@+id/checkBox"
-        android:id="@+id/checkBox2"
-        tools:text="Men's Football"
-        android:textSize="15dp" />
-
-    <CheckBox
-        android:text="Women's Basketball"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox2"
-        android:layout_alignLeft="@+id/checkBox2"
-        android:layout_alignStart="@+id/checkBox2"
-        android:id="@+id/checkBox3"
-        android:textSize="15dp" />
-
-    <CheckBox
-        android:text="Women's Volleyball"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox3"
-        android:layout_alignLeft="@+id/checkBox3"
-        android:layout_alignStart="@+id/checkBox3"
-        android:id="@+id/checkBox4"
-        android:textSize="15dp" />
-
-    <CheckBox
-        android:text="Men's Basketball"
-        android:textColor="#000"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:id="@+id/checkBox"
-        tools:text="Men's Basketball"
-        android:textSize="15dp"
-        android:layout_below="@+id/title_subscriptions"
-        android:layout_alignLeft="@+id/title_subscriptions"
-        android:layout_alignStart="@+id/title_subscriptions"
-        android:checked="false" />
-
-    <CheckBox
-        android:text="Parties"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox5"
-        android:textSize="15dp"
-        android:layout_below="@+id/checkBox4"
-        android:layout_alignLeft="@+id/checkBox4"
-        android:layout_alignStart="@+id/checkBox4" />
-
-    <CheckBox
-        android:text="Misc USU Sponsored Events"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox6"
-        android:textSize="15dp"
-        android:layout_below="@+id/checkBox5"
-        android:layout_alignLeft="@+id/checkBox5"
-        android:layout_alignStart="@+id/checkBox5" />
-
-    <CheckBox
-        android:text="User Submitted Events"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBox7"
-        android:textSize="15dp"
-        android:layout_below="@+id/checkBox6"
-        android:layout_alignLeft="@+id/checkBox6"
-        android:layout_alignStart="@+id/checkBox6" />
-
-    <Button
-        android:text="Submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkBox7"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="77dp"
-        android:id="@+id/submitButton"
-        android:textStyle="normal|bold"
-        android:textSize="15dp"
-        android:onClick="xmlButtonOnClickCall"/>
-
-    <Button
-        android:text="Create an event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/submitButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:id="@+id/createEventButton"
-        android:textStyle="normal|bold"
-        android:textSize="15dp"/>
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="18sp"
+        android:groupIndicator="@null"/>
 
 </RelativeLayout>
