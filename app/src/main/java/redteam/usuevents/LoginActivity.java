@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
@@ -28,6 +30,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
@@ -35,14 +44,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     LoginButton login_button;
     CallbackManager callbackManager;
 
+    private static final int REQ_CODE = 9001;
+    private static final String TAG = "ActivityLifeTracker";
+
+
     private LinearLayout login_section;
     private Button SignOut;
     private SignInButton SignIn;
     private GoogleApiClient googleApiClient;
-    private static final int REQ_CODE = 9001;
+    private FirebaseAuth fAuth;
+    private FirebaseAuth.AuthStateListener fAuthListener;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         login_section = (LinearLayout)findViewById(R.id.login_section);
@@ -51,12 +65,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SignIn.setOnClickListener(this);
         SignOut.setOnClickListener(this);
         SignOut.setVisibility(View.GONE);
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         initializeControls();
         loginWithFB();
+
+        fAuth = FirebaseAuth.getInstance();
+        fAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    //Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+    }
+
+    @Override
+    public void onStart() {
+
+        super.onStart();
+        fAuth.addAuthStateListener(fAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+
+        super.onStop();
+        if (fAuthListener != null) {
+            fAuth.removeAuthStateListener(fAuthListener);
+        }
     }
 
     @Override
@@ -78,10 +124,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn(){
+
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent,REQ_CODE);
     }
     private void signOut(){
+
+        fAuth.signOut();
+
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
@@ -93,6 +143,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()){
             GoogleSignInAccount account = result.getSignInAccount();
+            firebaseAuthWithGoogle(account);
             updateUI(true);
             Intent myIntent = new Intent(this, FirstTimeSubscriptionsActivity.class);
             startActivity(myIntent);
@@ -100,6 +151,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         else {
             updateUI(false);
         }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        //showProgressDialog();
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        fAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            //Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        //hideProgressDialog();
+                    }
+                });
     }
 
     private void updateUI(boolean isLogin){
