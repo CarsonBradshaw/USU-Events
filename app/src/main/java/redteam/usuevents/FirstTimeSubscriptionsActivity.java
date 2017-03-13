@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -220,6 +221,18 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         private List<String> expandableListTitle;
         private LinkedHashMap<String, List<String>> expandableListDetail;
         private ExpandableListView expandableListView;
+        private String groupText;
+        private String childText;
+
+        // Hashmap for keeping track of our checkbox check states
+        private HashMap<Integer, boolean[]> mChildCheckStates;
+
+        private ChildViewHolder childViewHolder;
+
+        public final class ChildViewHolder {
+            TextView mChildText;
+            CheckBox mCheckBox;
+        }
 
 
         public FirstLevelAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, ExpandableListView expandableListView) {
@@ -227,6 +240,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             this.expandableListTitle = expandableListTitle;
             this.expandableListDetail = expandableListDetail;
             this.expandableListView = expandableListView;
+            mChildCheckStates = new HashMap<Integer, boolean[]>();
         }
 
         @Override
@@ -240,15 +254,106 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+//            if (convertView == null) {
+//                LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                convertView = layoutInflater.inflate(R.layout.expandable_list_child, null);
+//            }
+//            final String expandedListText = (String) getChild(groupPosition, childPosition);
+//            TextView expandedListTextView = (TextView) convertView.findViewById(R.id.childTextView);
+//            expandedListTextView.setText(expandedListText);
+//            return convertView;
+
+            final int mGroupPosition = groupPosition;
+            final int mChildPosition = childPosition;
+
+            //  I passed a text string into an activity holding a getter/setter
+            //  which I passed in through "ExpListChildItems".
+            //  Here is where I call the getter to get that text
+            childText = getChild(mGroupPosition, mChildPosition).toString();
+
             if (convertView == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = layoutInflater.inflate(R.layout.expandable_list_child, null);
+
+                LayoutInflater inflater = (LayoutInflater) this.context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.expandable_list_child, null);
+
+                childViewHolder = new ChildViewHolder();
+
+                childViewHolder.mChildText = (TextView) convertView.findViewById(R.id.childTextView);
+
+                childViewHolder.mCheckBox = (CheckBox) convertView.findViewById(R.id.childCheckBox);
+
+                convertView.setTag(R.layout.expandable_list_child, childViewHolder);
+
+            } else {
+
+                childViewHolder = (ChildViewHolder) convertView.getTag(R.layout.expandable_list_child);
             }
-            final String expandedListText = (String) getChild(listPosition, expandedListPosition);
-            TextView expandedListTextView = (TextView) convertView.findViewById(R.id.childTextView);
-            expandedListTextView.setText(expandedListText);
+
+            childViewHolder.mChildText.setText(childText);
+            /*
+         * You have to set the onCheckChangedListener to null
+         * before restoring check states because each call to
+         * "setChecked" is accompanied by a call to the
+         * onCheckChangedListener
+        */
+            childViewHolder.mCheckBox.setOnCheckedChangeListener(null);
+
+            if (mChildCheckStates.containsKey(mGroupPosition)) {
+            /*
+             * if the hashmap mChildCheckStates<Integer, Boolean[]> contains
+             * the value of the parent view (group) of this child (aka, the key),
+             * then retrive the boolean array getChecked[]
+            */
+                boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+
+                // set the check state of this position's checkbox based on the
+                // boolean value of getChecked[position]
+                childViewHolder.mCheckBox.setChecked(getChecked[mChildPosition]);
+
+            } else {
+
+            /*
+            * if the hashmap mChildCheckStates<Integer, Boolean[]> does not
+            * contain the value of the parent view (group) of this child (aka, the key),
+            * (aka, the key), then initialize getChecked[] as a new boolean array
+            *  and set it's size to the total number of children associated with
+            *  the parent group
+            */
+                boolean getChecked[] = new boolean[getChildrenCount(mGroupPosition)];
+
+                // add getChecked[] to the mChildCheckStates hashmap using mGroupPosition as the key
+                mChildCheckStates.put(mGroupPosition, getChecked);
+
+                // set the check state of this position's checkbox based on the
+                // boolean value of getChecked[position]
+                childViewHolder.mCheckBox.setChecked(false);
+            }
+
+            childViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,
+                                             boolean isChecked) {
+
+                    if (isChecked) {
+
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        mChildCheckStates.put(mGroupPosition, getChecked);
+
+                    } else {
+
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        mChildCheckStates.put(mGroupPosition, getChecked);
+                    }
+                }
+            });
+
             return convertView;
+
 
         }
 
@@ -283,6 +388,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             }
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            imageView.setImageDrawable(null);
 
             if (isExpanded && getChildrenCount(listPosition) != 0) {
                 imageView.setImageResource(R.drawable.collapse_arrow_48dp);
@@ -297,12 +403,12 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
         @Override
         public boolean hasStableIds() {
-            return true;
+            return false;
         }
 
         @Override
         public boolean isChildSelectable(int listPosition, int expandedListPosition) {
-            return true;
+            return false;
         }
     }
 }
