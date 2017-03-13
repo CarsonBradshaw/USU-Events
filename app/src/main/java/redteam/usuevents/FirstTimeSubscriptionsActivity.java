@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -19,6 +21,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
     List<String> expandableListTitle;
     LinkedHashMap<String,List<String>> expandableListDetail;
 
+    Button submitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -40,12 +45,21 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
 
+        submitButton = (Button)findViewById(R.id.notificationManagmentSubmitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, EventListActivity.class);
+                startActivity(myIntent);
+            }
+        });
+
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
 
         expandableListDetail = this.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new FirstLevelAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListAdapter = new FirstLevelAdapter(this, expandableListTitle, expandableListDetail, expandableListView);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.expandGroup(0);
         //expandableListView.expandGroup(1);
@@ -53,22 +67,33 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if (expandableListAdapter.getChildrenCount(groupPosition) == 0 || expandableListAdapter.getChildrenCount(groupPosition) == 1) {
-                    return true;
-                } else {
-                    return false;
+
+                if(parent.isGroupExpanded(groupPosition)){
+                    parent.collapseGroup(groupPosition);
+                }else{
+                    boolean animateExpansion = false;
+                    parent.expandGroup(groupPosition,animateExpansion);
                 }
+
+                //telling the listView we have handled the group click, and don't want the default actions.
+                return true;
+
+//                if (expandableListAdapter.getChildrenCount(groupPosition) == 0 || expandableListAdapter.getChildrenCount(groupPosition) == 1) {
+//                    return true;
+//                } else {
+//                    return false;
+//                }
             }
         });
 
-//        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-//
-//            @Override
-//            public void onGroupExpand(int groupPosition) {
-//
-//            }
-//        });
-//
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+
+            }
+        });
+
 //        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 //
 //            @Override
@@ -194,12 +219,14 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         private Context context;
         private List<String> expandableListTitle;
         private LinkedHashMap<String, List<String>> expandableListDetail;
+        private ExpandableListView expandableListView;
 
 
-        public FirstLevelAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail) {
+        public FirstLevelAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, ExpandableListView expandableListView) {
             this.context = context;
             this.expandableListTitle = expandableListTitle;
             this.expandableListDetail = expandableListDetail;
+            this.expandableListView = expandableListView;
         }
 
         @Override
