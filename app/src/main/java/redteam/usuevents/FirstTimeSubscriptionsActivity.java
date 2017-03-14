@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -78,12 +79,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
                 //telling the listView we have handled the group click, and don't want the default actions.
                 return true;
-
-//                if (expandableListAdapter.getChildrenCount(groupPosition) == 0 || expandableListAdapter.getChildrenCount(groupPosition) == 1) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
             }
         });
 
@@ -94,24 +89,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
             }
         });
-
-//        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-//
-//            @Override
-//            public void onGroupCollapse(int groupPosition) {
-//
-//
-//            }
-//        });
-//
-//        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-//            @Override
-//            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-//
-//                return false;
-//            }
-//        });
-
     }
 
     public static LinkedHashMap<String, List<String>> getData() {
@@ -134,7 +111,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         womensSportsList.add("Tennis");
         womensSportsList.add("Track and Field");
         womensSportsList.add("Cross Country");
-        womensSportsList.add("Volleyball");
+        womensSportsList.add("Soccer");
         womensSportsList.add("Softball");
         womensSportsList.add("Gymnastics");
 
@@ -226,12 +203,19 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
         // Hashmap for keeping track of our checkbox check states
         private HashMap<Integer, boolean[]> mChildCheckStates;
+        private HashMap<Integer, Boolean> mParentCheckStates;
 
+        private GroupViewHolder groupViewHolder;
         private ChildViewHolder childViewHolder;
 
         public final class ChildViewHolder {
             TextView mChildText;
             CheckBox mCheckBox;
+        }
+
+        public final class GroupViewHolder {
+            TextView mGroupText;
+            CheckBox mGroupCheckBox;
         }
 
 
@@ -241,6 +225,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             this.expandableListDetail = expandableListDetail;
             this.expandableListView = expandableListView;
             mChildCheckStates = new HashMap<Integer, boolean[]>();
+            mParentCheckStates = new HashMap<Integer, Boolean>();
         }
 
         @Override
@@ -255,14 +240,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
         @Override
         public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-//            if (convertView == null) {
-//                LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                convertView = layoutInflater.inflate(R.layout.expandable_list_child, null);
-//            }
-//            final String expandedListText = (String) getChild(groupPosition, childPosition);
-//            TextView expandedListTextView = (TextView) convertView.findViewById(R.id.childTextView);
-//            expandedListTextView.setText(expandedListText);
-//            return convertView;
 
             final int mGroupPosition = groupPosition;
             final int mChildPosition = childPosition;
@@ -351,10 +328,15 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                     }
                 }
             });
+            Log.d("gettingChild", childText);
+
+            if (isParentChecked(groupPosition)) {
+                Log.d("parentChecker", "parent is checked for " + childText);
+            }else{
+                Log.d("parentChecker", "parent is not checked for " + childText);
+            }
 
             return convertView;
-
-
         }
 
         @Override
@@ -378,14 +360,43 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            String listTitle = (String) getGroup(listPosition);
-
+        public View getGroupView(final int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            final String listTitle = (String) getGroup(listPosition);
 
             if (convertView == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = layoutInflater.inflate(R.layout.expandable_list_parent, null);
+                mParentCheckStates.put(listPosition, false);
             }
+            CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.parentCheckBox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mParentCheckStates.put(listPosition, isChecked);
+                    if(getChildrenCount(listPosition)>0 && isChecked){
+                        //update mchildren bool matrix with all checked and notifyDataSetChanged();
+                        //Arrays.fill(mChildCheckStates.get(listPosition), Boolean.FALSE);
+                        boolean[] trueFiller = new boolean[getChildrenCount(listPosition)];
+                        Arrays.fill(trueFiller, true);
+                        mChildCheckStates.put(listPosition, trueFiller);
+                        notifyDataSetChanged();
+                    }else if(getChildrenCount(listPosition)>0){
+                        boolean[] falseFiller = new boolean[getChildrenCount(listPosition)];
+                        Arrays.fill(falseFiller, false);
+                        mChildCheckStates.put(listPosition, falseFiller);
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+
+//            String checkedState = "";
+//            if(mParentCheckStates.get(listPosition)){
+//                checkedState="true";
+//            }else if(mParentCheckStates.get(listPosition) == false){
+//                checkedState = "false";
+//            }
+//
+//            Log.d("Messagehere", listTitle + " " + checkedState);
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
             imageView.setImageDrawable(null);
@@ -398,17 +409,22 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             TextView listTitleTextView = (TextView) convertView.findViewById(R.id.parentTextView);
             listTitleTextView.setTypeface(null, Typeface.BOLD);
             listTitleTextView.setText(listTitle);
+            Log.d("GettingGroupViewFor", listTitle);
             return convertView;
         }
 
         @Override
         public boolean hasStableIds() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isChildSelectable(int listPosition, int expandedListPosition) {
-            return false;
+            return true;
+        }
+
+        public boolean isParentChecked(int listPosition){
+            return mParentCheckStates.get(listPosition);
         }
     }
 }
