@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,13 +33,13 @@ import java.util.List;
 
 public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
+    public ExpandableListView expandableListView;
+    public ExpandableListAdapter expandableListAdapter;
+    public List<String> expandableListTitle;
+    public LinkedHashMap<String,List<String>> expandableListDetail;
+    public ArrayList<Boolean> finalSubscriptions;
 
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    LinkedHashMap<String,List<String>> expandableListDetail;
-
-    Button submitButton;
+    public Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +48,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
 
-        submitButton = (Button)findViewById(R.id.notificationManagmentSubmitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, EventListActivity.class);
-                startActivity(myIntent);
-            }
-        });
-
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-
 
         expandableListDetail = this.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
@@ -87,6 +78,23 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             @Override
             public void onGroupExpand(int groupPosition) {
 
+            }
+        });
+
+        //onSubmit
+        submitButton = (Button)findViewById(R.id.notificationManagmentSubmitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO on submit button click:
+
+//                1. check to see if shared preferences contain notificationSubscriptions
+//
+//                2. loop through states; if isChecked and not subscribed -> subscribe; if !isChecked and subscribed -> unsubscribe
+
+
+                Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, EventListActivity.class);
+                startActivity(myIntent);
             }
         });
     }
@@ -201,7 +209,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         private String groupText;
         private String childText;
 
-        // Hashmap for keeping track of our checkbox check states
         private HashMap<Integer, boolean[]> mChildCheckStates;
         private HashMap<Integer, Boolean> mParentCheckStates;
 
@@ -251,8 +258,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
             if (convertView == null) {
 
-                LayoutInflater inflater = (LayoutInflater) this.context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.expandable_list_child, null);
 
                 childViewHolder = new ChildViewHolder();
@@ -375,7 +381,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                     mParentCheckStates.put(listPosition, isChecked);
                     if(getChildrenCount(listPosition)>0 && isChecked){
                         //update mchildren bool matrix with all checked and notifyDataSetChanged();
-                        //Arrays.fill(mChildCheckStates.get(listPosition), Boolean.FALSE);
                         boolean[] trueFiller = new boolean[getChildrenCount(listPosition)];
                         Arrays.fill(trueFiller, true);
                         mChildCheckStates.put(listPosition, trueFiller);
@@ -389,14 +394,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 }
             });
 
-//            String checkedState = "";
-//            if(mParentCheckStates.get(listPosition)){
-//                checkedState="true";
-//            }else if(mParentCheckStates.get(listPosition) == false){
-//                checkedState = "false";
-//            }
-//
-//            Log.d("Messagehere", listTitle + " " + checkedState);
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
             imageView.setImageDrawable(null);
@@ -425,6 +422,13 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
         public boolean isParentChecked(int listPosition){
             return mParentCheckStates.get(listPosition);
+        }
+
+        public ArrayList<Boolean> getFinalSubscriptions(){
+            ArrayList<Boolean> result = new ArrayList<Boolean>();
+            //TODO fill with state of all children and groups 2-4
+
+            return result;
         }
     }
 }
