@@ -24,26 +24,48 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
     public ExpandableListView expandableListView;
-    public ExpandableListAdapter expandableListAdapter;
+    public NotificationsAdapter expandableListAdapter;
     public List<String> expandableListTitle;
     public LinkedHashMap<String,List<String>> expandableListDetail;
-    public ArrayList<Boolean> finalSubscriptions;
+    public ArrayList<Boolean> finalSubscriptionsBoolArray;
+
+    public static List<String> topicList = Arrays.asList("mBasketball","mFootball","mTennis",
+            "mTrack","mGolf","mCrossCountry","wBasketball","wVolleyball","wTennis","wTrack",
+            "wCrossCountry","wSoccer","wSoftball","wGymnastics","parties","miscUsu","userSubmitted");
 
     public Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        //use to test onTokenRefresh in MyFirebaseInstanceIDService
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    FirebaseInstanceId.getInstance().deleteInstanceId();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
@@ -52,7 +74,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
         expandableListDetail = this.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new FirstLevelAdapter(this, expandableListTitle, expandableListDetail, expandableListView);
+        expandableListAdapter = new NotificationsAdapter(this, expandableListTitle, expandableListDetail, expandableListView);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.expandGroup(0);
         //expandableListView.expandGroup(1);
@@ -86,11 +108,34 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO on submit button click:
 
-//                1. check to see if shared preferences contain notificationSubscriptions
-//
-//                2. loop through states; if isChecked and not subscribed -> subscribe; if !isChecked and subscribed -> unsubscribe
+                finalSubscriptionsBoolArray = expandableListAdapter.getFinalSubscriptions();
+
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+                Set<String> set = new HashSet<String>();
+                //subscribes user to topic if box is checked, unsubscribes if otherwise
+                //unsubscribe to remove a potential existing subscription
+
+                boolean firstItem = true;
+                for(int i = 0; i<topicList.size(); i++){
+                    if(finalSubscriptionsBoolArray.get(i)){
+                        Log.d("Subscriptions", "Subscribed to " + topicList.get(i));
+                        FirebaseMessaging.getInstance().subscribeToTopic(topicList.get(i));
+                        set.add(topicList.get(i));
+                    }else{
+                        Log.d("Subscriptions", "Unsubscribed from " + topicList.get(i));
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(topicList.get(i));
+                    }
+                }
+
+                editor.putStringSet("notificationSubscriptions", set);
+                editor.apply();
+
+                Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
+                Log.d("SharedPreferences", result.toString());
 
 
                 Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, EventListActivity.class);
@@ -99,7 +144,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         });
     }
 
-    public static LinkedHashMap<String, List<String>> getData() {
+    public LinkedHashMap<String, List<String>> getData() {
 
         LinkedHashMap<String, List<String>> expandableListDetail = new LinkedHashMap<String, List<String>>();
 
@@ -123,11 +168,9 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         womensSportsList.add("Softball");
         womensSportsList.add("Gymnastics");
 
-
         List<String> miscUsuEvents = new ArrayList<String>();
         List<String> parties = new ArrayList<String>();
         List<String> userSubmittedEvents = new ArrayList<String>();
-
 
         expandableListDetail.put("Utah State - Men's Sports", mensSportsList);
         expandableListDetail.put("Utah State - Women's Sports", womensSportsList);
@@ -138,69 +181,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         return expandableListDetail;
     }
 
-
-//
-//    protected void xmlButtonOnClickCall(View v){
-//        createSharedPreferences(createCheckBoxCsvString());
-//        Intent myIntent = new Intent(this, EventListActivity.class);
-//        startActivity(myIntent);
-//    }
-//
-//
-//    protected String createCheckBoxCsvString(){
-//
-//        ArrayList<CheckBox> checkBoxArrayList = new ArrayList<CheckBox>();
-//
-//        CheckBox box1 = (CheckBox)findViewById(R.id.checkBox);
-//        CheckBox box2 = (CheckBox)findViewById(R.id.checkBox2);
-//        CheckBox box3 = (CheckBox)findViewById(R.id.checkBox3);
-//        CheckBox box4 = (CheckBox)findViewById(R.id.checkBox4);
-//        CheckBox box5 = (CheckBox)findViewById(R.id.checkBox5);
-//        CheckBox box6 = (CheckBox)findViewById(R.id.checkBox6);
-//        CheckBox box7 = (CheckBox)findViewById(R.id.checkBox7);
-//
-//        checkBoxArrayList.add(box1);
-//        checkBoxArrayList.add(box2);
-//        checkBoxArrayList.add(box3);
-//        checkBoxArrayList.add(box4);
-//        checkBoxArrayList.add(box5);
-//        checkBoxArrayList.add(box6);
-//        checkBoxArrayList.add(box7);
-//
-//        int numCheckedRemaining = 0;
-//
-//        for(int i=0; i<7; i++){
-//            if(checkBoxArrayList.get(i).isChecked()){
-//                numCheckedRemaining++;
-//            }
-//        }
-//
-//        String result = "";
-//
-//        for(int i=0; i<7; i++){
-//            if(numCheckedRemaining == 1 && checkBoxArrayList.get(i).isChecked()){
-//                result += i+1;
-//                --numCheckedRemaining;
-//            }else if(checkBoxArrayList.get(i).isChecked()){
-//                result += i+1 + ",";
-//                --numCheckedRemaining;
-//            }
-//        }
-//        //Log.v(result,result);   //see createSharedPreferences for outputting the stored sharedPreferences string
-//        return result;
-//    }
-//
-//    protected void createSharedPreferences(String subscriptionsCSV){
-//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("notificationSubscriptions", subscriptionsCSV);
-//        editor.apply();
-//
-//        String result = sharedPreferences.getString("notificationSubscriptions", "");
-//        //Log.v(result, result);
-//    }
-
-    public class FirstLevelAdapter extends BaseExpandableListAdapter {
+    public class NotificationsAdapter extends BaseExpandableListAdapter {
 
         private Context context;
         private List<String> expandableListTitle;
@@ -209,8 +190,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         private String groupText;
         private String childText;
 
-        private HashMap<Integer, boolean[]> mChildCheckStates;
-        private HashMap<Integer, Boolean> mParentCheckStates;
+        public HashMap<Integer, boolean[]> mChildCheckStates;
+        public HashMap<Integer, Boolean> mParentCheckStates;
 
         private GroupViewHolder groupViewHolder;
         private ChildViewHolder childViewHolder;
@@ -226,12 +207,18 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         }
 
 
-        public FirstLevelAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, ExpandableListView expandableListView) {
+        public NotificationsAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, ExpandableListView expandableListView) {
             this.context = context;
             this.expandableListTitle = expandableListTitle;
             this.expandableListDetail = expandableListDetail;
             this.expandableListView = expandableListView;
             mChildCheckStates = new HashMap<Integer, boolean[]>();
+            boolean[] filler = new boolean[6];
+            Arrays.fill(filler, false);
+            mChildCheckStates.put(0, filler);
+            boolean[] filler2 = new boolean[8];
+            Arrays.fill(filler, false);
+            mChildCheckStates.put(1, filler2);
             mParentCheckStates = new HashMap<Integer, Boolean>();
         }
 
@@ -275,20 +262,20 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             }
 
             childViewHolder.mChildText.setText(childText);
-            /*
-         * You have to set the onCheckChangedListener to null
-         * before restoring check states because each call to
-         * "setChecked" is accompanied by a call to the
-         * onCheckChangedListener
-        */
+                /*
+             * You have to set the onCheckChangedListener to null
+             * before restoring check states because each call to
+             * "setChecked" is accompanied by a call to the
+             * onCheckChangedListener
+            */
             childViewHolder.mCheckBox.setOnCheckedChangeListener(null);
 
             if (mChildCheckStates.containsKey(mGroupPosition)) {
-            /*
-             * if the hashmap mChildCheckStates<Integer, Boolean[]> contains
-             * the value of the parent view (group) of this child (aka, the key),
-             * then retrive the boolean array getChecked[]
-            */
+                /*
+                 * if the hashmap mChildCheckStates<Integer, Boolean[]> contains
+                 * the value of the parent view (group) of this child (aka, the key),
+                 * then retrive the boolean array getChecked[]
+                */
                 boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
 
                 // set the check state of this position's checkbox based on the
@@ -297,13 +284,13 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
             } else {
 
-            /*
-            * if the hashmap mChildCheckStates<Integer, Boolean[]> does not
-            * contain the value of the parent view (group) of this child (aka, the key),
-            * (aka, the key), then initialize getChecked[] as a new boolean array
-            *  and set it's size to the total number of children associated with
-            *  the parent group
-            */
+                /*
+                * if the hashmap mChildCheckStates<Integer, Boolean[]> does not
+                * contain the value of the parent view (group) of this child (aka, the key),
+                * (aka, the key), then initialize getChecked[] as a new boolean array
+                *  and set it's size to the total number of children associated with
+                *  the parent group
+                */
                 boolean getChecked[] = new boolean[getChildrenCount(mGroupPosition)];
 
                 // add getChecked[] to the mChildCheckStates hashmap using mGroupPosition as the key
@@ -317,32 +304,32 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             childViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
-
-                    if (isChecked) {
-
-                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = isChecked;
-                        mChildCheckStates.put(mGroupPosition, getChecked);
-
-                    } else {
-
-                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = isChecked;
-                        mChildCheckStates.put(mGroupPosition, getChecked);
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    boolean oldChecked[] = mChildCheckStates.get(mGroupPosition);
+                    boolean newChecked[] = oldChecked;
+                    newChecked[mChildPosition] = isChecked;
+                    mChildCheckStates.put(mGroupPosition, newChecked);
+                    if (isChecked && isAllCheckedChild(newChecked)) {
+                        mParentCheckStates.put(mGroupPosition, true);
+                        notifyDataSetChanged();
+                    }else if(!isChecked && mParentCheckStates.get(mGroupPosition)){
+                        mParentCheckStates.put(mGroupPosition, false);
+                        notifyDataSetChanged();
                     }
                 }
             });
-            Log.d("gettingChild", childText);
 
-            if (isParentChecked(groupPosition)) {
-                Log.d("parentChecker", "parent is checked for " + childText);
-            }else{
-                Log.d("parentChecker", "parent is not checked for " + childText);
-            }
 
             return convertView;
+        }
+
+        public boolean isAllCheckedChild(boolean[] childCheckedStates){
+            for(Boolean item: childCheckedStates){
+                if(!item.booleanValue()){
+                    return false;
+                }
+            }
+            return true;
         }
 
         @Override
@@ -375,17 +362,19 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 mParentCheckStates.put(listPosition, false);
             }
             CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.parentCheckBox);
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            checkBox.setChecked(mParentCheckStates.get(listPosition));
+            checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onClick(View v) {
+                    boolean isChecked = !mParentCheckStates.get(listPosition);
                     mParentCheckStates.put(listPosition, isChecked);
-                    if(getChildrenCount(listPosition)>0 && isChecked){
+                    if (getChildrenCount(listPosition) > 0 && isChecked) {
                         //update mchildren bool matrix with all checked and notifyDataSetChanged();
                         boolean[] trueFiller = new boolean[getChildrenCount(listPosition)];
                         Arrays.fill(trueFiller, true);
                         mChildCheckStates.put(listPosition, trueFiller);
                         notifyDataSetChanged();
-                    }else if(getChildrenCount(listPosition)>0){
+                    } else if (getChildrenCount(listPosition) > 0) {
                         boolean[] falseFiller = new boolean[getChildrenCount(listPosition)];
                         Arrays.fill(falseFiller, false);
                         mChildCheckStates.put(listPosition, falseFiller);
@@ -393,6 +382,25 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                     }
                 }
             });
+
+//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    mParentCheckStates.put(listPosition, isChecked);
+//                    if (getChildrenCount(listPosition) > 0 && isChecked) {
+//                        //update mchildren bool matrix with all checked and notifyDataSetChanged();
+//                        boolean[] trueFiller = new boolean[getChildrenCount(listPosition)];
+//                        Arrays.fill(trueFiller, true);
+//                        mChildCheckStates.put(listPosition, trueFiller);
+//                        notifyDataSetChanged();
+//                    } else if (getChildrenCount(listPosition) > 0) {
+//                        boolean[] falseFiller = new boolean[getChildrenCount(listPosition)];
+//                        Arrays.fill(falseFiller, false);
+//                        mChildCheckStates.put(listPosition, falseFiller);
+//                        notifyDataSetChanged();
+//                    }
+//                }
+//            });
 
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView);
@@ -406,7 +414,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             TextView listTitleTextView = (TextView) convertView.findViewById(R.id.parentTextView);
             listTitleTextView.setTypeface(null, Typeface.BOLD);
             listTitleTextView.setText(listTitle);
-            Log.d("GettingGroupViewFor", listTitle);
             return convertView;
         }
 
@@ -420,13 +427,29 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             return true;
         }
 
-        public boolean isParentChecked(int listPosition){
+        public boolean isParentChecked(int listPosition) {
             return mParentCheckStates.get(listPosition);
         }
 
-        public ArrayList<Boolean> getFinalSubscriptions(){
+        public final ArrayList<Boolean> getFinalSubscriptions() {
             ArrayList<Boolean> result = new ArrayList<Boolean>();
             //TODO fill with state of all children and groups 2-4
+            boolean[] mensChecked;
+            boolean[] womensChecked;
+            mensChecked = mChildCheckStates.get(0);
+            womensChecked = mChildCheckStates.get(1);
+
+            for(Boolean item : mensChecked){
+                result.add(item);
+            }
+
+            for(Boolean item : womensChecked){
+                result.add(item);
+            }
+
+            result.add(mParentCheckStates.get(2));
+            result.add(mParentCheckStates.get(3));
+            result.add(mParentCheckStates.get(4));
 
             return result;
         }

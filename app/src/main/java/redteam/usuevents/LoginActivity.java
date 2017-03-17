@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             //Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Google Firebase authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                         //hideProgressDialog();
@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Facebook Firebase authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
