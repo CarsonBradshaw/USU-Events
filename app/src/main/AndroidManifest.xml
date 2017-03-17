@@ -28,6 +28,20 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
         <!--TODO - SET THE FOLLOWING WHEN MESSAGING NOTIFICATION SERVICE IN PLACE. THIS WILL SET DEFAULT ICONS AND COLOR-->
         <!--FOR NOTIFICATIONS-->
         <!--&lt;!&ndash; Set custom default icon. This is used when no icon is set for incoming notification messages.-->
