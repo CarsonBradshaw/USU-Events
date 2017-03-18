@@ -183,9 +183,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            //Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Google Firebase authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Log.d("GoogleFirebaseLogin", "failed");
+                            //Toast.makeText(LoginActivity.this, "Google Firebase authentication failed.", Toast.LENGTH_SHORT).show();
                         }
                         //hideProgressDialog();
                     }
@@ -205,9 +204,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Facebook Firebase authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Log.d("FacebookFirebaseLogin", "failed");
+                            //Toast.makeText(LoginActivity.this, "Facebook Firebase authentication failed.", Toast.LENGTH_SHORT).show();
                         }
 
                         // ...
