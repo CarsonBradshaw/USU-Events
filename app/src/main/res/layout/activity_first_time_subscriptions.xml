@@ -10,7 +10,9 @@ android:paddingBottom="1dp"
 android:paddingLeft="0dp"
 android:paddingRight="0dp"
 android:paddingTop="0dp"
-tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
+tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity"
+
+    >
 
 
 
@@ -72,6 +74,7 @@ tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
         android:id="@+id/navigation_view"
         android:layout_gravity="start"
         app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/navigation_drawer_header"
         >
 
     </android.support.design.widget.NavigationView>

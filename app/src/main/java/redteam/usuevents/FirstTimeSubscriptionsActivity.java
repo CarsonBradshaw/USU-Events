@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.provider.CalendarContract;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +47,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
     //Toolbar code
     Toolbar toolbar;
 
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
     //Toolbar code end
 
 
@@ -82,6 +86,11 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         //Toolbar Code
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_first_time_subscriptions);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //Toolbar Code End
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
@@ -108,6 +117,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
 
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
@@ -157,6 +168,15 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Toolbar Code
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    //Toolbar Code End
 
     public LinkedHashMap<String, List<String>> getData() {
 
