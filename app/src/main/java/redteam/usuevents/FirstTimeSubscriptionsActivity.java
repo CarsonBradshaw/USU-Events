@@ -6,14 +6,17 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.provider.CalendarContract;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +42,11 @@ import java.util.List;
 import java.util.Set;
 
 public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
+    //Toolbar code
+    Toolbar toolbar;
+
+    //Toolbar code end
+
 
     public ExpandableListView expandableListView;
     public NotificationsAdapter expandableListAdapter;
@@ -69,6 +78,11 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
+
+        //Toolbar Code
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //Toolbar Code End
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
