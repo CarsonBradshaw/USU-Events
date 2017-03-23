@@ -7,8 +7,8 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:paddingBottom="1dp"
-android:paddingLeft="5dp"
-android:paddingRight="5dp"
+android:paddingLeft="0dp"
+android:paddingRight="0dp"
 android:paddingTop="0dp"
 tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
 
@@ -19,8 +19,8 @@ tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="1dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:paddingTop="0dp">
         <include
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@ tools:context="redteam.usuevents.FirstTimeSubscriptionsActivity">
 
     <android.support.design.widget.NavigationView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/navigation_view"
         android:layout_gravity="start"
         app:menu="@menu/drawer_menu"
