@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">USU Events</string>
     <string name="facebook_app_id">1926381957591933</string>
-    <string name="notification_management">Notification Management</string>
+    <string name="notification_management">Manage Your Notifications</string>
     <string name="notificationSettingsSubmitButton">Submit</string>
     <string name="sharedPreferencesFileName">redteam.usuevents.accountSettings</string>
     <string name="drawer_open">drawer open</string>

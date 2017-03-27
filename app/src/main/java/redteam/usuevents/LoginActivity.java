@@ -74,10 +74,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        initializeControls();
-        loginWithFB();
-
         fAuth = FirebaseAuth.getInstance();
         fAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -93,6 +89,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // ...
             }
         };
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        initializeControls();
+        loginWithFB();
+
     }
 
     @Override
@@ -246,12 +246,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager = CallbackManager.Factory.create();
         textStatus = (TextView)findViewById(R.id.textStatus);
         login_button = (LoginButton)findViewById(R.id.login_button);
+        login_button.setReadPermissions("email", "public_profile");
     }
 
     private void loginWithFB(){
-        List<String> permissionsNeeded= Arrays.asList("email", "public_profile");
-        LoginManager.getInstance().logInWithReadPermissions(this, permissionsNeeded);
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
