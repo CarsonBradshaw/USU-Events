@@ -71,6 +71,14 @@ public class HomeLandingPage extends Activity {
             }
         });
 
+        final Button submitButton = (Button) findViewById(R.id.submitEventHome);
+        submitButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick (View v){
+                Intent intent=new Intent(HomeLandingPage.this,EventCreateActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
