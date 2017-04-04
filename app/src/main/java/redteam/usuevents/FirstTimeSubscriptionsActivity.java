@@ -163,7 +163,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 Log.d("SharedPreferences", result.toString());
 
 
-                Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, EventListActivity.class);
+                Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, HomeLandingPage.class);
                 startActivity(myIntent);
             }
         });

@@ -6,4 +6,8 @@
     <string name="sharedPreferencesFileName">redteam.usuevents.accountSettings</string>
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
+
+    <string name="title_activity_home_landing_page">HomeLandingPage</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
