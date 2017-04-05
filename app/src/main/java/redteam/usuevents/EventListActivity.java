@@ -5,6 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,23 +37,44 @@ import java.io.Serializable;
 
 import redteam.usuevents.models.EventModel;
 
-public class EventListActivity extends Activity {
+public class EventListActivity extends AppCompatActivity {
 
     private ListView eventListView;
+    //Toolbar code
+    Toolbar toolbar;
+
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    //Toolbar code end
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+
+        //Toolbar Code
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout = (DrawerLayout) findViewById(R.id.activity_event_list);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        //Toolbar Code End
+
         eventListView=(ListView)findViewById(R.id.eventListView);
-
-
-
 
 
         new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
     }
 
+    //Toolbar Code
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        actionBarDrawerToggle.syncState();
+    }
+
+    //Toolbar Code End
     public class DatabaseJsonRetriever extends AsyncTask<String, String, List<EventModel>>{
 
         @Override
@@ -167,9 +193,6 @@ public class EventListActivity extends Activity {
         }
 
     }
-
-
-
 
 
 }
