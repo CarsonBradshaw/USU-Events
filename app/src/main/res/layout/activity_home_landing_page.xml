@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context="redteam.usuevents.HomeLandingPage"
     android:background="@drawable/gradient_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
 
     <ImageView
@@ -68,9 +69,9 @@
         android:text="Subscribed Feed" />
 
     <ListView
-        android:id="@+id/SubFeed"
-        android:layout_width="match_parent"
-        android:layout_height="193dp" />
+        android:id="@+id/subFeed"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

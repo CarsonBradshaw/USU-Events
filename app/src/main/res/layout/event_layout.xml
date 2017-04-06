@@ -10,15 +10,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/eventNameRow"
         android:padding="5dp"
-        android:paddingTop="15dp" />
+        android:paddingTop="15dp"
+        />
 
 
     <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
         android:id="@+id/eventDetailRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:padding="5dp"
-        android:layout_height="200dp" />
+        android:text="TextView" />
 
 
 </LinearLayout>
