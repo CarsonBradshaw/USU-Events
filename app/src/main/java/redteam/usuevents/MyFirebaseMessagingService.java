@@ -24,6 +24,10 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,13 +108,48 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
 
+        String fullDate = map.get("startDateTime");
+        String input_date= fullDate.substring(0,10);
+        String input_time = fullDate.substring(11,16);
+        SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
+        Date dt1= null;
+        try {
+            dt1 = format1.parse(input_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat format2=new SimpleDateFormat("EEEE");
+        String finalDay=format2.format(dt1);
+
+        String outputTime = "";
+//        SimpleDateFormat dateFormatExpression = new SimpleDateFormat("hh:mm a");
+//
+//        try {
+//            Date d  = dateFormatExpression.parse(input_time);
+//            outputTime = d.toString();
+//            Log.d("Outputtime: " , outputTime);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+        try {
+
+            SimpleDateFormat _24HourSDF = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat _12HourSDF = new SimpleDateFormat("hh:mm a");
+            Date _24HourDt = _24HourSDF.parse(input_time);
+            outputTime=_12HourSDF.format(_24HourDt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.mountain)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
                         R.drawable.usueventslogo))
                 .setContentTitle(map.get("title"))
-                .setContentText("Event starts " + " at " + map.get("startDateTime"))
+                .setContentText("Event starts" + " " + finalDay + " at " + outputTime)
                 .setShowWhen(false)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
