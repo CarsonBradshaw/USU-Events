@@ -1,5 +1,6 @@
 package redteam.usuevents;
 
+import android.app.Notification;
 import android.app.Service;
 
 /**
@@ -10,6 +11,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -19,6 +21,9 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,7 +71,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> map = new HashMap<>();
         map = remoteMessage.getData();
 
-        sendNotification(map);
+        try {
+            sendNotification(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
@@ -78,11 +87,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param map FCM message body received.
      */
-    private void sendNotification(Map<String, String> map) {
+    private void sendNotification(Map<String, String> map) throws IOException {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
+
+        String lat = map.get("lat");
+        String lng = map.get("lng");
+        URL url = null;
+        try {
+            url = new URL("http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=200x200&sensor=false&markers=color:blue%7C"+lat+","+lng);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -94,6 +114,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setShowWhen(false)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bmp))
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
