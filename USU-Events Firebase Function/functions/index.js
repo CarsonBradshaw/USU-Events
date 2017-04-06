@@ -71,7 +71,7 @@ exports.updateUsers = functions.https.onRequest((request, response) =>{
                 }
 
                 //if within 1 day of the event, send notification and mark as notified 
-                else if(notifiedBool.toString() == "false" && eventMonth == curr_month && eventYear == curr_year && (eventDay - curr_date) == 1){
+                else if(notifiedBool.toString() == "false" && eventMonth == curr_month && eventYear == curr_year && (eventDay - curr_date) < 2){
                     notifyUsers(record);
                 }
 
