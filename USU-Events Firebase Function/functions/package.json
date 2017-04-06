@@ -1,0 +1,14 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "dependencies": {
+    "cors": "^2.8.3",
+    "date-and-time": "^0.4.0",
+    "firebase": "^3.7.5",
+    "firebase-admin": "^4.1.2",
+    "firebase-functions": "^0.5.4",
+    "moment": "^2.18.1",
+    "node-datetime": "^1.0.0"
+  },
+  "private": true
+}
