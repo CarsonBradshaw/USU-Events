@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -38,6 +39,28 @@ public class EventDetailActivity extends Activity{
         eventName.setText(event.getTitle());
         eventDescription.setText(event.getDescription());
         eventAddress.setText(event.getAddress());
+
+        final Button interestButton = (Button) findViewById(R.id.interestButton_eventDetail);
+        interestButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick (View v){
+
+            }
+        });
+        final Button subscribeButton = (Button) findViewById(R.id.subscribeButton_eventDetail);
+        interestButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick (View v){
+
+            }
+        });
+        final Button reportButton = (Button) findViewById(R.id.reportButton_eventDetail);
+        interestButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick (View v){
+
+            }
+        });
 
     }
     private void setUpUIViews(){
