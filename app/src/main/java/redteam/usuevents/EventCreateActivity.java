@@ -1,6 +1,9 @@
 package redteam.usuevents;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.text.format.DateFormat;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.content.Intent;
@@ -11,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import android.content.Intent;
@@ -39,6 +44,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,15 +55,18 @@ import redteam.usuevents.models.EventModel;
  * Created by DaShare on 3/2/17.
  */
 
-public class EventCreateActivity extends Activity{
+public class EventCreateActivity extends Activity implements
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
-    EditText title, description, event_id, category_id, address, date_time, lat, lng, voteCt;
-    Button insert, listevents;
-    //TextView result;
+    EditText title, description, event_id, category_id, address, lat, lng, voteCt;
+    Button insert, date_time;
+    TextView dateView, startTime;
+
+    int day, month, year, hour, minute;
+    int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
 
     RequestQueue requestQueue;
     String insertURL = "http://144.39.212.67/db_create.php";
-   // String showURL = "http://144.39.212.67/db_view.php";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -68,57 +78,36 @@ public class EventCreateActivity extends Activity{
         address = (EditText) findViewById(R.id.address);
         category_id = (EditText) findViewById(R.id.category_id);
         event_id = (EditText) findViewById(R.id.event_id);
-        date_time = (EditText) findViewById(R.id.date_time);
+        //date_time = (Button) findViewById(R.id.date_time);
         lat = (EditText) findViewById(R.id.lat);
         lng = (EditText) findViewById(R.id.lng);
         voteCt = (EditText) findViewById(R.id.voteCt);
 
         insert = (Button) findViewById(R.id.insert);
-       // listevents = (Button) findViewById(R.id.listevents);
+        date_time = (Button) findViewById(R.id.date_time);
+
+        //dateView = (TextView) findViewById(R.id.dateView);
+
+        date_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EventCreateActivity.this, EventCreateActivity.this, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+
+
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-       /* listevents.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
-                        showURL, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray USU_Events = response.getJSONArray("USU_Events");
-                            for(int i = 0; i < USU_Events.length(); i++){
-                                JSONObject USU_Event = USU_Events.getJSONObject(i);
 
-                                String title = USU_Event.getString("title");
-                                String description = USU_Event.getString("description");
-                                String category_id = USU_Event.getString("category_id");
-                                String event_id = USU_Event.getString("event_id");
-                                String address = USU_Event.getString("address");
-                                String date_time = USU_Event.getString("date_time");
-                                String lat = USU_Event.getString("lat");
-                                String lng = USU_Event.getString("lng");
-                                String voteCt = USU_Event.getString("voteCt");
-
-                                result.append(title+" "+description+" "+category_id+" "+address+" "+date_time+" "+lat+" "+lng+" "+voteCt+ "\n");
-
-                            }
-                            result.append("===\n");
-
-                        } catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-                requestQueue.add(jsonObjectRequest);
-            }
-        });*/
-        insert.setOnClickListener(new View.OnClickListener(){
+        insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
@@ -151,9 +140,37 @@ public class EventCreateActivity extends Activity{
                 };
                 requestQueue.add(request);
 
-                Intent postCreation = new Intent(EventCreateActivity.this,HomeLandingPage.class);
+                Intent postCreation = new Intent(EventCreateActivity.this, HomeLandingPage.class);
                 startActivity(postCreation);
             }
         });
+
+
     }
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        yearFinal = year;
+        monthFinal = month;
+        dayFinal = dayOfMonth;
+
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(EventCreateActivity.this, EventCreateActivity.this,
+                hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        hourFinal = hourOfDay;
+        minuteFinal = minute;
+
+        //Needed to set the formating to match that of the database
+        date_time.setText(yearFinal + ":" + monthFinal + ":" + dayFinal
+                + " " + hourFinal + ":" + minuteFinal + ":00");
+
+    }
+
 }

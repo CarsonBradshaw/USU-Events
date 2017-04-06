@@ -9,7 +9,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:id="@+id/result"
-    android:background="#0f2439">
+    android:background="@drawable/gradient_color">
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,6 +63,7 @@
         android:lines="1"
         android:hint="Category Id (Subscription List coming soon..)"
         android:id="@+id/category_id" />
+
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -74,16 +75,24 @@
         android:hint="Event Id (Soon to be removed)"
         android:id="@+id/event_id" />
 
-    <EditText
-        android:layout_width="fill_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:background="@drawable/custom_button"
+        android:paddingRight="5dp"
+        android:drawableLeft="@drawable/ic_action_datetime"
+        android:text="Date/Time Picker"
+        android:textColor="#fff"
+        android:id="@+id/date_time"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="5dp"
-        android:background="#fff"
-        android:inputType="textMultiLine"
-        android:hint="Date and Time (pickers coming soon...)"
-        android:lines="4"
-        android:id="@+id/date_time" />
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:text="(Click the icon above to select the start date and time for your event. Once selected the date and time will appear on the button.)" />
 
     <EditText
         android:layout_width="fill_parent"
