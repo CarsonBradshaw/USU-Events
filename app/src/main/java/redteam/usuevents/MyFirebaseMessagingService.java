@@ -86,11 +86,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.usuevents)
+                .setSmallIcon(R.drawable.mountain)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
                         R.drawable.usueventslogo))
                 .setContentTitle(map.get("title"))
-                .setContentText(map.get("description") + " " + map.get("startDateTime"))
+                .setContentText("Event starts " + " at " + map.get("startDateTime"))
+                .setShowWhen(false)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
