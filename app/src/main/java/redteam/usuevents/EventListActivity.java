@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,7 +49,10 @@ public class EventListActivity extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     //Toolbar code end
 
-    //For Coordinator Create Event Fab Button
+    //Swipe (pull down) to Refresh feature
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    //Coordinator Create Event Fab Button
     FloatingActionButton fab;
 
     @Override
@@ -65,6 +69,16 @@ public class EventListActivity extends AppCompatActivity {
         //Toolbar Code End
 
         eventListView=(ListView)findViewById(R.id.eventListView);
+
+        //Swipe action will cause function to make call to database and reload
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+            @Override
+            public void onRefresh(){
+                new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         //Once Fab Coordinator Button is clicked navigates user to Create Event Activity
         fab = (FloatingActionButton)findViewById(R.id.fab);
