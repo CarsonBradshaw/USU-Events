@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,8 @@ public class EventListActivity extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     //Toolbar code end
 
+    //For Coordinator Create Event Fab Button
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,14 @@ public class EventListActivity extends AppCompatActivity {
 
         eventListView=(ListView)findViewById(R.id.eventListView);
 
+        //Once Fab Coordinator Button is clicked navigates user to Create Event Activity
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(EventListActivity.this,EventCreateActivity.class));
+            }
+        });
 
         new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
     }

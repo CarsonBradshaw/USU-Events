@@ -1,95 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/result">
+    android:layout_height="match_parent" android:id="@+id/result"
+    android:background="#0f2439">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create an Event!"
+        android:layout_gravity="center"
+        android:textSize="10pt"
+        android:textColor="#fff"
+        android:layout_margin="20dp"/>
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="textPersonName"
         android:hint="Title"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:lines="1"
         android:id="@+id/title" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
+        android:inputType="textMultiLine"
         android:hint="Description"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:lines="5"
         android:id="@+id/description" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="textPersonName"
-        android:hint="Address"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:hint="Address (Google Maps coming soon..."
+        android:lines="1"
         android:id="@+id/address" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="numberSigned"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:hint="Category"
+        android:lines="1"
+        android:hint="Category Id (Subscription List coming soon..)"
         android:id="@+id/category_id" />
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="numberSigned"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:hint="Event"
+        android:lines="1"
+        android:hint="Event Id (Soon to be removed)"
         android:id="@+id/event_id" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Date and Time"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
+        android:inputType="textMultiLine"
+        android:hint="Date and Time (pickers coming soon...)"
+        android:lines="4"
         android:id="@+id/date_time" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="textPersonName"
-        android:hint="Latitude"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:hint="Latitude (removed soon)"
+        android:lines="1"
         android:id="@+id/lat" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="textPersonName"
-        android:hint="Longitude"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:hint="Longitude (removed soon)"
+        android:lines="1"
         android:id="@+id/lng" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        android:background="#fff"
         android:inputType="textPersonName"
-        android:hint="Vote Count"
-        android:maxLines="1"
-        android:singleLine="true"
+        android:hint="Vote Count (removed soon)"
+        android:lines="1"
         android:id="@+id/voteCt" />
 
     <Button
-        android:text="Submit Event"
-        android:layout_width="match_parent"
+        android:text="Create Event"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
         android:id="@+id/insert"
-        android:layout_marginTop="20dp"/>
+        android:layout_margin="30dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
 
     <!--<Button
         android:text="List Events"
@@ -99,3 +137,4 @@
 
 
 </LinearLayout>
+    </ScrollView>

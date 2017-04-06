@@ -150,6 +150,9 @@ public class EventCreateActivity extends Activity{
                     }
                 };
                 requestQueue.add(request);
+
+                Intent postCreation = new Intent(EventCreateActivity.this,HomeLandingPage.class);
+                startActivity(postCreation);
             }
         });
     }
