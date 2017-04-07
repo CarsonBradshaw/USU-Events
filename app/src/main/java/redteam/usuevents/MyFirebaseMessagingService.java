@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -31,9 +32,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import redteam.usuevents.models.EventModel;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    public EventModel eventModel;
 
     /**
      * Called when message is received.
@@ -62,6 +66,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, remoteMessage.toString());
 
+
+
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
@@ -74,6 +80,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Map<String, String> map = new HashMap<>();
         map = remoteMessage.getData();
+
+
 
         try {
             sendNotification(map);
@@ -92,7 +100,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param map FCM message body received.
      */
     private void sendNotification(Map<String, String> map) throws IOException {
-        Intent intent = new Intent(this, LoginActivity.class);
+        eventModel = new EventModel();
+        eventModel.setDescription(map.get("description"));
+        eventModel.setLat(map.get("lat"));
+        eventModel.setLng(map.get("lng"));
+        eventModel.setNotified((Boolean.getBoolean(map.get("notified"))));
+        eventModel.setStartDateTime(map.get("startDateTime"));
+        eventModel.setTitle(map.get("title"));
+        eventModel.setTopic(map.get("topic"));
+        eventModel.setVoteCt(map.get("voteCt"));
+
+
+
+        Intent intent = new Intent(this, EventDetailActivity.class);
+        intent.putExtra("EventModel",eventModel);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
