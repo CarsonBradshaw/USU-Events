@@ -38,7 +38,7 @@ public class EventDetailActivity extends Activity{
         event=(EventModel)intent.getSerializableExtra("EventModel");
         eventName.setText(event.getTitle());
         eventDescription.setText(event.getDescription());
-        eventAddress.setText(event.getAddress());
+        eventAddress.setText(event.getStartDateTime());
 
         final Button interestButton = (Button) findViewById(R.id.interestButton_eventDetail);
         interestButton.setOnClickListener(new View.OnClickListener()

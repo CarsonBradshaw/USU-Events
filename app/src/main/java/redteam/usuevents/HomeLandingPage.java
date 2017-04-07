@@ -18,6 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,19 +45,16 @@ import static redteam.usuevents.R.drawable.gradient_color;
 
 public class HomeLandingPage extends AppCompatActivity {
     private ListView subFeed;
+    public List<EventModel> eventModelList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
-        Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
-//to see how they're stored
-        Log.d("SharedPreferences", result.toString());
-
         setContentView(R.layout.activity_home_landing_page);
         subFeed =(ListView)findViewById(R.id.subFeed);
 
-        new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
+
 
         final Button viewEventsButton = (Button) findViewById(R.id.viewEventHome);
         viewEventsButton.setOnClickListener(new View.OnClickListener()
@@ -80,100 +83,60 @@ public class HomeLandingPage extends AppCompatActivity {
             }
         });
 
+        getFirebaseData();
+
     }
 
-    public class DatabaseJsonRetriever extends AsyncTask<String, String, List<EventModel>>{
-
-        @Override
-        protected List<EventModel> doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-
-                String finalJson = buffer.toString();
-
-                JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("Events");
-
-                List<EventModel> eventModelList = new ArrayList<>();
-
-                for(int i = 0; i < parentArray.length(); i++) {
-                    JSONObject finalObject = parentArray.getJSONObject(i);
-
-                    String category_id = finalObject.getString("category_id");
-                    String event_id = finalObject.getString("event_id");
-                    String title = finalObject.getString("title");
-                    String description = finalObject.getString("description");
-                    String date_time = finalObject.getString("date_time");
-                    String address = finalObject.getString("address");
-                    String lat = finalObject.getString("lat");
-                    String lng = finalObject.getString("lng");
-                    String voteCt = finalObject.getString("voteCt");
-
-                    EventModel eventModel = new EventModel(category_id, event_id, title, description, date_time, address, lat, lng, voteCt);
-
-                   /* SharedPreferences sharedPreferences =
-                            getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
-                    if(sharedPreferences.contains(eventModel.getCategory_id())){
-                    eventModelList.add(eventModel);
-                    }*/
-                    eventModelList.add(eventModel);
-                }
-
-                return eventModelList;
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if(connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if(reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    public void createListView(){
+        EventAdapter adapter=new EventAdapter(getApplicationContext(),R.layout.event_layout,eventModelList);
+        subFeed.setAdapter(adapter);
+        subFeed.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                EventModel eventModel=eventModelList.get(position);
+                Intent intent=new Intent(HomeLandingPage.this,EventDetailActivity.class);
+                intent.putExtra("EventModel",eventModel);
+                startActivity(intent);
             }
-            return null;
-        }
-        protected void onPostExecute(final List<EventModel> result) {
-            super.onPostExecute(result);
-            if(result!=null){
-                EventAdapter adapter=new EventAdapter(getApplicationContext(),R.layout.event_layout,result);
-                subFeed.setAdapter(adapter);
-                subFeed.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                        EventModel eventModel=result.get(position);
-                        Intent intent=new Intent(HomeLandingPage.this,EventDetailActivity.class);
-                        intent.putExtra("EventModel",eventModel);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-        } //TODO need to set data from EventModel to the list
+        });
     }
+
+    public void getFirebaseData(){
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+        final Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
+
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events");
+        firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Child info: ", "parent" + dataSnapshot.toString());
+                int i=0;
+                for(DataSnapshot child: dataSnapshot.getChildren()){
+                    EventModel model = child.getValue(EventModel.class);
+                    Log.d("EventListSize3: ", model.getDescription());
+                    Log.d("EventListSize3: ", Integer.toString(eventModelList.size()));
+                    if(result.contains(model.getTopic())){
+                        eventModelList.add(model);
+                    }
+                    if(i == dataSnapshot.getChildrenCount()-1){
+                        createListView();
+                    }
+                    i++;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
     public class EventAdapter extends ArrayAdapter<EventModel> {
 
         private List<EventModel> eventModelList;

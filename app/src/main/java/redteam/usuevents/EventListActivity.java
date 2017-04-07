@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +62,8 @@ public class EventListActivity extends AppCompatActivity {
     //Coordinator Create Event Fab Button
     FloatingActionButton fab;
 
+    public List<EventModel> eventModelList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +84,7 @@ public class EventListActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh(){
-                new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
+                getFirebaseData();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -89,7 +98,48 @@ public class EventListActivity extends AppCompatActivity {
             }
         });
 
-        new DatabaseJsonRetriever().execute("http://144.39.212.67/db_view.php");
+        getFirebaseData();
+
+    }
+
+    public void createListView(){
+        EventAdapter adapter=new EventAdapter(getApplicationContext(),R.layout.event_layout,eventModelList);
+        eventListView.setAdapter(adapter);
+        eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                EventModel eventModel=eventModelList.get(position);
+                Intent intent=new Intent(EventListActivity.this,EventDetailActivity.class);
+                intent.putExtra("EventModel",eventModel);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void getFirebaseData(){
+        eventModelList.clear();
+        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events");
+        firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Child info: ", "parent" + dataSnapshot.toString());
+
+                for(DataSnapshot child: dataSnapshot.getChildren()){
+                    EventModel model = child.getValue(EventModel.class);
+                    Log.d("EventListSize: ", model.getDescription());
+                    eventModelList.add(model);
+                    Log.d("EventListSize: ", Integer.toString(eventModelList.size()));
+                    if(eventModelList.size() == dataSnapshot.getChildrenCount()){
+                        createListView();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //Toolbar Code
@@ -99,95 +149,9 @@ public class EventListActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
     }
 
-    //Toolbar Code End
-    public class DatabaseJsonRetriever extends AsyncTask<String, String, List<EventModel>>{
 
-        @Override
-        protected List<EventModel> doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
 
-                InputStream stream = connection.getInputStream();
 
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-
-                String finalJson = buffer.toString();
-
-                JSONObject parentObject = new JSONObject(finalJson);
-                JSONArray parentArray = parentObject.getJSONArray("Events");
-
-                List<EventModel> eventModelList = new ArrayList<>();
-
-                for(int i = 0; i < parentArray.length(); i++) {
-                    JSONObject finalObject = parentArray.getJSONObject(i);
-
-                    String category_id = finalObject.getString("category_id");
-                    String event_id = finalObject.getString("event_id");
-                    String title = finalObject.getString("title");
-                    String description = finalObject.getString("description");
-                    String date_time = finalObject.getString("date_time");
-                    String address = finalObject.getString("address");
-                    String lat = finalObject.getString("lat");
-                    String lng = finalObject.getString("lng");
-                    String voteCt = finalObject.getString("voteCt");
-
-                    EventModel eventModel = new EventModel(category_id, event_id, title, description, date_time, address, lat, lng, voteCt);
-                    eventModelList.add(eventModel);
-                }
-
-                return eventModelList;
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if(connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if(reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final List<EventModel> result) {
-            super.onPostExecute(result);
-            if(result!=null){
-                EventAdapter adapter=new EventAdapter(getApplicationContext(),R.layout.event_layout,result);
-                eventListView.setAdapter(adapter);
-                eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                        EventModel eventModel=result.get(position);
-                        Intent intent=new Intent(EventListActivity.this,EventDetailActivity.class);
-                        intent.putExtra("EventModel",eventModel);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-        } //TODO need to set data from EventModel to the list
-    }
     public class EventAdapter extends ArrayAdapter<EventModel> {
 
         private List<EventModel> eventModelList;
