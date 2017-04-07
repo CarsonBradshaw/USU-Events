@@ -7,7 +7,7 @@ var database = admin.database();
 var eventsRef = database.ref('events').orderByChild('startDateTime').limitToFirst(5);
 
 
-var dateObj = new Date();
+
 const timeOffSet = 6;
 
 exports.updateUsers = functions.https.onRequest((request, response) =>{
@@ -15,7 +15,7 @@ exports.updateUsers = functions.https.onRequest((request, response) =>{
     var eventTime;
     var notifiedBool;
 
-
+    var dateObj = new Date();
     var curr_date = dateObj.getDate();
     var curr_month = dateObj.getMonth();
     curr_month = curr_month + 1;
