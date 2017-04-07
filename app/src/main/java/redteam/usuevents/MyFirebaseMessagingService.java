@@ -101,7 +101,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String lng = map.get("lng");
         URL url = null;
         try {
-            url = new URL("http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=200x200&sensor=false&markers=color:blue%7C"+lat+","+lng);
+            url = new URL("http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=16.5&size=600x600&sensor=false&markers=color:blue%7C"+lat+","+lng);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

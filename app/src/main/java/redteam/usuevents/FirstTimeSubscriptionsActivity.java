@@ -80,6 +80,9 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 //            }
 //        }).start();
 
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
 
@@ -242,18 +245,68 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
 
         public NotificationsAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, ExpandableListView expandableListView) {
+
+            SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+            Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
+
+            boolean filler1AllTrue = true;
+            boolean filler2AllTrue = true;
+
             this.context = context;
             this.expandableListTitle = expandableListTitle;
             this.expandableListDetail = expandableListDetail;
             this.expandableListView = expandableListView;
             mChildCheckStates = new HashMap<Integer, boolean[]>();
             boolean[] filler = new boolean[6];
-            Arrays.fill(filler, false);
+            for(int i=0;i<6; i++){
+                if(result.contains(topicList.get(i))){
+                    filler[i]=true;
+                    Log.d("ItsTrue", "true");
+                }else{
+                    filler[i] = false;
+                    filler1AllTrue = false;
+                }
+            }
+//            Arrays.fill(filler, false);
             mChildCheckStates.put(0, filler);
             boolean[] filler2 = new boolean[8];
-            Arrays.fill(filler, false);
+            //Arrays.fill(filler, false);
+            for(int i=6;i<14; i++){
+                if(result.contains(topicList.get(i))){
+                    filler2[i-6]=true;
+                }else{
+                    filler2[i-6] = false;
+                    filler2AllTrue = false;
+                }
+            }
             mChildCheckStates.put(1, filler2);
+
             mParentCheckStates = new HashMap<Integer, Boolean>();
+            if(filler1AllTrue){
+                mParentCheckStates.put(0,true);
+            }else{
+                mParentCheckStates.put(0,false);
+            }
+            if(filler2AllTrue){
+                mParentCheckStates.put(1,true);
+            }else{
+                mParentCheckStates.put(1,false);
+            }
+            if(result.contains(topicList.get(14))){
+                mParentCheckStates.put(2,true);
+            }else{
+                mParentCheckStates.put(2,false);
+            }
+            if(result.contains(topicList.get(15))){
+                mParentCheckStates.put(3,true);
+            }else{
+                mParentCheckStates.put(3,false);
+            }
+            if(result.contains(topicList.get(16))){
+                mParentCheckStates.put(4,true);
+            }else{
+                mParentCheckStates.put(4,false);
+            }
         }
 
         @Override
@@ -393,7 +446,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             if (convertView == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = layoutInflater.inflate(R.layout.expandable_list_parent, null);
-                mParentCheckStates.put(listPosition, false);
+                //mParentCheckStates.put(listPosition, false);
             }
             CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.parentCheckBox);
             checkBox.setChecked(mParentCheckStates.get(listPosition));

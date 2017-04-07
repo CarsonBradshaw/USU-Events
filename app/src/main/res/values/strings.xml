@@ -4,6 +4,7 @@
     <string name="notification_management">Manage Your Notifications</string>
     <string name="notificationSettingsSubmitButton">Submit</string>
     <string name="sharedPreferencesFileName">redteam.usuevents.accountSettings</string>
+    <string name="sharedPrefSessionStateFileName">redteam.usuevents.sessionState</string>
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
 
