@@ -15,6 +15,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -38,6 +40,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     public EventModel eventModel;
+
+    private static final Map<String, String> topicTranslationMap = createMap();
+    private static Map<String, String> createMap()
+    {
+        Map<String,String> topicTranslationMap = new HashMap<String,String>();
+        topicTranslationMap.put("mBasketball", "Men's Basketball");
+        topicTranslationMap.put("mCrossCountry", "Men's Cross Country");
+        topicTranslationMap.put("mFootball", "Football");
+        topicTranslationMap.put("mGolf", "Men's Golf");
+        topicTranslationMap.put("mTennis", "Men's Tennis");
+        topicTranslationMap.put("mTrack", "Men's Track");
+        topicTranslationMap.put("wBasketball", "Women's Basketball");
+        topicTranslationMap.put("wCrossCountry", "Women's Cross Country");
+        topicTranslationMap.put("wGymnastics", "Women's Gymnastics");
+        topicTranslationMap.put("wSoccer", "Women's Soccer");
+        topicTranslationMap.put("wSoftball", "Softball");
+        topicTranslationMap.put("wTennis", "Women's Tennis");
+        topicTranslationMap.put("wTrack", "Women's Track");
+        topicTranslationMap.put("wVolleyball", "Women's Volley");
+        topicTranslationMap.put("parties", "Parties");
+        topicTranslationMap.put("miscUsu", "USU Sponsored");
+        topicTranslationMap.put("userSubmitted", "User Submitted");
+        return topicTranslationMap;
+    }
 
     /**
      * Called when message is received.
@@ -100,6 +126,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param map FCM message body received.
      */
     private void sendNotification(Map<String, String> map) throws IOException {
+        //handler to dealy notifications
+        Handler handler = new Handler(Looper.getMainLooper());
+
         eventModel = new EventModel();
         eventModel.setDescription(map.get("description"));
         eventModel.setLat(map.get("lat"));
@@ -165,11 +194,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.mountain)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
                         R.drawable.usueventslogo))
-                .setContentTitle(map.get("title"))
+                .setContentTitle(topicTranslationMap.get(map.get("topic")) + ": " + map.get("title"))
                 .setContentText("Event starts" + " " + finalDay + " at " + outputTime)
                 .setShowWhen(false)
                 .setAutoCancel(true)
@@ -178,9 +207,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .bigPicture(bmp))
                 .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
+        final NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            }
+        }, 30000); //second param is the time delay in milliseconds (1000ms/second)
+
+
     }
 }
