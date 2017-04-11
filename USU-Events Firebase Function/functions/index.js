@@ -53,8 +53,12 @@ exports.updateUsers = functions.https.onRequest((request, response) =>{
 
     var currentTime = curr_year + "-" + curr_month + "-" + curr_date + " " + curr_hr + ":" + curr_min + ":" + curr_sc;
 
+    var displayedString = "";
+
     var eventsRes = eventsRef.once('value').then(function(snapshot){
+            console.log("5 Most Recent Events from Query \n");
             console.log(snapshot.val());
+            displayedString += "5 Most Recent Events from Query \n" + snapshot.val();
             snapshot.forEach(function(record){
                 ID = record.key;
                 eventTime = record.val().startDateTime;
@@ -67,34 +71,34 @@ exports.updateUsers = functions.https.onRequest((request, response) =>{
 
                 //delete event if expired
                 if(eventTime<currentTime){
-                    deleteEvent(ID.toString());
+                    displayedString += deleteEvent(ID.toString());
                 }
 
                 //if within 1 day of the event, send notification and mark as notified 
                 else if(notifiedBool.toString() == "false" && eventMonth == curr_month && eventYear == curr_year && (eventDay - curr_date) < 2){
-                    notifyUsers(record);
+                    displayedString += notifyUsers(record);
                 }
 
-                console.log(notifiedBool);
-                console.log(eventTime);
-                console.log(ID);
+//                console.log(notifiedBool);
+//                console.log(eventTime);
+//                console.log(ID);
             });
     });
 
-    response.send("working");
+    response.send("Firebase Function updateUsers successfully run. See Firebase Function Logs for routing details in the Firebase Console.");
 });
 
 //deletes expired events
 function deleteEvent(eventID){
-    console.log("Event ID to delete is " + eventID);
+    console.log("Deleted Event with ID: " + eventID);
     var deleteEventRef = database.ref('events').child(eventID.toString());
     deleteEventRef.remove();
+    return "Deleted Event with ID: " + eventID + "\n";
 };
 
 //notifies users of an event which takes place in one day and marks the event as notified
 function notifyUsers(record){
     var topic = record.val().topic.toString();
-    console.log("topic is " + topic);
     var payload={
         data:{
             description: record.val().description.toString(),
@@ -116,12 +120,14 @@ function notifyUsers(record){
     admin.messaging().sendToTopic(topic, payload, options).then(function(response) {
         // See the MessagingTopicResponse reference documentation for the
         // contents of response.
-        console.log("Successfully sent message:", response);
+        console.log("Successfully sent message to " + topic + " for event with title " + payload.data[title].toString());
+        return "Succesfully sent message to topic: " + topic;
     }).catch(function(error) {
-        console.log("Error sending message:", error);
+        console.log("Error sending message to topic: ", topic);
+        return "Error sending message to topic: " + topic;
     });
 
-    console.log(record.val());
+    return "";
 };
 
 
