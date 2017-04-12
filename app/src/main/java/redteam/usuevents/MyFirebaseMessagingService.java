@@ -11,6 +11,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
@@ -41,8 +42,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     public EventModel eventModel;
 
-    private static final Map<String, String> topicTranslationMap = createMap();
-    private static Map<String, String> createMap()
+    public static final Map<String, String> topicTranslationMap = createMap();
+    public static Map<String, String> createMap()
     {
         Map<String,String> topicTranslationMap = new HashMap<String,String>();
         topicTranslationMap.put("mBasketball", "Men's Basketball");
@@ -58,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         topicTranslationMap.put("wSoftball", "Softball");
         topicTranslationMap.put("wTennis", "Women's Tennis");
         topicTranslationMap.put("wTrack", "Women's Track");
-        topicTranslationMap.put("wVolleyball", "Women's Volley");
+        topicTranslationMap.put("wVolleyball", "Women's Volleyball");
         topicTranslationMap.put("parties", "Parties");
         topicTranslationMap.put("miscUsu", "USU Sponsored");
         topicTranslationMap.put("userSubmitted", "User Submitted");
@@ -158,9 +159,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
 
-        String fullDate = map.get("startDateTime");
-        String input_date= fullDate.substring(0,10);
-        String input_time = fullDate.substring(11,16);
+        String fullDate = map.get("startDateTime"); //YYYY-MM-DD HH:mm:ss
+        String input_date= fullDate.substring(0,10); //YYYY-MM-DD
+        String input_time = fullDate.substring(11,16); //HH:mm
+        String eventTimeForDelay = fullDate.substring(11,19); //HH:mm:ss
+
         SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
         Date dt1= null;
         try {
@@ -170,6 +173,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         SimpleDateFormat format2=new SimpleDateFormat("EEEE");
         String finalDay=format2.format(dt1);
+
 
         String outputTime = "";
 //        SimpleDateFormat dateFormatExpression = new SimpleDateFormat("hh:mm a");
@@ -192,6 +196,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             e.printStackTrace();
         }
 
+        if(outputTime.charAt(0) == '0'){
+            outputTime = outputTime.substring(1);
+        }
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -210,11 +217,48 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date newDate = new Date();
+        try {
+            newDate = formatter.parse(fullDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long eventTimeMils = newDate.getTime();
+        long currTimeMils= System.currentTimeMillis();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+        //code to set the timeDelay in ms
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("timeDelay", "80934000");
+//        editor.apply();
+
+        String timeDelayString = sharedPreferences.getString("timeDelay", null);
+
+        long timeDelayMils = -1;
+
+        if(timeDelayString!=null){
+            timeDelayMils = Long.parseLong(timeDelayString);
+        }
+
+        long sleepTime = 0;
+
+        //time in ms till the event occurs is (eventTimeMils - currTimeMils)
+        //time in ms till notification occurs is (eventTimeMils - timeDelay - currTimeMils)
+        Log.d("TimesAre ", Long.toString(eventTimeMils) + "  " + Long.toString(timeDelayMils) + " " + Long.toString(currTimeMils));
+        if(timeDelayMils>-1 && (eventTimeMils - timeDelayMils - currTimeMils)>0){
+            sleepTime = (long)(eventTimeMils - timeDelayMils - currTimeMils);
+            Log.d("sleepingFor ", Long.toString(sleepTime));
+        }
+
+
         handler.postDelayed(new Runnable() {
             public void run() {
-                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+                int m = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
+                notificationManager.notify(m/* ID of notification */, notificationBuilder.build());
             }
-        }, 30000); //second param is the time delay in milliseconds (1000ms/second)
+        }, sleepTime); //second param is the time delay in milliseconds (1000ms/second)
 
 
     }
