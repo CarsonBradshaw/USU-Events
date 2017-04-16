@@ -12,4 +12,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="toolbar_title">USU Events</string>
+    <string name="subscriptionsFooter">Edit Notification Period</string>
 </resources>

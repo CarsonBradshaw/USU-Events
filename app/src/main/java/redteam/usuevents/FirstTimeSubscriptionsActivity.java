@@ -89,6 +89,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         //Toolbar Code
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Manage Notifications");
 
 
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_first_time_subscriptions);
@@ -101,6 +102,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         expandableListDetail = this.getData();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
         expandableListAdapter = new NotificationsAdapter(this, expandableListTitle, expandableListDetail, expandableListView);
+        View footer = getLayoutInflater().inflate(R.layout.first_time_subscriptions_footer,null);
+        expandableListView.addFooterView(footer);
         expandableListView.setAdapter(expandableListAdapter);
         expandableListView.expandGroup(0);
         //expandableListView.expandGroup(1);
@@ -132,7 +135,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         });
 
         //onSubmit
-        submitButton = (Button)findViewById(R.id.notificationManagmentSubmitButton);
+        submitButton = (Button)findViewById(R.id.subscriptionFooterBtn);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
