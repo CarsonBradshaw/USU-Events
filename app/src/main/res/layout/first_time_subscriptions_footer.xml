@@ -25,20 +25,23 @@
             tools:text="@string/subscriptionsFooter" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/subscriptionFooterSpinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewSubFooter"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp" />
+            android:paddingTop="12dp"
+            android:spinnerMode="dialog" />
 
         <Button
             android:id="@+id/subscriptionFooterBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewSubFooter"
+            android:layout_below="@+id/subscriptionFooterSpinner"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="56dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="8dp"
             android:text="Submit" />
     </RelativeLayout>
 

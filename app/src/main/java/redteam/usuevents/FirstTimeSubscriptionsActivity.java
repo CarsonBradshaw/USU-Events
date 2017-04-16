@@ -27,6 +27,7 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,10 +58,13 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
     public List<String> expandableListTitle;
     public LinkedHashMap<String,List<String>> expandableListDetail;
     public ArrayList<Boolean> finalSubscriptionsBoolArray;
+    public Spinner spinner;
 
     public static List<String> topicList = Arrays.asList("mBasketball","mFootball","mTennis",
             "mTrack","mGolf","mCrossCountry","wBasketball","wVolleyball","wTennis","wTrack",
             "wCrossCountry","wSoccer","wSoftball","wGymnastics","parties","miscUsu","userSubmitted");
+
+    public static List<String> timeDelayOptionsInMins = Arrays.asList("0","5","10","15","30","60","120","180","240","480","720","1440");
 
     public Button submitButton;
 
@@ -96,6 +100,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //Toolbar Code End
+
+
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
@@ -134,6 +140,19 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             }
         });
 
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+
+        spinner = (Spinner) findViewById(R.id.subscriptionFooterSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.notification_period_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        int spinnerPosition = 0;
+        if(sharedPreferences.getString("spinnerIndex", null)!=null){
+            spinnerPosition = Integer.parseInt(sharedPreferences.getString("spinnerIndex",null));
+        }
+        spinner.setSelection(spinnerPosition);
+
         //onSubmit
         submitButton = (Button)findViewById(R.id.subscriptionFooterBtn);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -168,11 +187,18 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
                 Log.d("SharedPreferences", result.toString());
 
+                int currSpinnerPosition = spinner.getSelectedItemPosition();
+                editor.putString("spinnerIndex", Integer.toString(currSpinnerPosition));
+
+                long convertedTimeDelay = Long.parseLong(timeDelayOptionsInMins.get(currSpinnerPosition)) * 60000;
+                editor.putString("timeDelay",String.valueOf(convertedTimeDelay));
+                editor.apply();
 
                 Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, HomeLandingPage.class);
                 startActivity(myIntent);
             }
         });
+
     }
 
     //Toolbar Code

@@ -14,4 +14,18 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="toolbar_title">USU Events</string>
     <string name="subscriptionsFooter">Edit Notification Period</string>
+    <string-array name="notification_period_array">
+        <item>At Event Start</item>
+        <item>5 Minutes Before</item>
+        <item>10 Minutes Before</item>
+        <item>15 Minutes Before</item>
+        <item>30 Minutes Before</item>
+        <item>1 Hour Before</item>
+        <item>2 Hours Before</item>
+        <item>3 Hours Before</item>
+        <item>4 Hours Before</item>
+        <item>8 Hours Before</item>
+        <item>12 Hours Before</item>
+        <item>24 Hours Before</item>
+    </string-array>
 </resources>
