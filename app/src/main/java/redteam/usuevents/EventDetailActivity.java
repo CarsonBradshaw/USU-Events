@@ -53,20 +53,20 @@ public class EventDetailActivity extends Activity{
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-        List<Address> addresses  = null;
-        try {
-            addresses = geocoder.getFromLocation(Double.parseDouble(event.getLat()),Double.parseDouble(event.getLng()), 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-        String city = addresses.get(0).getLocality();
-        String state = addresses.get(0).getAdminArea();
-        String country = addresses.get(0).getCountryName();
-        String postalCode = addresses.get(0).getPostalCode();
-
-        eventAddress.setText(address + ", " + city + ", " + state + " " + postalCode);
+//        List<Address> addresses  = null;
+//        try {
+//            addresses = geocoder.getFromLocation(Double.parseDouble(event.getLat()),Double.parseDouble(event.getLng()), 1);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+//        String city = addresses.get(0).getLocality();
+//        String state = addresses.get(0).getAdminArea();
+//        String country = addresses.get(0).getCountryName();
+//        String postalCode = addresses.get(0).getPostalCode();
+//
+//        eventAddress.setText(address + ", " + city + ", " + state + " " + postalCode);
 
         String lat = event.getLat();
         String lng = event.getLng();

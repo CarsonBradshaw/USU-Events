@@ -18,6 +18,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -152,7 +153,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String lng = map.get("lng");
         URL url = null;
         try {
-            url = new URL("http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=16.5&size=600x600&sensor=false&markers=color:blue%7C"+lat+","+lng);
+            url = new URL("http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&size=600x600&sensor=false&markers=color:red%7C"+lat+","+lng);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -173,6 +174,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         SimpleDateFormat format2=new SimpleDateFormat("EEEE");
         String finalDay=format2.format(dt1);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        Date d = new Date();
+        String today = sdf.format(d);
+
+        if(finalDay.compareTo(today)==0){
+            finalDay="today";
+        }
 
 
         String outputTime = "";
@@ -200,22 +209,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             outputTime = outputTime.substring(1);
         }
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.mountain)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
-                        R.drawable.usueventslogo))
-                .setContentTitle(topicTranslationMap.get(map.get("topic")) + ": " + map.get("title"))
-                .setContentText("Event starts" + " " + finalDay + " at " + outputTime)
-                .setShowWhen(false)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bmp))
-                .setContentIntent(pendingIntent);
-
-        final NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -252,6 +245,45 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("sleepingFor ", Long.toString(sleepTime));
         }
 
+
+        Uri mapUri = Uri.parse("google.navigation:q="+lat+","+lng);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        PendingIntent pendingMapIntent = PendingIntent.getActivity(this, 0 /* Request code */, mapIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.Events.TITLE, topicTranslationMap.get(map.get("topic")))
+                .putExtra(CalendarContract.Events.DESCRIPTION, map.get("description"))
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, lat+","+lng)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventTimeMils)
+                .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+        PendingIntent pendingCalendarIntent = PendingIntent.getActivity(this, 0 /* Request code */, calendarIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.mountain)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+                        R.drawable.usueventslogo))
+                .setContentTitle(topicTranslationMap.get(map.get("topic")) + ": " + map.get("title"))
+                .setContentText("Event starts" + " " + finalDay + " at " + outputTime)
+                .setShowWhen(false)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bmp))
+                .setContentIntent(pendingIntent)
+                .addAction(R.drawable.ic_action_naviagation, "MAPS", pendingMapIntent)
+                .addAction(R.drawable.ic_action_calendar, "ADD TO CALENDAR", pendingCalendarIntent);
+
+        final NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         handler.postDelayed(new Runnable() {
             public void run() {

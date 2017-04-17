@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -277,6 +278,11 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
             SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
             Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
+
+            if(result == null){
+                result = new LinkedHashSet<>();
+                result.add("nothing");
+            }
 
             boolean filler1AllTrue = true;
             boolean filler2AllTrue = true;
