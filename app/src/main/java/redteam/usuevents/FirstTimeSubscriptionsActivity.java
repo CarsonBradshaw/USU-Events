@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,6 +134,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
 
 
+
         expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
             @Override
@@ -201,6 +203,29 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         });
 
     }
+
+    //Drawer Code Click event
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("Tag","In here");
+        Toast.makeText(FirstTimeSubscriptionsActivity.this, "clicked1", Toast.LENGTH_SHORT).show();
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.home_id:
+                Toast.makeText(FirstTimeSubscriptionsActivity.this, "clicked2", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(FirstTimeSubscriptionsActivity.this,HomeLandingPage.class);
+                startActivity(intent1);
+            case R.id.id_settings:
+                Toast.makeText(FirstTimeSubscriptionsActivity.this, "clicked3", Toast.LENGTH_SHORT).show();
+                Intent intent2=new Intent(FirstTimeSubscriptionsActivity.this,FirstTimeSubscriptionsActivity.class);
+                startActivity(intent2);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    //Drawer Code Click event end
 
     //Toolbar Code
     @Override
