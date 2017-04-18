@@ -10,13 +10,35 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-
-    <ImageView
-        android:id="@+id/profilePic"
+    <LinearLayout
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/group" />
+        android:layout_gravity="center_horizontal">
+
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewFlipper">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/entrance"
+                android:scaleType="centerCrop"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bball"
+                android:scaleType="centerCrop"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/stadium"
+                android:scaleType="centerCrop"/>
+        </ViewFlipper>
+    </LinearLayout>
+
+
+
 
     <RelativeLayout
         android:layout_width="wrap_content"

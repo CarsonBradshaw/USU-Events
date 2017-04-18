@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +50,10 @@ public class HomeLandingPage extends AppCompatActivity {
     private ListView subFeed;
     public List<EventModel> eventModelList = new ArrayList<>();
 
+    //View Flipper
+    ViewFlipper viewFlipper;
+    Animation fadeIn, fadeOut;
+    //View Flipper
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,17 @@ public class HomeLandingPage extends AppCompatActivity {
         setContentView(R.layout.activity_home_landing_page);
         subFeed =(ListView)findViewById(R.id.subFeed);
 
+
+        //View Flipper
+        viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
+        fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        viewFlipper.setAutoStart(true);
+        viewFlipper.setAnimation(fadeIn);
+        viewFlipper.setAnimation(fadeOut);
+        viewFlipper.setFlipInterval(5000);
+        viewFlipper.startFlipping();
+        //View Flipper
 
 
         final Button viewEventsButton = (Button) findViewById(R.id.viewEventHome);
@@ -86,6 +104,7 @@ public class HomeLandingPage extends AppCompatActivity {
         getFirebaseData();
 
     }
+
 
     public void createListView(){
         EventAdapter adapter=new EventAdapter(getApplicationContext(),R.layout.event_layout,eventModelList);
@@ -166,6 +185,8 @@ public class HomeLandingPage extends AppCompatActivity {
             subFeed.setDividerHeight(1);
             eventNameRow.setText(eventModelList.get(position).getTitle());
             eventDetailRow.setText(eventModelList.get(position).getDescription());
+
+
 
             return convertView;
         }
