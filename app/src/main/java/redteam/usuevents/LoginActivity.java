@@ -59,8 +59,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button SignOut;
     private SignInButton SignIn;
     private GoogleApiClient googleApiClient;
-    private FirebaseAuth fAuth;
-    private FirebaseAuth.AuthStateListener fAuthListener;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,21 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
-        fAuth = FirebaseAuth.getInstance();
-        fAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    //Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
         FacebookSdk.sdkInitialize(getApplicationContext());
         initializeControls();
         loginWithFB();
@@ -100,16 +83,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onStart() {
 
         super.onStart();
-        fAuth.addAuthStateListener(fAuthListener);
     }
 
     @Override
     public void onStop() {
 
         super.onStop();
-        if (fAuthListener != null) {
-            fAuth.removeAuthStateListener(fAuthListener);
-        }
+
     }
 
     @Override
@@ -140,7 +120,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void signOut(){
 
-        fAuth.signOut();
 
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -158,7 +137,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()){
             GoogleSignInAccount account = result.getSignInAccount();
-            firebaseAuthWithGoogle(account);
             updateUI(true);
             Intent firstTime = new Intent(this, FirstTimeSubscriptionsActivity.class);
 
@@ -179,49 +157,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        //Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        //showProgressDialog();
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        fAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.d("GoogleFirebaseLogin", "failed");
-                            //Toast.makeText(LoginActivity.this, "Google Firebase authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                        //hideProgressDialog();
-                    }
-                });
-    }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        fAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                // If sign in fails, display a message to the user. If sign in succeeds
-                // the auth state listener will be notified and logic to handle the
-                // signed in user can be handled in the listener.
-                if (!task.isSuccessful()) {
-                    Log.d("FacebookFirebaseLogin", "failed");
-                    //Toast.makeText(LoginActivity.this, "Facebook Firebase authentication failed.", Toast.LENGTH_SHORT).show();
-                }
-
-                // ...
-            }
-        });
     }
 
     private void updateUI(boolean isLogin){
