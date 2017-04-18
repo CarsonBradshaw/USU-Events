@@ -25,22 +25,25 @@
             android:layout_gravity="center_horizontal" />
 
         <com.google.android.gms.common.SignInButton
+            android:id="@+id/bn_login"
             android:layout_width="276dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:layout_marginRight="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="50dp"
-            android:id="@+id/bn_login"
-            android:layout_gravity="center_horizontal"
-            ></com.google.android.gms.common.SignInButton>
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="60dp"></com.google.android.gms.common.SignInButton>
+
         <Button
-            android:layout_width="272dp"
-            android:layout_height="40dp"
-            android:text="LogOut Google Account"
             android:id="@+id/bn_logout"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="66dp"
             android:background="@color/cardview_light_background"
-            />
+            android:text="LogOut Google Account" />
+
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="272dp"
@@ -48,13 +51,6 @@
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp"
             />
-        <TextView
-            android:id="@+id/textStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/cardview_light_background"
-            android:text="Facebook"/>
     </LinearLayout>
 
 

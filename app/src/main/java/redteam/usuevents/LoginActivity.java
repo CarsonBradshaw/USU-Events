@@ -196,7 +196,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initializeControls(){
         callbackManager = CallbackManager.Factory.create();
-        textStatus = (TextView)findViewById(R.id.textStatus);
         login_button = (LoginButton)findViewById(R.id.login_button);
         login_button.setReadPermissions("email", "public_profile");
     }
@@ -206,8 +205,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                //textStatus.setText("Login Success\n"+loginResult.getAccessToken());
-                textStatus.setText("Login Success\n");
+
 
                 Intent firstTime = new Intent(LoginActivity.this, FirstTimeSubscriptionsActivity.class);
 
