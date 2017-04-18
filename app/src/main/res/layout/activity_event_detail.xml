@@ -99,13 +99,13 @@
         android:layout_below="@+id/LocationLabel_eventDetail"
         android:textColor="#ffffff" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapEventDetail"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/addressField_eventDetail"
-        app:srcCompat="@drawable/usueventslogo" />
+        tools:context="com.example.mapwithmarker.MapsMarkerActivity"
+        android:layout_below="@+id/addressField_eventDetail" />
 
 </RelativeLayout>
