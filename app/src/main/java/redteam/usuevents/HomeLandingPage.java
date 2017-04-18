@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
@@ -38,7 +39,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -49,6 +53,7 @@ import static redteam.usuevents.R.drawable.gradient_color;
 public class HomeLandingPage extends AppCompatActivity {
     private ListView subFeed;
     public List<EventModel> eventModelList = new ArrayList<>();
+    public final int MILSINWEEK = 604800000;
 
     //View Flipper
     ViewFlipper viewFlipper;
@@ -128,18 +133,29 @@ public class HomeLandingPage extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
         final Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
 
-        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events");
+        Query firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events").orderByChild("startDateTime");
         firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
             public void onDataChange(DataSnapshot dataSnapshot) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date newDate = new Date();
+
+                long currTimeMils= System.currentTimeMillis();
                 Log.d("Child info: ", "parent" + dataSnapshot.toString());
                 int i=0;
                 for(DataSnapshot child: dataSnapshot.getChildren()){
+
                     EventModel model = child.getValue(EventModel.class);
+                    try {
+                        newDate = formatter.parse(model.getStartDateTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    long eventTimeMils = newDate.getTime();
                     Log.d("EventListSize3: ", model.getDescription());
                     Log.d("EventListSize3: ", Integer.toString(eventModelList.size()));
-                    if(result.contains(model.getTopic())){
+                    if(result.contains(model.getTopic()) && (eventTimeMils - currTimeMils)<(MILSINWEEK)){
                         eventModelList.add(model);
                     }
                     if(i == dataSnapshot.getChildrenCount()-1){
@@ -186,8 +202,8 @@ public class HomeLandingPage extends AppCompatActivity {
             eventDetailRow.setTextColor(Color.parseColor("#FFFFFF"));
             subFeed.setDivider(new ColorDrawable(Color.parseColor("#FFFFFF")));
             subFeed.setDividerHeight(1);
-            eventNameRow.setText(eventModelList.get(position).getTitle());
-            eventDetailRow.setText(eventModelList.get(position).getDescription());
+            eventNameRow.setText(MyFirebaseMessagingService.topicTranslationMap.get(eventModelList.get(position).getTopic()) + ": " + eventModelList.get(position).getTitle());
+            eventDetailRow.setText("Starts " + eventModelList.get(position).getStartDay() + " at " + eventModelList.get(position).getStartTime12Hr() + "!");
 
 
 

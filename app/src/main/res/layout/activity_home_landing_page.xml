@@ -88,7 +88,7 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:text="Subscribed Feed" />
+        android:text="Subscribed Events Coming Up This Week" />
 
     <ListView
         android:id="@+id/subFeed"
