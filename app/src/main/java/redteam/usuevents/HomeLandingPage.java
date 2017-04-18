@@ -54,6 +54,9 @@ public class HomeLandingPage extends AppCompatActivity {
     ViewFlipper viewFlipper;
     Animation fadeIn, fadeOut;
     //View Flipper
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +70,8 @@ public class HomeLandingPage extends AppCompatActivity {
         fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         viewFlipper.setAutoStart(true);
-        viewFlipper.setAnimation(fadeIn);
-        viewFlipper.setAnimation(fadeOut);
+        //viewFlipper.setAnimation(fadeIn);
+        //viewFlipper.setAnimation(fadeOut);
         viewFlipper.setFlipInterval(5000);
         viewFlipper.startFlipping();
         //View Flipper
