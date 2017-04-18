@@ -1,6 +1,9 @@
 package redteam.usuevents.models;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EventModel implements Serializable {
 
@@ -100,6 +103,70 @@ public class EventModel implements Serializable {
 
     public void setVoteCt(String voteCt) {
         this.voteCt = voteCt;
+    }
+
+    public String getStartDay(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = formatter.parse(startDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //long startDateTimeMils = date.getTime();
+
+        String finalDay = new SimpleDateFormat("EEEE").format(date);
+
+        if(finalDay != null){
+            return finalDay;
+        }
+
+        return "";
+
+    }
+
+    public String getStartTime12Hr(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = formatter.parse(startDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //long startDateTimeMils = date.getTime();
+
+        String finalTime = new SimpleDateFormat("hh:mm a").format(date);
+
+        if(finalTime != null){
+            if(finalTime.charAt(0)=='0'){
+                finalTime = finalTime.substring(1);
+            }
+            return finalTime;
+        }
+
+        return "";
+    }
+
+    public String getStartDateMonthDayYearFormat(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = formatter.parse(startDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String finalDateMonthDayYear = new SimpleDateFormat("MM-dd-yyyy").format(date);
+
+        if(finalDateMonthDayYear != null){
+            if(finalDateMonthDayYear.charAt(0)=='0'){
+                finalDateMonthDayYear = finalDateMonthDayYear.substring(1);
+            }
+            return finalDateMonthDayYear;
+        }
+
+        return "";
+
     }
 
 
