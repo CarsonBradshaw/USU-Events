@@ -42,46 +42,49 @@
         android:lines="5"
         android:id="@+id/description" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="5dp"
-        android:background="#fff"
-        android:inputType="textPersonName"
-        android:hint="Address (Google Maps coming soon..."
-        android:lines="1"
-        android:id="@+id/address" />
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mapEventDetail"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        tools:context="com.example.mapwithmarker.MapsMarkerActivity"
+        android:layout_below="@+id/addressField_eventDetail" />
 
-    <EditText
-        android:layout_width="fill_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:padding="5dp"
-        android:background="#fff"
-        android:inputType="numberSigned"
-        android:lines="1"
-        android:hint="Category Id (Subscription List coming soon..)"
-        android:id="@+id/category_id" />
+        android:padding="10dp"
+        android:background="@drawable/custom_button"
+        android:drawableLeft="@drawable/ic_action_topic"
+        android:text="Category"
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:id="@+id/topic" />
 
-    <EditText
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="5dp"
-        android:background="#fff"
-        android:inputType="numberSigned"
-        android:lines="1"
-        android:hint="Event Id (Soon to be removed)"
-        android:id="@+id/event_id" />
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:id="@+id/topicSelected"
+        android:textStyle="italic"
+        />
+
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
-        android:paddingRight="5dp"
-        android:drawableLeft="@drawable/ic_action_datetime"
-        android:text="Date/Time Picker"
+        android:padding="10dp"
+        android:drawableLeft="@drawable/ic_action_date"
+        android:drawableRight="@drawable/ic_action_datetime"
+        android:text="Date/Time"
         android:textColor="#fff"
         android:id="@+id/date_time"
         android:layout_gravity="center"/>
@@ -92,40 +95,10 @@
         android:padding="5dp"
         android:textColor="#fff"
         android:layout_gravity="center"
+        android:textAlignment="center"
         android:text="(Click the icon above to select the start date and time for your event. Once selected the date and time will appear on the button.)" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="5dp"
-        android:background="#fff"
-        android:inputType="textPersonName"
-        android:hint="Latitude (removed soon)"
-        android:lines="1"
-        android:id="@+id/lat" />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="5dp"
-        android:background="#fff"
-        android:inputType="textPersonName"
-        android:hint="Longitude (removed soon)"
-        android:lines="1"
-        android:id="@+id/lng" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="5dp"
-        android:background="#fff"
-        android:inputType="textPersonName"
-        android:hint="Vote Count (removed soon)"
-        android:lines="1"
-        android:id="@+id/voteCt" />
 
     <Button
         android:text="Create Event"
@@ -135,6 +108,7 @@
         android:id="@+id/insert"
         android:layout_margin="30dp"
         android:padding="10dp"
+        android:textColor="#fff"
         android:layout_gravity="center"
         android:gravity="center"/>
 
