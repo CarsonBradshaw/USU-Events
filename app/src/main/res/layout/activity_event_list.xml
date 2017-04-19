@@ -43,20 +43,11 @@ tools:context="redteam.usuevents.EventListActivity">
 
 </LinearLayout>
 
-<android.support.design.widget.NavigationView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/navigation_view"
-    android:layout_gravity="start"
-    app:menu="@menu/drawer_menu"
-    app:headerLayout="@layout/navigation_drawer_header"
-    >
-</android.support.design.widget.NavigationView>
 
-<android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -66,6 +57,16 @@ tools:context="redteam.usuevents.EventListActivity">
         android:src="@drawable/ic_action_create"
         android:id="@+id/fab"/>
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/navigation_view"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/navigation_drawer_header"
+        >
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

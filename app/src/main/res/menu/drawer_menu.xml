@@ -4,15 +4,15 @@
 
     <group android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/home_id"
-        android:title="Home"
-        android:icon="@drawable/home"
-        ></item>
+        <item
+            android:id="@+id/home_id"
+            android:title="Home"
+            android:icon="@drawable/home" />
         <item
             android:id="@+id/id_settings"
             android:icon="@drawable/settings"
-            android:title="Notification Settings"></item>
+            android:title="Notification Settings" />
+
 
     </group>
 

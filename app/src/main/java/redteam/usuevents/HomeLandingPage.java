@@ -3,9 +3,12 @@ package redteam.usuevents;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -19,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.firebase.database.DataSnapshot;
@@ -91,14 +95,6 @@ public class HomeLandingPage extends AppCompatActivity {
             }
         });
 
-        final Button settingsButton = (Button) findViewById(R.id.settingsButtonHome);
-        settingsButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick (View v){
-                Intent intent=new Intent(HomeLandingPage.this,FirstTimeSubscriptionsActivity.class);
-                startActivity(intent);
-            }
-        });
 
         final Button submitButton = (Button) findViewById(R.id.submitEventHome);
         submitButton.setOnClickListener(new View.OnClickListener()
@@ -110,6 +106,7 @@ public class HomeLandingPage extends AppCompatActivity {
         });
 
         getFirebaseData();
+
 
     }
 

@@ -5,8 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.NavigationMenuItemView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -54,6 +58,7 @@ public class EventListActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    private NavigationView navigationView;
     //Toolbar code end
 
     //Swipe (pull down) to Refresh feature
@@ -76,6 +81,26 @@ public class EventListActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //Toolbar Code End
+
+        navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getTitle().toString().compareTo("Home") == 0){
+                    openHomePage();
+                }else if(item.getTitle().toString().compareTo("Share") == 0){
+                    Context context = getApplicationContext();
+                    CharSequence text = "Coming to a Play Store near you!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    drawerLayout.closeDrawers();
+                }else if(item.getTitle().toString().compareTo("Notification Settings") == 0){
+                    openSettingsPage();
+                }
+                return false;
+            }
+        });
 
         eventListView=(ListView)findViewById(R.id.eventListView);
 
@@ -100,6 +125,17 @@ public class EventListActivity extends AppCompatActivity {
 
         getFirebaseData();
 
+
+    }
+
+    public void openHomePage(){
+        Intent myIntent = new Intent(this, HomeLandingPage.class);
+        startActivity(myIntent);
+    }
+
+    public void openSettingsPage(){
+        Intent myIntent = new Intent(this, FirstTimeSubscriptionsActivity.class);
+        startActivity(myIntent);
     }
 
     public void createListView(){

@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +54,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    public NavigationView navigationView;
     //Toolbar code end
 
 
@@ -103,6 +106,26 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_first_time_subscriptions);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getTitle().toString().compareTo("Home") == 0){
+                    openHomePage();
+                }else if(item.getTitle().toString().compareTo("Share") == 0){
+                    Context context = getApplicationContext();
+                    CharSequence text = "Coming to a Play Store near you!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    drawerLayout.closeDrawers();
+                }else if(item.getTitle().toString().compareTo("Notification Settings") == 0){
+                    drawerLayout.closeDrawers();
+                }
+                return false;
+            }
+        });
 
         profileImage = (ImageView)findViewById(R.id.menuImageView);
 
@@ -207,6 +230,16 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void openHomePage(){
+        Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, HomeLandingPage.class);
+        startActivity(myIntent);
+    }
+
+    public void openSettingsPage(){
+        Intent myIntent = new Intent(FirstTimeSubscriptionsActivity.this, FirstTimeSubscriptionsActivity.class);
+        startActivity(myIntent);
     }
 
     //Drawer Code Click event
