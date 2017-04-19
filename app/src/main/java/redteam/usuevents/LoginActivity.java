@@ -16,11 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.util.Util;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -42,6 +48,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -214,15 +223,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginWithFB(){
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+            private ProfileTracker mProfileTracker;
+
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+                final SharedPreferences.Editor editor = sharedPreferences.edit();
                 handleFacebookAccessToken(loginResult.getAccessToken());
+
+                if(Profile.getCurrentProfile() == null) {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                            // profile2 is the new profile
+                            editor.putString("userName", profile2.getName().toString());
+                            editor.putString("profileImageURI", profile2.getProfilePictureUri(200,200).toString());
+                            editor.apply();
+                            mProfileTracker.stopTracking();
+                        }
+                    };
+                }
+                else {
+                    Profile profile = Profile.getCurrentProfile();
+                    editor.putString("userName", profile.getName().toString());
+                    editor.putString("profileImageURI", profile.getProfilePictureUri(200,200).toString());
+                    editor.apply();
+                }
+
 
 
                 Intent firstTime = new Intent(LoginActivity.this, FirstTimeSubscriptionsActivity.class);
 
-                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
 
 
                 Intent existing = new Intent(LoginActivity.this, HomeLandingPage.class);
@@ -241,12 +274,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onCancel() {
-                textStatus.setText("Login Cancelled.\n");
+
             }
 
             @Override
             public void onError(FacebookException error) {
-                textStatus.setText("Login Error: "+error.getMessage());
+
             }
         });
     }

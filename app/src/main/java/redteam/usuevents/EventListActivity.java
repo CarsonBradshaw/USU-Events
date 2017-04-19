@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import redteam.usuevents.models.EventModel;
 
 public class EventListActivity extends AppCompatActivity {
@@ -96,7 +97,7 @@ public class EventListActivity extends AppCompatActivity {
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view_eventList);
         View headerView = navigationView.getHeaderView(0);
-        ImageView imageView = (ImageView) headerView.findViewById(R.id.menuImageView);
+        CircleImageView imageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
         if(sharedPreferences.getString("profileImageURI",null)!=null){
             Picasso.with(this).load(sharedPreferences.getString("profileImageURI",null)).into(imageView);
         }

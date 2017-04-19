@@ -41,6 +41,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
     //Toolbar code
     Toolbar toolbar;
@@ -111,7 +113,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
 
         View headerView = navigationView.getHeaderView(0);
-        ImageView imageView = (ImageView) headerView.findViewById(R.id.menuImageView);
+        CircleImageView imageView = (CircleImageView) headerView.findViewById(R.id.profile_image);
         if(sharedPreferences.getString("profileImageURI",null)!=null){
             Picasso.with(this).load(sharedPreferences.getString("profileImageURI",null)).into(imageView);
         }
@@ -137,8 +139,6 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        profileImage = (ImageView)findViewById(R.id.menuImageView);
 
         //Toolbar Code End
 
