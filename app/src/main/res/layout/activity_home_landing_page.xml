@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/entrance"
+                android:src="@drawable/stadium"
                 android:scaleType="centerCrop"/>
             <ImageView
                 android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/stadium"
+                android:src="@drawable/football"
                 android:scaleType="centerCrop"/>
         </ViewFlipper>
     </LinearLayout>
