@@ -62,6 +62,8 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
     public ArrayList<Boolean> finalSubscriptionsBoolArray;
     public Spinner spinner;
 
+    public ImageView profileImage;
+
     public static List<String> topicList = Arrays.asList("mBasketball","mFootball","mTennis",
             "mTrack","mGolf","mCrossCountry","wBasketball","wVolleyball","wTennis","wTrack",
             "wCrossCountry","wSoccer","wSoftball","wGymnastics","parties","miscUsu","userSubmitted");
@@ -101,6 +103,9 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.activity_first_time_subscriptions);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        profileImage = (ImageView)findViewById(R.id.menuImageView);
+
         //Toolbar Code End
 
 

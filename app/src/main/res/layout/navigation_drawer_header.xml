@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/img"
+        android:id="@+id/menuImageView"
         android:src="@drawable/my_photo"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="User Name"
-        android:layout_toRightOf="@+id/img"
+        android:layout_toRightOf="@+id/menuImageView"
         android:textSize="20dp"
         android:textStyle="bold"
         android:layout_marginTop="50dp"

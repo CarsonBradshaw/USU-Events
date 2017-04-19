@@ -10,33 +10,15 @@
         android:icon="@drawable/home"
         ></item>
         <item
-            android:id="@+id/message"
-            android:title="Message"
-            android:icon="@drawable/message"
-            ></item>
-        <item
             android:id="@+id/id_settings"
-            android:title="Settings"
             android:icon="@drawable/settings"
-            ></item>
+            android:title="Notification Settings"></item>
 
     </group>
 
 
     <item android:title="Social">
         <menu>
-            <item
-                android:title="Add to Group"
-                android:id="@+id/add_to_group"
-                android:icon="@drawable/add"
-                >
-            </item>
-            <item
-                android:title="Group"
-                android:id="@+id/id_group"
-                android:icon="@drawable/group"
-                >
-            </item>
             <item
                 android:title="Share"
                 android:id="@+id/id_share"
