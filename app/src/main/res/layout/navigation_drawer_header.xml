@@ -6,24 +6,25 @@
     >
 
     <ImageView
+        android:id="@+id/menuImageView"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/menuImageView"
-        android:src="@drawable/my_photo"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        />
+        android:src="@drawable/my_photo" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="User Name"
-        android:layout_toRightOf="@+id/menuImageView"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:id="@+id/name"
-        />
+        android:id="@+id/navUserNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/menuImageView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/menuImageView"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="sans-serif"
+        android:text="Test Text"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package redteam.usuevents;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -136,12 +137,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void handleResult(GoogleSignInResult result){
         if(result.isSuccess()){
-            GoogleSignInAccount account = result.getSignInAccount();
+            GoogleSignInAccount acct = result.getSignInAccount();
             updateUI(true);
+
+            String personName = acct.getDisplayName();
+            Uri personPhoto = acct.getPhotoUrl();
+
+            Log.d("GoogleName", personName.toString());
+
+
             Intent firstTime = new Intent(this, FirstTimeSubscriptionsActivity.class);
 
             SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            editor.putString("userName", personName.toString());
+            editor.putString("profileImageURI", personPhoto.toString());
+            editor.apply();
 
 
             Intent existing = new Intent(this, HomeLandingPage.class);

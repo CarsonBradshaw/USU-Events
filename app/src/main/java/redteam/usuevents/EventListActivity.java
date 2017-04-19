@@ -2,6 +2,8 @@ package redteam.usuevents;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +86,24 @@ public class EventListActivity extends AppCompatActivity {
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //Toolbar Code End
 
-        navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+
+        String userName = "";
+        if(sharedPreferences.getString("userName", null)!=null){
+            userName = sharedPreferences.getString("userName",null);
+            Log.d("nameis",userName);
+        }
+
+        navigationView = (NavigationView)findViewById(R.id.navigation_view_eventList);
+        View headerView = navigationView.getHeaderView(0);
+        ImageView imageView = (ImageView) headerView.findViewById(R.id.menuImageView);
+        if(sharedPreferences.getString("profileImageURI",null)!=null){
+            Picasso.with(this).load(sharedPreferences.getString("profileImageURI",null)).into(imageView);
+        }
+        TextView textView = (TextView) headerView.findViewById(R.id.navUserNameTextView);
+        textView.setText(userName);
+        textView.setTextColor(Color.WHITE);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -60,13 +60,11 @@ tools:context="redteam.usuevents.EventListActivity">
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view_eventList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/navigation_view"
         android:layout_gravity="start"
-        app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/navigation_drawer_header"
-        >
-    </android.support.design.widget.NavigationView>
+        app:menu="@menu/drawer_menu"></android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
