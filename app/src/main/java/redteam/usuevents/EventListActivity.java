@@ -119,6 +119,13 @@ public class EventListActivity extends AppCompatActivity {
                     drawerLayout.closeDrawers();
                 }else if(item.getTitle().toString().compareTo("Notification Settings") == 0){
                     openSettingsPage();
+                }else if(item.getTitle().toString().compareTo("Log Out") == 0){
+                    Context context = getApplicationContext();
+                    CharSequence text = "Persistent Login Coming Soon!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    drawerLayout.closeDrawers();
                 }
                 return false;
             }

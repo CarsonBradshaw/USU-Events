@@ -12,6 +12,10 @@
             android:id="@+id/id_settings"
             android:icon="@drawable/settings"
             android:title="Notification Settings" />
+        <item
+            android:id="@+id/logout_navBtn"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="Log Out" />
 
 
     </group>
