@@ -255,7 +255,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.Events.TITLE, topicTranslationMap.get(map.get("topic")))
+                .putExtra(CalendarContract.Events.TITLE, topicTranslationMap.get(map.get("topic")) + ": " + map.get("title"))
                 .putExtra(CalendarContract.Events.DESCRIPTION, map.get("description"))
                 .putExtra(CalendarContract.Events.EVENT_LOCATION, lat+","+lng)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventTimeMils)
