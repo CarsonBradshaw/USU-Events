@@ -61,10 +61,7 @@
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
-            android:text="View Events"
-            android:layout_below="@+id/settingsButtonHome"
-            android:layout_alignLeft="@+id/settingsButtonHome"
-            android:layout_alignStart="@+id/settingsButtonHome" />
+            android:text="View Events" />
 
     </RelativeLayout>
 
@@ -81,7 +78,7 @@
 
     <ListView
         android:id="@+id/subFeed"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 
