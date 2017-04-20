@@ -30,6 +30,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,6 +77,8 @@ public class EventListActivity extends AppCompatActivity {
 
     //Coordinator Create Event Fab Button
     FloatingActionButton fab;
+    public GoogleApiClient mGoogleApiClient;
+
 
     public List<EventModel> eventModelList = new ArrayList<>();
 
@@ -78,6 +86,14 @@ public class EventListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
 
         //Toolbar Code
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -120,12 +136,30 @@ public class EventListActivity extends AppCompatActivity {
                 }else if(item.getTitle().toString().compareTo("Notification Settings") == 0){
                     openSettingsPage();
                 }else if(item.getTitle().toString().compareTo("Log Out") == 0){
-                    Context context = getApplicationContext();
-                    CharSequence text = "Persistent Login Coming Soon!";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    drawerLayout.closeDrawers();
+//                    Context context = getApplicationContext();
+//                    CharSequence text = "Persistent Login Coming Soon!";
+//                    int duration = Toast.LENGTH_SHORT;
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
+//                    drawerLayout.closeDrawers();
+                    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("userName");
+                    editor.remove("profileImageURI");
+                    editor.apply();
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                            new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(Status status) {
+                                    // ...
+
+                                }
+                            }
+                    );
+                    LoginManager.getInstance().logOut();
+                    Intent intent = new Intent(EventListActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
                 }
                 return false;
             }

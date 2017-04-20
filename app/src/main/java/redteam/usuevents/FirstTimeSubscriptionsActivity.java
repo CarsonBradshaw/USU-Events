@@ -29,6 +29,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
@@ -62,6 +69,9 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
 
     public ImageView profileImage;
 
+    public GoogleApiClient mGoogleApiClient;
+
+
     public static List<String> topicList = Arrays.asList("mBasketball","mFootball","mTennis",
             "mTrack","mGolf","mCrossCountry","wBasketball","wVolleyball","wTennis","wTrack",
             "wCrossCountry","wSoccer","wSoftball","wGymnastics","parties","miscUsu","userSubmitted");
@@ -92,6 +102,14 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time_subscriptions);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+
         //Toolbar Code
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,7 +120,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
 
         String userName = "";
         if(sharedPreferences.getString("userName", null)!=null){
@@ -136,12 +154,30 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                 }else if(item.getTitle().toString().compareTo("Notification Settings") == 0){
                     drawerLayout.closeDrawers();
                 }else if(item.getTitle().toString().compareTo("Log Out") == 0){
-                    Context context = getApplicationContext();
-                    CharSequence text = "Persistent Login Coming Soon!";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                    drawerLayout.closeDrawers();
+//                    Context context = getApplicationContext();
+//                    CharSequence text = "Persistent Login Coming Soon!";
+//                    int duration = Toast.LENGTH_SHORT;
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
+//                    drawerLayout.closeDrawers();
+                    SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("userName");
+                    editor.remove("profileImageURI");
+                    editor.apply();
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                            new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(Status status) {
+                                    // ...
+
+                                }
+                            }
+                    );
+                    LoginManager.getInstance().logOut();
+                    Intent intent = new Intent(FirstTimeSubscriptionsActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
                 }
                 return false;
             }

@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent,REQ_CODE);
     }
-    private void signOut(){
+    public void signOut(){
 
 
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
@@ -273,7 +273,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(context, text, duration).show();
                     }
                 };
-                
+
                 sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
             }
 
