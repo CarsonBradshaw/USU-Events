@@ -3,6 +3,7 @@ package redteam.usuevents;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.camera2.params.Face;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -66,20 +67,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private LinearLayout login_section;
-    private Button SignOut;
     private SignInButton SignIn;
     private GoogleApiClient googleApiClient;
+
+    private String FacebookUserName = "";
+    private String FacebookProfileImageURI = " ";
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         login_section = (LinearLayout)findViewById(R.id.login_section);
-        SignOut = (Button)findViewById(R.id.bn_logout);
         SignIn = (SignInButton)findViewById(R.id.bn_login);
         SignIn.setOnClickListener(this);
-        SignOut.setOnClickListener(this);
-        SignOut.setVisibility(View.GONE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
@@ -108,9 +108,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.bn_login:
                 signIn();
-                break;
-            case R.id.bn_logout:
-                signOut();
                 break;
         }
     }
@@ -162,7 +159,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             editor.putString("userName", personName.toString());
             editor.putString("profileImageURI", personPhoto.toString());
-            editor.apply();
+            editor.commit();
 
 
             Intent existing = new Intent(this, HomeLandingPage.class);
@@ -188,19 +185,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateUI(boolean isLogin){
         if(isLogin){
-            SignIn.setVisibility(View.GONE);
-            SignOut.setVisibility(View.VISIBLE);
-            login_section.setVisibility(View.VISIBLE);
-
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
             CharSequence text = "Google Login Successful";
             Toast.makeText(context, text, duration).show();
         }
         else {
-            SignIn.setVisibility(View.VISIBLE);
-            SignOut.setVisibility(View.GONE);
-            login_section.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -229,48 +220,64 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName), MODE_PRIVATE);
                 final SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 handleFacebookAccessToken(loginResult.getAccessToken());
 
-                if(Profile.getCurrentProfile() == null) {
+                if (Profile.getCurrentProfile() == null) {
                     mProfileTracker = new ProfileTracker() {
                         @Override
                         protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                             // profile2 is the new profile
                             editor.putString("userName", profile2.getName().toString());
-                            editor.putString("profileImageURI", profile2.getProfilePictureUri(200,200).toString());
+                            editor.putString("profileImageURI", profile2.getProfilePictureUri(200, 200).toString());
                             editor.apply();
+//                            FacebookUserName = profile2.getName().toString();
+//                            FacebookProfileImageURI = profile2.getProfilePictureUri(200,200).toString();
                             mProfileTracker.stopTracking();
                         }
                     };
-                }
-                else {
+                } else {
                     Profile profile = Profile.getCurrentProfile();
+//                    FacebookUserName = profile.getName().toString();
+//                    FacebookProfileImageURI = profile.getProfilePictureUri(200,200).toString();
+
                     editor.putString("userName", profile.getName().toString());
-                    editor.putString("profileImageURI", profile.getProfilePictureUri(200,200).toString());
+                    editor.putString("profileImageURI", profile.getProfilePictureUri(200, 200).toString());
                     editor.apply();
                 }
 
+//                editor.putString("userName", FacebookUserName);
+//                editor.putString("profileImageURI", FacebookProfileImageURI);
+
+                SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                        // Implementation
+                        SharedPreferences sharedPreferences1 = getSharedPreferences(getString(R.string.sharedPreferencesFileName), MODE_PRIVATE);
+
+                        Intent firstTime = new Intent(LoginActivity.this, FirstTimeSubscriptionsActivity.class);
+
+                        Intent existing = new Intent(LoginActivity.this, HomeLandingPage.class);
 
 
-                Intent firstTime = new Intent(LoginActivity.this, FirstTimeSubscriptionsActivity.class);
+                        if (sharedPreferences1.getStringSet("notificationSubscriptions", null) != null) {
+                            startActivity(existing);
+                        } else {
+                            startActivity(firstTime);
+                        }
 
-
-
-                Intent existing = new Intent(LoginActivity.this, HomeLandingPage.class);
-
-                if(sharedPreferences.getStringSet("notificationSubscriptions",null)!=null){
-                    startActivity(existing);
-                }else {
-                    startActivity(firstTime);
-                }
-
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                CharSequence text = "Facebook Login Successful";
-                Toast.makeText(context, text, duration).show();
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
+                        CharSequence text = "Facebook Login Successful";
+                        Toast.makeText(context, text, duration).show();
+                    }
+                };
+                
+                sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
             }
+
+
 
             @Override
             public void onCancel() {

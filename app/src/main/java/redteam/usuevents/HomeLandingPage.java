@@ -68,46 +68,53 @@ public class HomeLandingPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home_landing_page);
-        subFeed =(ListView)findViewById(R.id.subFeed);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+
+        if(sharedPreferences.getString("userName",null)==null){
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        }else {
 
 
-        //View Flipper
-        viewFlipper = (ViewFlipper)findViewById(R.id.viewFlipper);
-        fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-        viewFlipper.setAutoStart(true);
-        //viewFlipper.setAnimation(fadeIn);
-        //viewFlipper.setAnimation(fadeOut);
-        viewFlipper.setFlipInterval(5000);
-        viewFlipper.startFlipping();
-        //View Flipper
+            subFeed = (ListView) findViewById(R.id.subFeed);
 
 
-        final Button viewEventsButton = (Button) findViewById(R.id.viewEventHome);
-        viewEventsButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick (View v){
-                Intent intent=new Intent(HomeLandingPage.this,EventListActivity.class);
-                startActivity(intent);
-            }
-        });
+            //View Flipper
+            viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+            fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+            fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+            viewFlipper.setAutoStart(true);
+            //viewFlipper.setAnimation(fadeIn);
+            //viewFlipper.setAnimation(fadeOut);
+            viewFlipper.setFlipInterval(5000);
+            viewFlipper.startFlipping();
+            //View Flipper
 
 
-        final Button submitButton = (Button) findViewById(R.id.submitEventHome);
-        submitButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick (View v){
-                Intent intent=new Intent(HomeLandingPage.this,EventCreateActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        getFirebaseData();
+            final Button viewEventsButton = (Button) findViewById(R.id.viewEventHome);
+            viewEventsButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomeLandingPage.this, EventListActivity.class);
+                    startActivity(intent);
+                }
+            });
 
 
+            final Button submitButton = (Button) findViewById(R.id.submitEventHome);
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomeLandingPage.this, EventCreateActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            getFirebaseData();
+
+        }
     }
 
 
@@ -152,7 +159,7 @@ public class HomeLandingPage extends AppCompatActivity {
                     long eventTimeMils = newDate.getTime();
                     Log.d("EventListSize3: ", model.getDescription());
                     Log.d("EventListSize3: ", Integer.toString(eventModelList.size()));
-                    if(result.contains(model.getTopic()) && (eventTimeMils - currTimeMils)<(MILSINWEEK)){
+                    if(result!=null && result.contains(model.getTopic()) && (eventTimeMils - currTimeMils)<(MILSINWEEK)){
                         eventModelList.add(model);
                     }
                     if(i == dataSnapshot.getChildrenCount()-1){

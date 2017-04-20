@@ -34,22 +34,14 @@
             android:layout_marginRight="50dp"
             android:layout_marginTop="60dp"></com.google.android.gms.common.SignInButton>
 
-        <Button
-            android:id="@+id/bn_logout"
-            android:layout_width="270dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="32dp"
-            android:layout_marginTop="66dp"
-            android:background="@color/cardview_light_background"
-            android:text="LogOut Google Account" />
-
         <com.facebook.login.widget.LoginButton
+            xmlns:facebook="http://schemas.android.com/apk/res-auto"
             android:id="@+id/login_button"
             android:layout_width="272dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp"
+            facebook:com_facebook_logout_text="Continue with Facebook"
             />
     </LinearLayout>
 
