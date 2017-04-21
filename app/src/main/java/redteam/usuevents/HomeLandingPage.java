@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
@@ -167,6 +168,8 @@ public class HomeLandingPage extends AppCompatActivity {
                     }
                     i++;
                 }
+                ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBarHomeLandingPage);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

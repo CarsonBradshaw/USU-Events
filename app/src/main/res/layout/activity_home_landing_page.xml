@@ -76,6 +76,14 @@
         android:inputType="textPersonName"
         android:text="Subscribed Events Coming Up This Week" />
 
+    <ProgressBar
+        android:id="@+id/progressBarHomeLandingPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:indeterminate="true"
+        android:paddingTop="60dp" />
+
     <ListView
         android:id="@+id/subFeed"
         android:layout_width="match_parent"
