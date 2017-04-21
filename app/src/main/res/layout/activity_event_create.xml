@@ -63,6 +63,7 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="#fff"
+        android:text="..."
         android:id="@+id/topicSelected"
         android:textStyle="italic"
         />
@@ -73,7 +74,7 @@
         android:layout_margin="20dp"
         android:padding="10dp"
         android:background="@drawable/custom_button"
-        android:drawableLeft="@drawable/ic_action_topic"
+        android:drawableLeft="@drawable/ic_action_location"
         android:text="Location"
         android:textColor="#fff"
         android:layout_gravity="center"
