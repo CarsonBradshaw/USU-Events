@@ -77,6 +77,7 @@ public class HomeLandingPage extends AppCompatActivity {
 
         if(sharedPreferences.getString("userName",null)==null){
             Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(loginIntent);
         }else {
 

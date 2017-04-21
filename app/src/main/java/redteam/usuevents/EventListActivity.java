@@ -40,6 +40,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -218,7 +219,7 @@ public class EventListActivity extends AppCompatActivity {
 
     public void getFirebaseData(){
         eventModelList.clear();
-        DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events");
+        Query firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events").orderByChild("startDateTime");
         firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -275,8 +276,8 @@ public class EventListActivity extends AppCompatActivity {
             eventNameRow=(TextView)convertView.findViewById(R.id.eventNameRow);
             eventDetailRow=(TextView)convertView.findViewById(R.id.eventDetailRow);
 
-            eventNameRow.setText(eventModelList.get(position).getTitle());
-            eventDetailRow.setText(eventModelList.get(position).getDescription());
+            eventNameRow.setText(MyFirebaseMessagingService.topicTranslationMap.get(eventModelList.get(position).getTopic()) + ": " + eventModelList.get(position).getTitle());
+            eventDetailRow.setText("Event starts " + eventModelList.get(position).getStartDateMonthDayYearFormat() + " at " + eventModelList.get(position).getStartTime12Hr() + "!");
 
             return convertView;
         }
