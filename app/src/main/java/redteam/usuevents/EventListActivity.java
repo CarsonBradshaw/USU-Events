@@ -218,6 +218,7 @@ public class EventListActivity extends AppCompatActivity {
     }
 
     public void getFirebaseData(){
+        eventListView.setVisibility(View.GONE);
         eventModelList.clear();
         Query firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("events").orderByChild("startDateTime");
         firebaseDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -231,6 +232,7 @@ public class EventListActivity extends AppCompatActivity {
                     eventModelList.add(model);
                     Log.d("EventListSize: ", Integer.toString(eventModelList.size()));
                     if(eventModelList.size() == dataSnapshot.getChildrenCount()){
+                        eventListView.setVisibility(View.VISIBLE);
                         createListView();
                     }
                 }
