@@ -105,4 +105,30 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
                 .title(title)).showInfoWindow();
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(event,13));
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        Bundle extras = getIntent().getExtras();
+
+        boolean launchedFromNotif = false;
+
+        if (extras.containsKey("EXTRA_LAUNCHED_BY_NOTIFICATION"))
+        {
+            launchedFromNotif = extras.getBoolean("EXTRA_LAUNCHED_BY_NOTIFICATION");
+        }
+
+        if (launchedFromNotif)
+        {
+            // Launched from notification, handle as special case
+            Intent intent = new Intent(this, HomeLandingPage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
 }
