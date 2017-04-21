@@ -176,6 +176,7 @@ public class FirstTimeSubscriptionsActivity extends AppCompatActivity {
                     );
                     LoginManager.getInstance().logOut();
                     Intent intent = new Intent(FirstTimeSubscriptionsActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
                 }
