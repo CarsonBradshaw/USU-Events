@@ -1,5 +1,7 @@
 package redteam.usuevents;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -23,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.content.Context;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -43,12 +46,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import android.content.Intent;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.location.places.ui.PlacePicker.IntentBuilder;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -68,18 +77,19 @@ import redteam.usuevents.models.EventModel;
  */
 
 public class EventCreateActivity extends AppCompatActivity implements
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, OnMapReadyCallback{
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     private EventModel event;
-   // private String lat;
-   // private String lng;
 
     EditText title, description, lat, lng;
-    Button insert, date_time, topic;
-    TextView dateView, startTime, topicSelected;
+    Button insert, date_time, topic, getPlaceButton;
+    TextView dateView, startTime, topicSelected, placeNameText;
     String[] listItems;
-    boolean[] checkedItems;
     ArrayList<Integer> mUserItems = new ArrayList<>();
+    boolean[] checkedItems;
+    private static final LatLngBounds BOUNDS_UTAH_STATE = new LatLngBounds(
+            new LatLng(41.7438120, -111.8110915), new LatLng(41.7465100, -111.8083935));
+    int PLACE_PICKER_REQUEST = 1;
 
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
@@ -92,9 +102,6 @@ public class EventCreateActivity extends AppCompatActivity implements
         Intent intent=getIntent();
         event=(EventModel)intent.getSerializableExtra("EventModel");
 
-        //lat = event.getLat();
-       // lng = event.getLng();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_create);
 
@@ -105,6 +112,9 @@ public class EventCreateActivity extends AppCompatActivity implements
         topicSelected = (TextView) findViewById(R.id.topicSelected);
         listItems = getResources().getStringArray(R.array.category_item);
         checkedItems = new boolean[listItems.length];
+
+        placeNameText = (TextView) findViewById(R.id.tvPlaceName);
+        getPlaceButton = (Button) findViewById(R.id.btGetPalce);
 
         date_time = (Button) findViewById(R.id.date_time);
         insert = (Button) findViewById(R.id.insert);
@@ -177,6 +187,23 @@ public class EventCreateActivity extends AppCompatActivity implements
            }
        });
 
+        getPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                builder.setLatLngBounds(BOUNDS_UTAH_STATE);
+                Intent intent = new Intent(EventCreateActivity.this, PlacePicker.class);
+                try {
+                    startActivityForResult(builder.build(EventCreateActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
@@ -214,11 +241,18 @@ public class EventCreateActivity extends AppCompatActivity implements
             }
         });
 
-
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapEventDetail);
-        mapFragment.getMapAsync(this);
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == PLACE_PICKER_REQUEST){
+            if(resultCode == RESULT_OK){
+                Place place = PlacePicker.getPlace(data, this);
+                String address = String.format("Place: %s", place.getAddress());
+                placeNameText.setText(address);
+            }
+        }
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         yearFinal = year;
@@ -245,11 +279,5 @@ public class EventCreateActivity extends AppCompatActivity implements
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-      //  LatLng event = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
-      //  googleMap.addMarker(new MarkerOptions().position(event)).showInfoWindow();
-      //  googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(event,13));
-    }
 
 }

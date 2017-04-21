@@ -42,14 +42,6 @@
         android:lines="5"
         android:id="@+id/description" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/mapEventDetail"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        tools:context="com.example.mapwithmarker.MapsMarkerActivity"
-        android:layout_below="@+id/addressField_eventDetail" />
 
     <Button
         android:layout_width="wrap_content"
@@ -68,7 +60,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="#fff"
@@ -76,11 +67,35 @@
         android:textStyle="italic"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:background="@drawable/custom_button"
+        android:drawableLeft="@drawable/ic_action_topic"
+        android:text="Location"
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:id="@+id/btGetPalce" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:id="@+id/tvPlaceName"
+        android:textStyle="italic"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
+        android:layout_margin="20dp"
         android:padding="10dp"
         android:drawableLeft="@drawable/ic_action_date"
         android:drawableRight="@drawable/ic_action_datetime"
