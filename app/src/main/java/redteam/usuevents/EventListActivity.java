@@ -228,6 +228,7 @@ public class EventListActivity extends AppCompatActivity {
 
                 for(DataSnapshot child: dataSnapshot.getChildren()){
                     EventModel model = child.getValue(EventModel.class);
+                    model.event_id = child.getKey();
                     Log.d("EventListSize: ", model.getDescription());
                     eventModelList.add(model);
                     Log.d("EventListSize: ", Integer.toString(eventModelList.size()));

@@ -162,6 +162,8 @@ public class HomeLandingPage extends AppCompatActivity {
                     Log.d("EventListSize3: ", model.getDescription());
                     Log.d("EventListSize3: ", Integer.toString(eventModelList.size()));
                     if(result!=null && result.contains(model.getTopic()) && (eventTimeMils - currTimeMils)<(MILSINWEEK)){
+                        model.event_id = child.getKey();
+                        Log.d("eventId", model.event_id);
                         eventModelList.add(model);
                     }
                     if(i == dataSnapshot.getChildrenCount()-1){
