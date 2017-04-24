@@ -60,7 +60,8 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
     private String lat;
     private String lng;
     private String title;
-
+    private String voteCtS;
+    private int voteCtI;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
@@ -82,6 +83,8 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
         lat = event.getLat();
         lng = event.getLng();
         title = event.getTitle();
+        voteCtS=event.getVoteCt();
+        voteCtI=Integer.parseInt(voteCtS);
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
 
@@ -99,7 +102,8 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
                    being set in the event model.
  */
                 try {
-                    myRef.child("events").child("8").child("voteCt").setValue("1");
+
+                    myRef.child("events").child(event.getEvent_id()).child("voteCt").setValue(Integer.toString(voteCtI+1));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
