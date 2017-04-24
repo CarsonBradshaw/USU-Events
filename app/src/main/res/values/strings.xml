@@ -29,22 +29,11 @@
         <item>24 Hours Before</item>
     </string-array>
     <string-array name="category_item">
-        <item>USU Men\'s Basketball</item>
-        <item>USU Men\'s Football</item>
-        <item>USU Men\'s Tennis</item>
-        <item>USU Men\'s Track and Field</item>
-        <item>USU Men\'s Golf</item>
-        <item>USU Men\'s Cross Country</item>
-        <item>USU Women\'s Basketball</item>
-        <item>USU Women\'s Volleyball</item>
-        <item>USU Women\'s Tennis</item>
-        <item>USU Women\'s Track and Field</item>
-        <item>USU Women\'s Cross Country</item>
-        <item>USU Women\'s Soccer</item>
-        <item>USU Women\'s Softball</item>
-        <item>USU Women\'s Gymnastics</item>
         <item>Parties</item>
-        <item>Misc USU Sponsored Events</item>
-        <item>User Submitted Events</item>
+        <item>Clubs</item>
+        <item>Sports</item>
+        <item>Music</item>
+        <item>Free Food</item>
+        <item>Misc Activity</item>
     </string-array>
 </resources>
