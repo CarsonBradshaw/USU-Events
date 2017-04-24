@@ -95,12 +95,9 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
         interestButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
-                Toast.makeText(getApplicationContext(),
-                        event.getEvent_id(), Toast.LENGTH_LONG).show();
-                /*
-                   Currently only sets the event voteCt of event 8 to a value of 1. Event Id isn't
-                   being set in the event model.
- */
+              /*  Toast.makeText(getApplicationContext(),
+                        event.getEvent_id(), Toast.LENGTH_LONG).show();*/
+
                 try {
 
                     myRef.child("events").child(event.getEvent_id()).child("voteCt").setValue(Integer.toString(voteCtI+1));
