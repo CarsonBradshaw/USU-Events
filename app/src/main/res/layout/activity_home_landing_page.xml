@@ -60,21 +60,30 @@
             android:id="@+id/viewEventHome"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
-            android:text="View Events" />
+            android:text="View Events"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp" />
+
+        <TextView
+            android:id="@+id/subscriptionAreaDescript"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#949c9e"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="Subscribed Events Coming Up This Week"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="14dp" />
 
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/subscriptionAreaDescript"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#949c9e"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="textPersonName"
-        android:text="Subscribed Events Coming Up This Week" />
 
     <ProgressBar
         android:id="@+id/progressBarHomeLandingPage"
@@ -86,7 +95,7 @@
 
     <ListView
         android:id="@+id/subFeed"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 
 

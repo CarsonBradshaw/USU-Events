@@ -275,13 +275,15 @@ public class EventListActivity extends AppCompatActivity {
            }
             TextView eventNameRow;
             TextView eventDetailRow;
+            TextView eventCount;
 
             eventNameRow=(TextView)convertView.findViewById(R.id.eventNameRow);
             eventDetailRow=(TextView)convertView.findViewById(R.id.eventDetailRow);
+            eventCount=(TextView)convertView.findViewById(R.id.interestCount);
 
             eventNameRow.setText(MyFirebaseMessagingService.topicTranslationMap.get(eventModelList.get(position).getTopic()) + ": " + eventModelList.get(position).getTitle());
             eventDetailRow.setText("Event starts " + eventModelList.get(position).getStartDateMonthDayYearFormat() + " at " + eventModelList.get(position).getStartTime12Hr() + "!");
-
+            eventCount.setText(eventModelList.get(position).getVoteCt());
             return convertView;
         }
 

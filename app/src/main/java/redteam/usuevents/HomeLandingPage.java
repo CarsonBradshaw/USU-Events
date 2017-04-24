@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -205,16 +206,24 @@ public class HomeLandingPage extends AppCompatActivity {
             }
             TextView eventNameRow;
             TextView eventDetailRow;
+            TextView eventInterestLabel;
+            TextView interestCt;
 
             eventNameRow = (TextView) convertView.findViewById(R.id.eventNameRow);
             eventDetailRow = (TextView) convertView.findViewById(R.id.eventDetailRow);
+            eventInterestLabel=(TextView) convertView.findViewById(R.id.interestLabel);
+            interestCt=(TextView) convertView.findViewById(R.id.interestCount);
             eventNameRow.setTextColor(Color.parseColor("#FFFFFF"));
             eventDetailRow.setTextColor(Color.parseColor("#FFFFFF"));
+            eventInterestLabel.setTextColor(Color.parseColor("#FFFFFF"));
+            interestCt.setTextColor(Color.parseColor("#FFFFFF"));
+
             subFeed.setDivider(new ColorDrawable(Color.parseColor("#FFFFFF")));
+
             subFeed.setDividerHeight(1);
             eventNameRow.setText(MyFirebaseMessagingService.topicTranslationMap.get(eventModelList.get(position).getTopic()) + ": " + eventModelList.get(position).getTitle());
             eventDetailRow.setText("Starts " + eventModelList.get(position).getStartDay() + " at " + eventModelList.get(position).getStartTime12Hr() + "!");
-
+            interestCt.setText(eventModelList.get(position).getVoteCt());
 
 
             return convertView;
