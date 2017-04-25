@@ -4,8 +4,10 @@ import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -59,14 +61,24 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.text.Text;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 //import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,9 +93,11 @@ public class EventCreateActivity extends AppCompatActivity implements
 
     private EventModel event;
 
-    EditText title, description, lat, lng;
+    EditText eventTitle, eventDescription;
     Button insert, date_time, topic, getPlaceButton;
-    TextView dateView, startTime, topicSelected, placeNameText;
+    TextView topicSelected;
+    TextView placeNameText;
+    TextView dateTimeText;
     String[] listItems;
     ArrayList<Integer> mUserItems = new ArrayList<>();
     boolean[] checkedItems;
@@ -94,8 +108,15 @@ public class EventCreateActivity extends AppCompatActivity implements
     int day, month, year, hour, minute;
     int dayFinal, monthFinal, yearFinal, hourFinal, minuteFinal;
 
-    RequestQueue requestQueue;
-    String insertURL = "http://144.39.212.67/db_create.php";
+    boolean notified;
+    String voteCt, lat, lng;
+
+    private DatabaseReference mDatabase;
+    private ProgressDialog mProgress;
+    private FirebaseAuth mAuth;
+
+    //RequestQueue requestQueue;
+   // String insertURL = "http://144.39.212.67/db_create.php";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -105,8 +126,10 @@ public class EventCreateActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_create);
 
-        title = (EditText) findViewById(R.id.title);
-        description = (EditText) findViewById(R.id.description);
+        eventTitle = (EditText) findViewById(R.id.title);
+        eventDescription = (EditText) findViewById(R.id.description);
+        notified = false;
+        voteCt = "1";
 
         topic = (Button) findViewById(R.id.topic);
         topicSelected = (TextView) findViewById(R.id.topicSelected);
@@ -117,7 +140,13 @@ public class EventCreateActivity extends AppCompatActivity implements
         getPlaceButton = (Button) findViewById(R.id.btGetPalce);
 
         date_time = (Button) findViewById(R.id.date_time);
+        dateTimeText = (TextView) findViewById(R.id.dateTimeText);
         insert = (Button) findViewById(R.id.insert);
+
+        mProgress = new ProgressDialog(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("events");
+
+        mAuth = FirebaseAuth.getInstance();
 
         //dateView = (TextView) findViewById(R.id.dateView);
 
@@ -205,13 +234,14 @@ public class EventCreateActivity extends AppCompatActivity implements
         });
 
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+       //requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-
-        insert.setOnClickListener(new View.OnClickListener() {
+       insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
+                addEvent();
+
+             /*   StringRequest request = new StringRequest(Request.Method.POST, insertURL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
@@ -234,20 +264,27 @@ public class EventCreateActivity extends AppCompatActivity implements
                         return parameters;
                     }
                 };
-                requestQueue.add(request);
+                requestQueue.add(request);*/
 
-                Intent postCreation = new Intent(EventCreateActivity.this, HomeLandingPage.class);
-                startActivity(postCreation);
+
             }
         });
 
     }
 
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == PLACE_PICKER_REQUEST){
             if(resultCode == RESULT_OK){
                 Place place = PlacePicker.getPlace(data, this);
-                String address = String.format("Place: %s", place.getAddress());
+                String address = String.format("%s", place.getAddress());
+                LatLng latLng = place.getLatLng();
+                lat = String.valueOf(latLng.latitude);
+                lng = String.valueOf(latLng.longitude);
+                //Allows the lat/lng string to become public by submitting it to placeNameText, that way it can be pushed to the DB
+                placeNameText.setText(lat);
+                placeNameText.setText(lng);
                 placeNameText.setText(address);
             }
         }
@@ -274,10 +311,50 @@ public class EventCreateActivity extends AppCompatActivity implements
         minuteFinal = minute;
 
         //Needed to set the formating to match that of the database
-        date_time.setText(yearFinal + ":" + monthFinal + ":" + dayFinal
+        dateTimeText.setText(yearFinal + "-" + monthFinal + "-" + dayFinal
                 + " " + hourFinal + ":" + minuteFinal + ":00");
 
     }
 
+
+    private void addEvent(){
+        mProgress.setMessage("Submitting Event...");
+
+        final String theTitle = eventTitle.getText().toString().trim();
+        final String theDescription = eventDescription.getText().toString().trim();
+        final String theTopic = "userSubmitted";
+        final String theLat = lat;
+        final String theLng = lng;
+        final String theStartDateTime = date_time.getText().toString().trim();
+        final Boolean theNotified = notified;
+        final String theVoteCt = voteCt;
+
+        if(!TextUtils.isEmpty(theTitle) && !TextUtils.isEmpty(theDescription) && !TextUtils.isEmpty(theTopic) && !TextUtils.isEmpty(theLat) && !TextUtils.isEmpty(theLng) && !TextUtils.isEmpty(theStartDateTime)){
+            mProgress.show();
+
+            DatabaseReference submitEvent = mDatabase.push();
+
+            submitEvent.child("description").setValue(theDescription);
+            submitEvent.child("lat").setValue(theLat);
+            submitEvent.child("lng").setValue(theLng);
+            submitEvent.child("notified").setValue(theNotified);
+            submitEvent.child("startDateTime").setValue(theStartDateTime);
+            submitEvent.child("topic").setValue(theTopic);
+            submitEvent.child("title").setValue(theTitle);
+            submitEvent.child("voteCt").setValue(theVoteCt);
+
+            mProgress.dismiss();
+
+            //Made a toast because event would be posted too quick to display a progress dialog
+            Toast.makeText(this,"Event was submited!", Toast.LENGTH_LONG).show();
+
+            Intent postCreation = new Intent(EventCreateActivity.this, HomeLandingPage.class);
+            startActivity(postCreation);
+
+        }
+        else{
+            Toast.makeText(this, "Please fill out every field", Toast.LENGTH_LONG).show();
+        }
+    }
 
 }
