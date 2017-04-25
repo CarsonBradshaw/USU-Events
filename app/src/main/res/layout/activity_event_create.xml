@@ -115,7 +115,8 @@
         android:textColor="#fff"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:text="(Click the icon above to select the start date and time for your event. Once selected the date and time will appear on the button.)" />
+        android:text="..."
+        android:id="@+id/dateTimeText"/>
 
 
 
