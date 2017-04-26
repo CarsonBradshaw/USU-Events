@@ -1,5 +1,6 @@
 package redteam.usuevents;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +35,8 @@ import org.w3c.dom.Text;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.io.IOException;
@@ -40,6 +44,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import android.content.Intent;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -69,11 +76,21 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
     private boolean interestClicked;
     private boolean subscribeClicked;
     private boolean reportClicked;
+    public static List<String> topicList = Arrays.asList("mBasketball","mFootball","mTennis",
+            "mTrack","mGolf","mCrossCountry","wBasketball","wVolleyball","wTennis","wTrack",
+            "wCrossCountry","wSoccer","wSoftball","wGymnastics","parties","miscUsu","userSubmitted");
+    public ArrayList<Boolean> finalSubscriptionsBoolArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.sharedPreferencesFileName),MODE_PRIVATE);
+        final Set<String> result = sharedPreferences.getStringSet("notificationSubscriptions", null);
+        final Button reportButton = (Button) findViewById(R.id.reportButton_eventDetail);
+        final Button interestButton = (Button) findViewById(R.id.interestButton_eventDetail);
+        final Button subscribeButton = (Button) findViewById(R.id.subscribeButton_eventDetail);
+
 
         setUpUIViews();
 
@@ -85,6 +102,15 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
 
 
         eventDate.setText("Event Starts "+event.getStartDateMonthDayYearFormat()+" at "+event.getStartTime12Hr());
+        if(result.contains(event.getTopic())){
+            subscribeClicked=true;
+            subscribeButton.setTextColor(Color.parseColor("#10e817"));
+
+        }
+        else{
+            subscribeClicked=false;
+            subscribeButton.setTextColor(Color.parseColor("#ffffff"));
+        }
 
         lat = event.getLat();
         lng = event.getLng();
@@ -94,17 +120,14 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
         interestClicked=false;
-        subscribeClicked=false;
         reportClicked=false;
 
 
 
-        final Button interestButton = (Button) findViewById(R.id.interestButton_eventDetail);
         interestButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
-                Toast.makeText(getApplicationContext(),
-                        event.getTopic(), Toast.LENGTH_LONG).show();
+               
               if(!interestClicked) {
                   interestClicked=true;
                   interestButton.setTextColor(Color.parseColor("#4bf442"));
@@ -129,21 +152,13 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
               }
             }
         });
-        final Button subscribeButton = (Button) findViewById(R.id.subscribeButton_eventDetail);
         subscribeButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
-                if(!subscribeClicked) {
-                    subscribeClicked=true;
-                    subscribeButton.setTextColor(Color.parseColor("#4bf442"));
-                }
-                else{
-                    subscribeClicked=false;
-                    subscribeButton.setTextColor(Color.parseColor("#ffffff"));
-                }
+                Intent intent = new Intent(EventDetailActivity.this, FirstTimeSubscriptionsActivity.class);
+                startActivity(intent);
             }
         });
-        final Button reportButton = (Button) findViewById(R.id.reportButton_eventDetail);
         reportButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
