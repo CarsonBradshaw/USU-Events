@@ -56,6 +56,7 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
     private TextView eventName;
     private TextView eventDescription;
     private TextView eventDate;
+    private TextView eventTopic;
     private EventModel event;
     private String lat;
     private String lng;
@@ -74,6 +75,7 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
 
         Intent intent=getIntent();
         event=(EventModel)intent.getSerializableExtra("EventModel");
+        eventTopic.setText(MyFirebaseMessagingService.topicTranslationMap.get(event.getTopic()));
         eventName.setText(event.getTitle());
         eventDescription.setText(event.getDescription());
 
@@ -130,6 +132,7 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
         eventName=(TextView)findViewById(R.id.eventName);
         eventDescription=(TextView)findViewById(R.id.eventDescription);
         eventDate=(TextView)findViewById(R.id.eventDate);
+        eventTopic=(TextView)findViewById(R.id.eventTopic);
         eventDescription.setMovementMethod(new ScrollingMovementMethod());
     }
 

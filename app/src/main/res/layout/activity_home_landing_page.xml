@@ -72,15 +72,14 @@
             android:id="@+id/subscriptionAreaDescript"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:background="#949c9e"
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
-            android:text="Subscribed Events Coming Up This Week"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="14dp" />
+            android:text="Subscribed Events Coming Up This Week" />
 
     </RelativeLayout>
 

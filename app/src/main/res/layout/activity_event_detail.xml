@@ -124,4 +124,14 @@
         tools:context="com.example.mapwithmarker.MapsMarkerActivity"
         android:layout_below="@+id/addressField_eventDetail" />
 
+    <TextView
+        android:id="@+id/eventTopic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
