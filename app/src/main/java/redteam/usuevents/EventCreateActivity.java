@@ -350,7 +350,7 @@ public class EventCreateActivity extends AppCompatActivity implements
         final Boolean theNotified = notified;
         final String theVoteCt = voteCt;
 
-        if(!TextUtils.isEmpty(theTitle) && !TextUtils.isEmpty(theDescription) && !TextUtils.isEmpty(theTopic) && !TextUtils.isEmpty(theLat) && !TextUtils.isEmpty(theLng) && !TextUtils.isEmpty(theStartDateTime)){
+        if(!TextUtils.isEmpty(theTitle) && !TextUtils.isEmpty(theDescription) && !TextUtils.isEmpty(theTopic) && !TextUtils.isEmpty(theLat) && !TextUtils.isEmpty(theLng) && theStartDateTime.compareTo("...")!=0){
             mProgress.show();
 
             DatabaseReference submitEvent = mDatabase.push();
