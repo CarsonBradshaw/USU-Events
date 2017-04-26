@@ -14,6 +14,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,7 @@ public class EventCreateActivity extends AppCompatActivity implements
         eventTitle = (EditText) findViewById(R.id.title);
         eventDescription = (EditText) findViewById(R.id.description);
         notified = false;
-        voteCt = "1";
+        voteCt = "0";
 
         topic = (Button) findViewById(R.id.topic);
         topicSelected = (TextView) findViewById(R.id.topicSelected);
@@ -293,7 +294,7 @@ public class EventCreateActivity extends AppCompatActivity implements
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         yearFinal = year;
-        monthFinal = month;
+        monthFinal = month + 1;
         dayFinal = dayOfMonth;
 
         Calendar c = Calendar.getInstance();
@@ -310,9 +311,28 @@ public class EventCreateActivity extends AppCompatActivity implements
         hourFinal = hourOfDay;
         minuteFinal = minute;
 
+        String monthFiller, dayFiller, hourFiller, minuteFiller;
+
+        monthFiller = "";
+        dayFiller = "";
+        hourFiller = "";
+        minuteFiller = "";
+
+        if(monthFinal<10){
+            monthFiller = "0";
+        }
+        if(dayFinal<10){
+            dayFiller = "0";
+        }
+        if(hourFinal<10){
+            hourFiller = "0";
+        }
+        if(minuteFinal<10){
+            minuteFiller = "0";
+        }
         //Needed to set the formating to match that of the database
-        dateTimeText.setText(yearFinal + "-" + monthFinal + "-" + dayFinal
-                + " " + hourFinal + ":" + minuteFinal + ":00");
+        dateTimeText.setText(yearFinal + "-" + monthFiller + monthFinal + "-" + dayFiller + dayFinal
+                + " " + hourFiller + hourFinal + ":" + minuteFiller + minuteFinal + ":00");
 
     }
 
@@ -325,7 +345,8 @@ public class EventCreateActivity extends AppCompatActivity implements
         final String theTopic = "userSubmitted";
         final String theLat = lat;
         final String theLng = lng;
-        final String theStartDateTime = date_time.getText().toString().trim();
+        final String theStartDateTime = dateTimeText.getText().toString().trim();
+        Log.d("thestartDateTimeis", theStartDateTime);
         final Boolean theNotified = notified;
         final String theVoteCt = voteCt;
 
