@@ -2,6 +2,7 @@ package redteam.usuevents;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -65,6 +66,9 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
     private int voteCtI;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private boolean interestClicked;
+    private boolean subscribeClicked;
+    private boolean reportClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,9 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
         voteCtI=Integer.parseInt(voteCtS);
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference();
-
+        interestClicked=false;
+        subscribeClicked=false;
+        reportClicked=false;
 
 
 
@@ -97,28 +103,58 @@ public class EventDetailActivity extends AppCompatActivity implements OnMapReady
         interestButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
-              /*  Toast.makeText(getApplicationContext(),
-                        event.getEvent_id(), Toast.LENGTH_LONG).show();*/
+                Toast.makeText(getApplicationContext(),
+                        event.getTopic(), Toast.LENGTH_LONG).show();
+              if(!interestClicked) {
+                  interestClicked=true;
+                  interestButton.setTextColor(Color.parseColor("#4bf442"));
 
-                try {
+                  try {
 
-                    myRef.child("events").child(event.getEvent_id()).child("voteCt").setValue(Integer.toString(voteCtI+1));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                      myRef.child("events").child(event.getEvent_id()).child("voteCt").setValue(Integer.toString(voteCtI + 1));
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+              else{
+                  interestClicked=false;
+                  interestButton.setTextColor(Color.parseColor("#ffffff"));
+                  try {
+
+                      myRef.child("events").child(event.getEvent_id()).child("voteCt").setValue(Integer.toString(voteCtI -1));
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+
+              }
             }
         });
         final Button subscribeButton = (Button) findViewById(R.id.subscribeButton_eventDetail);
         subscribeButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
-
+                if(!subscribeClicked) {
+                    subscribeClicked=true;
+                    subscribeButton.setTextColor(Color.parseColor("#4bf442"));
+                }
+                else{
+                    subscribeClicked=false;
+                    subscribeButton.setTextColor(Color.parseColor("#ffffff"));
+                }
             }
         });
         final Button reportButton = (Button) findViewById(R.id.reportButton_eventDetail);
         reportButton.setOnClickListener(new View.OnClickListener()
         {
             public void onClick (View v){
+                if(!reportClicked) {
+                    reportClicked=true;
+                    reportButton.setTextColor(Color.parseColor("#e82510"));
+                }
+                else{
+                    reportClicked=false;
+                    reportButton.setTextColor(Color.parseColor("#ffffff"));
+                }
 
             }
         });
