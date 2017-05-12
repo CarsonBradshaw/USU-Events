@@ -8,9 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+
 import android.widget.Button;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -23,10 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 
-import com.google.android.gms.vision.text.Text;
+
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,17 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,11 +47,6 @@ public class HomeLandingPage extends AppCompatActivity {
     private ListView subFeed;
     public List<EventModel> eventModelList = new ArrayList<>();
     public final int MILSINWEEK = 604800000;
-
-    //View Flipper
-    ViewFlipper viewFlipper;
-    Animation fadeIn, fadeOut;
-    //View Flipper
 
 
 
@@ -85,17 +67,6 @@ public class HomeLandingPage extends AppCompatActivity {
 
             subFeed = (ListView) findViewById(R.id.subFeed);
 
-
-            //View Flipper
-            viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-            fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-            fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-            viewFlipper.setAutoStart(true);
-            //viewFlipper.setAnimation(fadeIn);
-            //viewFlipper.setAnimation(fadeOut);
-            viewFlipper.setFlipInterval(5000);
-            viewFlipper.startFlipping();
-            //View Flipper
 
 
             final Button viewEventsButton = (Button) findViewById(R.id.viewEventHome);
