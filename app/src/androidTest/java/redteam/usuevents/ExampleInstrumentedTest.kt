@@ -1,4 +1,4 @@
-package io.github.carsonbradshaw.usu_events
+package redteam.usuevents
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">USU Events</string>
+    <string name="facebook_app_id">263804877394777</string>
+    <string name="fb_login_protocol_scheme">fb263804877394777</string>
+
+    <!--Delete if we don't go with alt login screen-->
+    <string name="transition_logo_onboarding_to_login_and_register">transition_logo</string>
+    <string name="onboarding_cta_register">Create an account</string>
+    <string name="login">Login</string>
+    <string name="onboarding_title">Get notified with USU Events!</string>
+
+
 </resources>

@@ -1,4 +1,4 @@
-package io.github.carsonbradshaw.usu_events
+package redteam.usuevents
 
 import org.junit.Test
 
