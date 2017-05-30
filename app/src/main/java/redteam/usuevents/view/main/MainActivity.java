@@ -2,10 +2,14 @@ package redteam.usuevents.view.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import redteam.usuevents.R;
 import redteam.usuevents.view.launchscreen.LaunchScreenActivity;
@@ -24,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(LoginActivity.newIntent(MainActivity.this));
             finish();
         }
-
 
     }
 

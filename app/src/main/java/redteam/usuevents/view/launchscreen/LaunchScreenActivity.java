@@ -1,5 +1,7 @@
 package redteam.usuevents.view.launchscreen;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,12 +12,11 @@ import redteam.usuevents.view.main.MainActivity;
 
 public class LaunchScreenActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //only used without firebase model
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             // already signed in
@@ -26,6 +27,15 @@ public class LaunchScreenActivity extends AppCompatActivity {
             startActivity(LoginActivity.newIntent(LaunchScreenActivity.this));
             finish();
         }
+    }
 
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, LaunchScreenActivity.class);
+        return intent;
+    }
+
+    //TODO - delete with viewModel changes
+    public void finishActivity(){
+        finish();
     }
 }
