@@ -60,16 +60,12 @@ import redteam.usuevents.viewmodel.login.LoginViewModel;
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
 
-    //should only need to keep these
-    private ActivityLoginBinding mBinding;
-    private LoginViewModel mLoginViewModel;
-
-
     private static final String TAG = "GoogleActivity";
     private static final int RC_GOOGLE_SIGN_IN = 1;
 
     private SignInButton mGoogleSignInButton;
     private LoginButton mFacebookSignInButton;
+    private ProgressBar mProgressBar;
     private FirebaseAuth mAuth;
 
     private GoogleApiClient mGoogleApiClient;
@@ -89,10 +85,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //required to be called before calling setContentView (damn facebook...)
         FacebookSdk.setApplicationId(getString(R.string.facebook_app_id));
         FacebookSdk.sdkInitialize(getApplicationContext());
-        mLoginViewModel = new LoginViewModel();
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        mBinding.setViewModel(mLoginViewModel);
-
+        setContentView(R.layout.activity_login);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -111,6 +104,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //View "binding"
         mGoogleSignInButton = (SignInButton) findViewById(R.id.google_sign_in_button);
         mFacebookSignInButton = (LoginButton) findViewById(R.id.facebook_sign_in_button);
+        mProgressBar = (ProgressBar)findViewById(R.id.login_progress_bar);
 
         //will need to bind the view to the signIn() method once converted over to databinding
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -120,9 +114,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-
         //signs user out of Facebook - do this in onCreate to ensure that user doesn't get currently signed in dialog?
-        //LoginManager.getInstance().logOut();
+        //may also want to consider doing the same for Google
+        LoginManager.getInstance().logOut();
 
         //find a way to bind this to viewModel
         mFacebookSignInButton.setReadPermissions("email");
@@ -145,9 +139,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 // App code
             }
         });
-
-        //will need to inject viewModel with switch to Dagger2
-        mLoginViewModel = new LoginViewModel();
 
     }
 
@@ -183,11 +174,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        //showProgressDialog();
-        // [END_EXCLUDE]
-        final ProgressBar progressDialog = (ProgressBar)findViewById(R.id.progress_bar);
-        progressDialog.setVisibility(View.VISIBLE);
+
+        mProgressBar.setVisibility(View.VISIBLE);
         mFacebookSignInButton.setVisibility(View.INVISIBLE);
         mGoogleSignInButton.setVisibility(View.INVISIBLE);
 
@@ -213,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         // [START_EXCLUDE]
                         //hideProgressDialog();
                         // [END_EXCLUDE]
-                        progressDialog.setVisibility(View.GONE);
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
     }
@@ -228,6 +216,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mFacebookSignInButton.setVisibility(View.INVISIBLE);
+        mGoogleSignInButton.setVisibility(View.INVISIBLE);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -239,6 +230,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.d(TAG, "signInWithCredential:success");
                             startActivity(MainActivity.newIntent(LoginActivity.this));
                             FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(MainActivity.newIntent(LoginActivity.this));
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -247,7 +239,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
-
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
     }

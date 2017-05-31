@@ -34,7 +34,7 @@ public class FirebaseAuthHelper {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public void signInWithCredential(AuthCredential credential, OnCompleteListener<AuthResult> completeListener) {
+    public static void signInWithCredential(AuthCredential credential, OnCompleteListener<AuthResult> completeListener) {
         mAuth.signInWithCredential(credential).addOnCompleteListener(completeListener);
     }
 }
