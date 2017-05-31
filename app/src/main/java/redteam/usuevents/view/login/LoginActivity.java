@@ -190,18 +190,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                             startActivity(MainActivity.newIntent(LoginActivity.this));
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Goole Authentication failed. Check network connection and try again.",
                                     Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mFacebookSignInButton.setVisibility(View.VISIBLE);
+                            mGoogleSignInButton.setVisibility(View.VISIBLE);
                             //updateUI(null);
                         }
-
-                        // [START_EXCLUDE]
-                        //hideProgressDialog();
-                        // [END_EXCLUDE]
-                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
     }
@@ -212,6 +211,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // be available.
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mFacebookSignInButton.setVisibility(View.VISIBLE);
+        mGoogleSignInButton.setVisibility(View.VISIBLE);
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -231,6 +233,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             startActivity(MainActivity.newIntent(LoginActivity.this));
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(MainActivity.newIntent(LoginActivity.this));
+                            finish();
 //                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -238,8 +241,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Toast.makeText(LoginActivity.this, "Facebook Authentication failed. Check network connection and try again.",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mFacebookSignInButton.setVisibility(View.VISIBLE);
+                            mGoogleSignInButton.setVisibility(View.VISIBLE);
                         }
-                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
     }
