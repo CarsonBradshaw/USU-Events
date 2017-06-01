@@ -3,10 +3,15 @@
     <string name="facebook_app_id">263804877394777</string>
     <string name="fb_login_protocol_scheme">fb263804877394777</string>
 
-    <!--Delete if we don't go with alt login screen-->
+    <!--Delete if we don't go with alt login screen (fragment_onboarding)-->
     <string name="transition_logo_onboarding_to_login_and_register">transition_logo</string>
     <string name="onboarding_cta_register">Create an account</string>
     <string name="login">Login</string>
     <string name="onboarding_title">Get notified with USU Events!</string>
+
+    <!--Bottom Navigation-->
+    <string name="bottom_menu_home">Home</string>
+    <string name="bottom_menu_trending">Trending</string>
+    <string name="bottom_menu_map">Map</string>
 
 </resources>
