@@ -3,25 +3,30 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentSilver</item>
     </style>
 
     <!-- Launch Screen theme -->
     <style name="AppTheme.LaunchScreen" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@drawable/layer_launch_screen</item>
     </style>
 
     <!--Login Theme with USU Background-->
     <style name="AppTheme.LoginUSUBackground" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@drawable/login_background_oldmain_vert</item>
     </style>
 
     <!--Login Theme-->
     <style name="AppTheme.Login" parent="AppTheme">
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/colorPrimaryBlue</item>
+    </style>
+
+    <!--Main Screen Theme-->
+    <style name="AppTheme.Main" parent="AppTheme">
     </style>
 
 
