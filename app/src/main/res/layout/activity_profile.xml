@@ -15,6 +15,14 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:logo="@drawable/ic_close_x"
+        app:titleMarginStart="36dp"
         app:title="@string/profile_toolbar_title"
         app:titleTextColor="@android:color/white"/>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/profile_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/profile_header"/>
 </LinearLayout>
