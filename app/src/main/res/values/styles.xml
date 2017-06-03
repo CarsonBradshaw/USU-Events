@@ -10,7 +10,6 @@
 
     <!-- Launch Screen theme -->
     <style name="AppTheme.LaunchScreen" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@drawable/layer_launch_screen</item>
     </style>
 
@@ -20,7 +19,7 @@
         <item name="android:windowBackground">@drawable/login_background_oldmain_vert</item>
     </style>
 
-    <!--Login Theme-->
+    <!--Login Theme with Solid Blue Background-->
     <style name="AppTheme.Login" parent="AppTheme">
         <item name="android:windowBackground">@color/colorPrimaryBlue</item>
     </style>
@@ -29,6 +28,9 @@
     <style name="AppTheme.Main" parent="AppTheme">
     </style>
 
+    <!--Profile View Theme-->
+    <style name="AppTheme.Profile" parent="AppTheme">
+    </style>
 
 
 

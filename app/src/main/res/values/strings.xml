@@ -13,5 +13,6 @@
     <string name="bottom_menu_home">Home</string>
     <string name="bottom_menu_trending">Trending</string>
     <string name="bottom_menu_map">Map</string>
+    <string name="profile_toolbar_title">Account</string>
 
 </resources>

@@ -8,5 +8,5 @@
           android:icon="@drawable/ic_nav_trending" />
     <item android:id="@+id/action_navigation"
           android:title="@string/bottom_menu_map"
-          android:icon="@drawable/ic_nav_map" />
+          android:icon="@drawable/ic_nav_map"/>
 </menu>
