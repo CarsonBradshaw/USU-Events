@@ -24,5 +24,6 @@
         android:id="@+id/profile_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:headerLayout="@layout/profile_header"/>
+        app:headerLayout="@layout/profile_header"
+        app:menu="@menu/profile_navigation_menu_items"/>
 </LinearLayout>
