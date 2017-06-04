@@ -3,32 +3,35 @@
 
     <item android:title="Account">
         <menu>
-            <item
-                android:id="@+id/profile_notifications"
-                android:icon="@drawable/ic_profile_notifications"
-                android:title="Manage Notifications" />
-            <item
-                android:id="@+id/profile_sign_out"
-                android:icon="@drawable/ic_profile_sign_out"
-                android:title="Sign Out" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/profile_notifications"
+                    android:icon="@drawable/ic_profile_notifications"
+                    android:title="Manage Notifications" />
+                <item
+                    android:id="@+id/profile_sign_out"
+                    android:icon="@drawable/ic_profile_sign_out"
+                    android:title="Sign Out" />
+            </group>
         </menu>
     </item>
 
     <item android:title="Social">
         <menu>
-            <item
-                android:id="@+id/profile_share"
-                android:icon="@drawable/ic_profile_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/profile_rate"
-                android:icon="@drawable/ic_profile_rate"
-                android:title="Review on Google Play" />
-            <item
-                android:id="@+id/profile_contact"
-                android:icon="@drawable/ic_profile_contact"
-                android:title="Contact Us" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/profile_share"
+                    android:icon="@drawable/ic_profile_share"
+                    android:title="Share" />
+                <item
+                    android:id="@+id/profile_rate"
+                    android:icon="@drawable/ic_profile_rate"
+                    android:title="Review on Google Play" />
+                <item
+                    android:id="@+id/profile_contact"
+                    android:icon="@drawable/ic_profile_contact"
+                    android:title="Contact Us" />
+            </group>
         </menu>
     </item>
-
 </menu>

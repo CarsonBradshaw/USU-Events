@@ -32,6 +32,13 @@
     <style name="AppTheme.Profile" parent="AppTheme">
     </style>
 
+    <!--Profile Sign Out Dialog Theme-->
+    <style name="ProfileDialogTheme" parent="Base.Theme.AppCompat.Dialog">
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentCopper</item>
+        <item name="android:background">@color/colorPrimaryDarkBlue</item>
+    </style>
 
 
     <!--Buttons-->

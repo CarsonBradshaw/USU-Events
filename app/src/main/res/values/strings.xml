@@ -3,6 +3,9 @@
     <string name="facebook_app_id">263804877394777</string>
     <string name="fb_login_protocol_scheme">fb263804877394777</string>
 
+    <!--Share String, needs package name appended to the end; leaving off for now in case it changes.-->
+    <string name="share_text">Check out USU Events at https://play.google.com/store/apps/details?id=</string>
+
     <!--Delete if we don't go with alt login screen (fragment_onboarding)-->
     <string name="transition_logo_onboarding_to_login_and_register">transition_logo</string>
     <string name="onboarding_cta_register">Create an account</string>
@@ -14,5 +17,6 @@
     <string name="bottom_menu_trending">Trending</string>
     <string name="bottom_menu_map">Map</string>
     <string name="profile_toolbar_title">Account</string>
+    <string name="support_email">carsonabradshaw@aggiemail.usu.edu</string>
 
 </resources>
