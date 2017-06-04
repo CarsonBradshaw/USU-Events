@@ -6,7 +6,7 @@
             <item
                 android:id="@+id/profile_notifications"
                 android:icon="@drawable/ic_profile_notifications"
-                android:title="Notifications" />
+                android:title="Manage Notifications" />
             <item
                 android:id="@+id/profile_sign_out"
                 android:icon="@drawable/ic_profile_sign_out"
