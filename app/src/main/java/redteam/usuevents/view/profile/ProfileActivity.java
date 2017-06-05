@@ -1,5 +1,6 @@
 package redteam.usuevents.view.profile;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,8 @@ import redteam.usuevents.view.login.LoginActivity;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    @Override
+    private AlertDialog.Builder mProgressAlertDialogBuilder;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -45,8 +48,24 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        //bind these to viewmodel as well
+        mProgressAlertDialogBuilder = new AlertDialog.Builder(this, R.style.ProfileDialogTheme);
+        mProgressAlertDialogBuilder.setView(R.layout.profile_progress_bar_dialog);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.profile_navigation_view);
+        //      //Loop to remove scrollOver effect
+//        for (int i = 0; i < navigationView.getChildCount(); i++) {
+//            navigationView.getChildAt(i).setOverScrollMode(View.OVER_SCROLL_NEVER);
+//        }
+
+        //header code for navigationView
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView) header.findViewById(R.id.profile_header_name);
+        //profile image code - look at migrating most to viewmodel and create helper for loading images
+        final CircleImageView profileImage = (CircleImageView) header.findViewById(R.id.profile_header_image);
+        Glide.with(this).load(user.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(profileImage);
+        name.setText(user.getDisplayName());
+
+        //bind these to viewmodel as well
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
@@ -84,6 +103,7 @@ public class ProfileActivity extends AppCompatActivity {
                         confirmSignOutDialog.show();
                         break;
                     case R.id.profile_share:
+                        mProgressAlertDialogBuilder.show();
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
                         String shareText = getString(R.string.share_text) + getPackageName().toString();
@@ -92,6 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.profile_rate:
+                        mProgressAlertDialogBuilder.show();
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());
                         Intent playStoreIntent = new Intent(Intent.ACTION_VIEW, uri);
                         try {
@@ -102,6 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.profile_contact:
+                        mProgressAlertDialogBuilder.show();
                         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
                         emailIntent.setData(Uri.parse("mailto:" + getString(R.string.support_email)));
                         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
@@ -116,20 +138,6 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             }
         });
-//      //Loop to remove scrollOver effect
-//        for (int i = 0; i < navigationView.getChildCount(); i++) {
-//            navigationView.getChildAt(i).setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        }
-
-        //header code for navigationView
-        View header = navigationView.getHeaderView(0);
-        TextView name = (TextView) header.findViewById(R.id.profile_header_name);
-        //profile image code - look at migrating most to viewmodel and create helper for loading images
-        final CircleImageView profileImage = (CircleImageView) header.findViewById(R.id.profile_header_image);
-        Glide.with(this).load(user.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(profileImage);
-        name.setText(user.getDisplayName());
-
-
 
     }
 
