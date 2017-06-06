@@ -1,4 +1,8 @@
 <resources>
+    <!--Bottom Navigation View Text Size-->
+    <!--if we want to override style of default BottomNavigationView, need to set tools:overide="true"-->
+    <!--<dimen name="design_bottom_navigation_active_text_size">12sp</dimen>-->
+
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="text_size_small">12sp</dimen>
