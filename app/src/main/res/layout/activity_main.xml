@@ -25,6 +25,7 @@
             android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="1"
@@ -73,13 +74,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintLeft_toRightOf="@+id/textView"
-                    app:layout_constraintRight_toLeftOf="@+id/profile_image_button"
+                    app:layout_constraintRight_toLeftOf="@+id/toolbar_profile_image"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
                     app:srcCompat="@drawable/ic_nav_map_fill"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image_button"
+                    android:id="@+id/toolbar_profile_image"
                     android:layout_width="54dp"
                     android:layout_height="0dp"
                     android:layout_marginRight="0dp"
