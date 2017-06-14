@@ -10,10 +10,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,18 +27,49 @@ import redteam.usuevents.view.login.LoginActivity;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
+    private ImageView mCloseButton;
+
+    private View mProfileHeaderView;
+    private CircleImageView mProfileImage;
+    private TextView mProfileNameTextView;
+
+    private NavigationView mNavigationView;
+    
     private AlertDialog.Builder mProgressAlertDialogBuilder;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        //look at way to bind and move method to viewmodel
-        ImageView closeButton = (ImageView)findViewById(R.id.profile_toolbar_close);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        mProgressAlertDialogBuilder = new AlertDialog.Builder(this, R.style.ProfileDialogTheme);
+        mProgressAlertDialogBuilder.setView(R.layout.profile_progress_bar_dialog);
+
+        bindViews();
+        setClickListeners();
+        loadProfileImage();
+        setUserNameText();
+    }
+
+    //need to migrate once switch to MVVM is complete
+    private void bindViews() {
+        mCloseButton = (ImageView)findViewById(R.id.profile_toolbar_close);
+        mNavigationView = (NavigationView) findViewById(R.id.profile_navigation_view);
+        mProfileHeaderView = mNavigationView.getHeaderView(0);
+        mProfileNameTextView = (TextView) mProfileHeaderView.findViewById(R.id.profile_header_name);
+        mProfileImage = (CircleImageView) mProfileHeaderView.findViewById(R.id.profile_header_image);
+
+    }
+
+    private void setClickListeners() {
+
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //logo clicked
@@ -48,25 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        mProgressAlertDialogBuilder = new AlertDialog.Builder(this, R.style.ProfileDialogTheme);
-        mProgressAlertDialogBuilder.setView(R.layout.profile_progress_bar_dialog);
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.profile_navigation_view);
-        //      //Loop to remove scrollOver effect
-//        for (int i = 0; i < navigationView.getChildCount(); i++) {
-//            navigationView.getChildAt(i).setOverScrollMode(View.OVER_SCROLL_NEVER);
-//        }
-
-        //header code for navigationView
-        View header = navigationView.getHeaderView(0);
-        TextView name = (TextView) header.findViewById(R.id.profile_header_name);
-        //profile image code - look at migrating most to viewmodel and create helper for loading images
-        final CircleImageView profileImage = (CircleImageView) header.findViewById(R.id.profile_header_image);
-        Glide.with(this).load(user.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(profileImage);
-        name.setText(user.getDisplayName());
-
-        //bind these to viewmodel as well
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
 
@@ -139,6 +150,22 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void loadProfileImage() {
+        Glide.with(this).load(mFirebaseUser.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
+    }
+
+    private void setUserNameText() {
+        mProfileNameTextView.setText(mFirebaseUser.getDisplayName());
+    }
+
+    //method to remove OverScroll effect in menu on swipe past up and down
+    private void removeMenuOverScrollEffect(){
+        for (int i = 0; i < mNavigationView.getChildCount(); i++) {
+            mNavigationView.getChildAt(i).setOverScrollMode(View.OVER_SCROLL_NEVER);
+        }
     }
 
     @Override
