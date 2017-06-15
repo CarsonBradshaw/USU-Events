@@ -8,4 +8,13 @@ import android.support.v4.app.Fragment;
 
 public class MainHomeFragment extends Fragment {
 
+    private static final MainHomeFragment sInstance = new MainHomeFragment();
+
+    public static MainHomeFragment getInstance() {
+        return sInstance;
+    }
+
+    private MainHomeFragment() {
+    }
+
 }
