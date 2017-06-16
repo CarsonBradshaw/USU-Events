@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import redteam.usuevents.R;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private CircleImageView mProfileImage;
     private BottomNavigationView mBottomNavigationView;
 
+    private List<Fragment> mFragmentList = new ArrayList<>(3);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         bindViews();
         setClickListeners();
         loadProfileImage();
+        buildFragmentList();
 
+        switchFragment(0);
     }
 
     private void verifySignedInStatus(){
@@ -97,13 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.bottom_nav_home:
-
+                        switchFragment(0);
                         break;
                     case R.id.bottom_nav_trending:
-
+                        switchFragment(1);
                         break;
                     case R.id.bottom_nav_subscriptions:
-
+                        switchFragment(2);
                         break;
                 }
 
@@ -115,6 +123,23 @@ public class MainActivity extends AppCompatActivity {
     private void loadProfileImage(){
         //profile image code - look at migrating most to viewmodel and create helper for loading images
         Glide.with(this).load(mFirebaseUser.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
+    }
+
+    private void buildFragmentList() {
+        MainHomeFragment mainHomeFragment = MainHomeFragment.getInstance();
+        MainTrendingFragment mainTrendingFragment = MainTrendingFragment.getInstance();
+        MainSubscriptionsFragment mainSubscriptionsFragment = MainSubscriptionsFragment.getInstance();
+
+        mFragmentList.add(mainHomeFragment);
+        mFragmentList.add(mainTrendingFragment);
+        mFragmentList.add(mainSubscriptionsFragment);
+    }
+
+    private void switchFragment(int pos) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, mFragmentList.get(pos))
+                .commit();
     }
 
     public static Intent newIntent(Context context) {

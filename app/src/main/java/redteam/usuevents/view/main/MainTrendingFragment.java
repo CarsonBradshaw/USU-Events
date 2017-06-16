@@ -1,6 +1,8 @@
 package redteam.usuevents.view.main;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 /**
  * Created by Admin on 6/14/2017.
@@ -14,6 +16,7 @@ public class MainTrendingFragment extends Fragment {
         return sInstance;
     }
 
-    private MainTrendingFragment() {
+    public MainTrendingFragment() {
     }
+
 }

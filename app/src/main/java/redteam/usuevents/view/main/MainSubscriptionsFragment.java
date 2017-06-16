@@ -14,7 +14,7 @@ public class MainSubscriptionsFragment extends Fragment {
         return sInstance;
     }
 
-    private MainSubscriptionsFragment() {
+    public MainSubscriptionsFragment() {
     }
 
 }
