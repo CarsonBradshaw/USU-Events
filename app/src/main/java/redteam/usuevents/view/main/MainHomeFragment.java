@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import redteam.usuevents.R;
 
@@ -15,19 +16,19 @@ import redteam.usuevents.R;
 
 public class MainHomeFragment extends Fragment {
 
-    private static final MainHomeFragment sInstance = new MainHomeFragment();
+    private static View sView;
 
     public static MainHomeFragment getInstance() {
-        return sInstance;
+        return new MainHomeFragment();
     }
-
-    public MainHomeFragment() {
-    }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main_home, container, false);
+        if(sView==null){
+            sView = inflater.inflate(R.layout.fragment_main_home, container, false);
+        }
+        return sView;
     }
+
 }
