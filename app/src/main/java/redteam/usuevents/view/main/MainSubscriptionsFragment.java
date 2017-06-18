@@ -3,6 +3,7 @@ package redteam.usuevents.view.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ public class MainSubscriptionsFragment extends Fragment {
 
     private static View sView;
 
+    private RecyclerView mRecyclerView;
+
+
     public static MainSubscriptionsFragment getInstance() {
         return new MainSubscriptionsFragment();
     }
@@ -27,7 +31,14 @@ public class MainSubscriptionsFragment extends Fragment {
         if(sView==null){
             sView = inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
         }
+
+        bindViews(container);
+
         return sView;
+    }
+
+    private void bindViews(ViewGroup container){
+        mRecyclerView = (RecyclerView)container.findViewById(R.id.fragment_main_home_recycler_view);
     }
 
 }
