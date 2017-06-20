@@ -7,6 +7,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mFilterButton;
     private ImageView mMapButton;
     private CircleImageView mProfileImage;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private BottomNavigationView mBottomNavigationView;
 
     private List<Fragment> mFragmentList = new ArrayList<>(3);
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         verifySignedInStatus();
         bindViews();
-        setClickListeners();
+        setEventListeners();
         loadProfileImage();
         buildFragmentList();
 
@@ -70,10 +72,11 @@ public class MainActivity extends AppCompatActivity {
         mFilterButton = (ImageView)findViewById(R.id.toolbar_filter);
         mMapButton = (ImageView)findViewById(R.id.toolbar_map);
         mProfileImage = (CircleImageView)findViewById(R.id.toolbar_profile_image);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.main_swipe_refresh);
         mBottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation_view);
     }
 
-    private void setClickListeners(){
+    private void setEventListeners(){
 
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                
+            }
+        });
+
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -118,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
     }
 
     private void loadProfileImage(){

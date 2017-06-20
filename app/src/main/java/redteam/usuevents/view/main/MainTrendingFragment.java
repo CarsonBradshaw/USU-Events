@@ -33,7 +33,7 @@ public class MainTrendingFragment extends Fragment {
         }
 
         bindViews(container);
-        
+
         return sView;
     }
 
