@@ -105,13 +105,18 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                
+
             }
         });
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                //if an item is already checked, don't reload the fragment
+                if(item.isChecked()){
+                    return true;
+                }
 
                 switch (item.getItemId()){
                     case R.id.bottom_nav_home:
