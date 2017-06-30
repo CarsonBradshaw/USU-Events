@@ -32,13 +32,13 @@ public class MainSubscriptionsFragment extends Fragment {
             sView = inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
         }
 
-        bindViews(container);
+        bindViews();
 
         return sView;
     }
 
-    private void bindViews(ViewGroup container){
-        mRecyclerView = (RecyclerView)container.findViewById(R.id.fragment_main_home_recycler_view);
+    private void bindViews(){
+        mRecyclerView = (RecyclerView)sView.findViewById(R.id.fragment_main_home_recycler_view);
     }
 
 }

@@ -3,6 +3,7 @@ package redteam.usuevents.view.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import redteam.usuevents.R;
+import redteam.usuevents.adapter.EventsAdapter;
 import redteam.usuevents.model.Event;
 
 /**
@@ -24,7 +27,6 @@ public class MainHomeFragment extends Fragment {
     private static View sView;
 
     private RecyclerView mRecyclerView;
-    private EventAdapter mAdapter;
 
 
     public static MainHomeFragment getInstance() {
@@ -38,56 +40,29 @@ public class MainHomeFragment extends Fragment {
             sView = inflater.inflate(R.layout.fragment_main_home, container, false);
         }
 
-        bindViews(container);
+        bindViews();
+
+        //RecyclerView test code, remove once finalized
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        List<Event> eventList = new ArrayList<Event>();
+        for(int i = 0; i<10; i++){
+            Event event = new Event();
+            event.setBeginDateTime("Starts at " + i);
+            event.setTitle("Event title is " + i);
+            event.setLocation("Event Is Happening @ " + i);
+            event.setNumberInterested(i);
+            eventList.add(event);
+        }
+        EventsAdapter eventAdapter = new EventsAdapter(eventList);
+        mRecyclerView.setAdapter(eventAdapter);
+        //Remove all above between comments when done figuring out configuration
+
 
         return sView;
     }
 
-    private void bindViews(ViewGroup container){
-        mRecyclerView = (RecyclerView)container.findViewById(R.id.fragment_main_home_recycler_view);
-    }
-
-
-
-
-
-
-    private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public void bind(Event event) {
-
-        }
-
-        public EventHolder(LayoutInflater inflater, ViewGroup parent, int layoutResourceId) {
-            super(inflater.inflate(layoutResourceId, parent, false));
-
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
-
-
-
-
-    private class EventAdapter extends RecyclerView.Adapter<EventHolder> {
-
-        @Override
-        public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(EventHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
+    private void bindViews(){
+        mRecyclerView = (RecyclerView)sView.findViewById(R.id.fragment_main_home_recycler_view);
     }
 
 }
