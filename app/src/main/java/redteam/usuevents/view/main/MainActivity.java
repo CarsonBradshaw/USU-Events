@@ -11,6 +11,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +32,8 @@ import redteam.usuevents.view.profile.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String ROTATION_STATE_KEY = "curBottomNavId";
+
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
@@ -41,20 +45,28 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mBottomNavigationView;
 
     private List<Fragment> mFragmentList = new ArrayList<>(3);
-
+    private int mCurrentBottomNavItemId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(savedInstanceState!=null){
+            mCurrentBottomNavItemId = savedInstanceState.getInt(ROTATION_STATE_KEY);
+        }
 
         verifySignedInStatus();
         bindViews();
         setEventListeners();
         loadProfileImage();
         buildFragmentList();
+        switchToCurrentFragment();
+    }
 
-        switchFragment(0);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ROTATION_STATE_KEY, mCurrentBottomNavItemId);
     }
 
     private void verifySignedInStatus(){
@@ -105,7 +117,13 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                mSwipeRefreshLayout.setRefreshing(true);
+                mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
             }
         });
 
@@ -113,32 +131,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                //if an item is already checked, don't reload the fragment
-                if(item.isChecked()){
-                    return true;
-                }
-
-                switch (item.getItemId()){
-                    case R.id.bottom_nav_home:
-                        switchFragment(0);
-                        break;
-                    case R.id.bottom_nav_trending:
-                        switchFragment(1);
-                        break;
-                    case R.id.bottom_nav_subscriptions:
-                        switchFragment(2);
-                        break;
-                }
+                mCurrentBottomNavItemId = item.getItemId();
+                switchFragmentFromItemId(mCurrentBottomNavItemId);
 
                 return true;
             }
         });
 
-
     }
 
     private void loadProfileImage(){
-        //profile image code - look at migrating most to viewmodel and create helper for loading images
         Glide.with(this).load(mFirebaseUser.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
     }
 
@@ -157,6 +159,26 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragment_container, mFragmentList.get(pos))
                 .commit();
+    }
+
+    private void switchFragmentFromItemId(int id){
+        switch (id){
+            case R.id.bottom_nav_home:
+                switchFragment(0);
+                break;
+            case R.id.bottom_nav_trending:
+                switchFragment(1);
+                break;
+            case R.id.bottom_nav_subscriptions:
+                switchFragment(2);
+                break;
+        }
+    }
+
+    private void switchToCurrentFragment(){
+        if(mCurrentBottomNavItemId < 0) mCurrentBottomNavItemId = R.id.bottom_nav_home;
+        View view = mBottomNavigationView.findViewById(mCurrentBottomNavItemId);
+        view.performClick();
     }
 
     public static Intent newIntent(Context context) {
