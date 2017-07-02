@@ -38,7 +38,7 @@ public class MainSubscriptionsFragment extends Fragment {
     }
 
     private void bindViews(){
-        mRecyclerView = (RecyclerView)sView.findViewById(R.id.fragment_main_home_recycler_view);
+        mRecyclerView = (RecyclerView)sView.findViewById(R.id.fragment_main_subscriptions_recycler_view);
     }
 
 }

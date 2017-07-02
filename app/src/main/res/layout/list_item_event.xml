@@ -4,77 +4,81 @@
                                     xmlns:tools="http://schemas.android.com/tools"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="5dp"
-                                    card_view:cardCornerRadius="5dp"
-                                    card_view:cardUseCompatPadding="true">
+                                    android:layout_margin="4dp"
+                                    card_view:cardCornerRadius="5dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <TextView
             android:id="@+id/list_item_event_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_image"
             tools:text="Focused Fridays"/>
 
         <TextView
             android:id="@+id/list_item_event_location"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="8dp"
-            card_view:layout_constraintLeft_toLeftOf="@+id/list_item_event_title"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@android:color/black"
+            card_view:layout_constraintLeft_toLeftOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_title"
             tools:text="Jon M. Huntsman Building"/>
 
         <TextView
             android:id="@+id/list_item_event_time"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            card_view:layout_constraintLeft_toLeftOf="@+id/list_item_event_location"
+            android:textColor="@android:color/black"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintLeft_toLeftOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_location"
+            card_view:layout_constraintVertical_bias="0.0"
             tools:text="Fri, 7 PM - 10 PM"/>
 
         <ImageView
             android:id="@+id/list_item_event_image"
-            android:layout_width="104dp"
-            android:layout_height="81dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="-8dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            card_view:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-            tools:layout_editor_absoluteX="258dp"/>
+            card_view:srcCompat="@drawable/test_background_1"/>
 
-        <ImageView
-            android:id="@+id/list_item_event_interested_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="8dp"
-            card_view:layout_constraintRight_toRightOf="@+id/list_item_event_image"
-            card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_image"
-            card_view:srcCompat="@android:drawable/btn_star_big_on"/>
-
-        <TextView
-            android:id="@+id/list_item_event_number_interested"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="0dp"
-            card_view:layout_constraintBottom_toBottomOf="@+id/list_item_event_interested_button"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintTop_toTopOf="@+id/list_item_event_interested_button"
-            tools:text="144 Going"/>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

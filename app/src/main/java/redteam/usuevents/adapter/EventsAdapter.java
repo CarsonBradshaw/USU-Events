@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import org.w3c.dom.Text;
 
 import java.util.Collections;
@@ -65,9 +68,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         private TextView mTitle;
         private TextView mLocation;
         private TextView mTime;
-        private TextView mNumberInterested;
         private ImageView mImage;
-        private ImageView mInterestedBtn;
 
         public void bind(Event event) {
             mEvent = event;
@@ -75,10 +76,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
             mTitle.setText(mEvent.getTitle());
             mLocation.setText(mEvent.getLocation());
             mTime.setText(mEvent.getBeginDateTime());
-            mNumberInterested.setText("111");
-//            mImage.setImageDrawable();
-//            mInterestedBtn.setOnClickListener();
-
+            //Glide has issues with loading on rotation from an abstracted adapter. Need to either migrate back into fragment or disallow rotation.
+//            Glide.with(itemView).load(mEvent.getImageUri()).apply(RequestOptions.fitCenterTransform()).into(mImage);
         }
 
         public EventHolder(LayoutInflater inflater, ViewGroup parent, int layoutResourceId) {
@@ -87,9 +86,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
             mTitle = (TextView) itemView.findViewById(R.id.list_item_event_title);
             mLocation = (TextView) itemView.findViewById(R.id.list_item_event_location);
             mTime = (TextView) itemView.findViewById(R.id.list_item_event_time);
-            mNumberInterested = (TextView) itemView.findViewById(R.id.list_item_event_number_interested);
             mImage = (ImageView) itemView.findViewById(R.id.list_item_event_image);
-            mInterestedBtn = (ImageView) itemView.findViewById(R.id.list_item_event_interested_button);
         }
 
         @Override
