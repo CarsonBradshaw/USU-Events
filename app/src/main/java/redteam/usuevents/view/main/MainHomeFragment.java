@@ -1,5 +1,6 @@
 package redteam.usuevents.view.main;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,7 +45,12 @@ public class MainHomeFragment extends Fragment {
         bindViews();
 
         //RecyclerView test code, remove once finalized
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager manager;
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        }else{
+            manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        }
         mRecyclerView.setLayoutManager(manager);
         List<Event> eventList = new ArrayList<Event>();
         for(int i = 10; i<25; i++){

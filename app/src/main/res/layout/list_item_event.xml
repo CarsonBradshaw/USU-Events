@@ -38,30 +38,30 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
             android:textColor="@android:color/black"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
+            tools:text="Jon M. Huntsman Building"
+            card_view:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp"
             card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_title"
-            tools:text="Jon M. Huntsman Building"/>
+            />
 
         <TextView
             android:id="@+id/list_item_event_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
             android:textColor="@android:color/black"
-            card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_location"
-            card_view:layout_constraintVertical_bias="0.0"
             tools:text="Fri, 7 PM - 10 PM"/>
 
         <ImageView

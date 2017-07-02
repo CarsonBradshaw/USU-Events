@@ -39,7 +39,12 @@
         <item name="colorAccent">@color/colorAccentCopper</item>
         <item name="android:background">@color/colorPrimaryDarkBlue</item>
     </style>
-
+    
+    <!--Fragment Trending Events Theme-->
+    <style name="MainTrendingFragmentTheme" parent="CardView">
+        <item name="cardBackgroundColor">@color/colorPrimaryBlue</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
     <!--Buttons-->
     <style name="ButtonPrimary">

@@ -82,7 +82,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
 
         public EventHolder(LayoutInflater inflater, ViewGroup parent, int layoutResourceId) {
             super(inflater.inflate(layoutResourceId, parent, false));
-
+            
             mTitle = (TextView) itemView.findViewById(R.id.list_item_event_title);
             mLocation = (TextView) itemView.findViewById(R.id.list_item_event_location);
             mTime = (TextView) itemView.findViewById(R.id.list_item_event_time);
