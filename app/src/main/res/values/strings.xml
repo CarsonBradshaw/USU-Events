@@ -19,4 +19,8 @@
     <string name="profile_toolbar_title">Account</string>
     <string name="support_email">carsonabradshaw@aggiemail.usu.edu</string>
 
+    <!--Subscriptions Fragement Text-->
+    <string name="main_subscriptions_notification_switch_text">NOTIFICATIONS</string>
+    <string name="main_subscriptions_manage_notifications">MANAGE</string>
+
 </resources>
