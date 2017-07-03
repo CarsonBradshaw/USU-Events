@@ -1,5 +1,7 @@
 package redteam.usuevents.adapter;
 
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import redteam.usuevents.model.Event;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolder> {
 
     private List<Event> mEventList;
+    private boolean mTrending = false;
 
     public EventsAdapter(){
         this.mEventList = Collections.emptyList();
@@ -38,6 +41,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         this.mEventList = eventList;
     }
 
+    public void setTrending(boolean bool){
+        this.mTrending = bool;
+    }
+
     @Override
     public int getItemViewType(int position) {
         return R.layout.list_item_event;
@@ -46,7 +53,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
     @Override
     public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new EventHolder(layoutInflater, parent, viewType);
+        return new EventHolder(layoutInflater, parent, viewType, mTrending);
     }
 
     @Override
@@ -64,14 +71,17 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
     public static class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Event mEvent;
+        private boolean mTrending;
 
         private TextView mTitle;
         private TextView mLocation;
         private TextView mTime;
         private ImageView mImage;
+        private CardView mCardView;
 
         public void bind(Event event) {
             mEvent = event;
+            if(mTrending) setTrendingElements();
 
             mTitle.setText(mEvent.getTitle());
             mLocation.setText(mEvent.getLocation());
@@ -80,13 +90,22 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
 //            Glide.with(itemView).load(mEvent.getImageUri()).apply(RequestOptions.fitCenterTransform()).into(mImage);
         }
 
-        public EventHolder(LayoutInflater inflater, ViewGroup parent, int layoutResourceId) {
+        public void setTrendingElements(){
+            mCardView.setCardBackgroundColor(itemView.getResources().getColor(R.color.colorPrimary));
+            mTitle.setTextColor(Color.WHITE);
+            mLocation.setTextColor(Color.WHITE);
+            mTime.setTextColor(Color.WHITE);
+        }
+
+        public EventHolder(LayoutInflater inflater, ViewGroup parent, int layoutResourceId, boolean isTrending) {
             super(inflater.inflate(layoutResourceId, parent, false));
-            
+            mTrending = isTrending;
+
             mTitle = (TextView) itemView.findViewById(R.id.list_item_event_title);
             mLocation = (TextView) itemView.findViewById(R.id.list_item_event_location);
             mTime = (TextView) itemView.findViewById(R.id.list_item_event_time);
             mImage = (ImageView) itemView.findViewById(R.id.list_item_event_image);
+            if(mTrending) mCardView = (CardView) itemView.findViewById(R.id.list_item_event_cardview);
         }
 
         @Override

@@ -60,6 +60,7 @@ public class MainTrendingFragment extends Fragment {
             eventList.add(event);
         }
         EventsAdapter eventAdapter = new EventsAdapter(eventList);
+        eventAdapter.setTrending(true);
         mRecyclerView.setAdapter(eventAdapter);
         //Remove all above between comments when done figuring out configuration
 
