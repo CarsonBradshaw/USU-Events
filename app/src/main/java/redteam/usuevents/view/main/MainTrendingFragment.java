@@ -44,7 +44,8 @@ public class MainTrendingFragment extends Fragment {
 
         //RecyclerView test code, remove once finalized
         StaggeredGridLayoutManager manager;
-        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                || getActivity().getResources().getConfiguration().smallestScreenWidthDp >= 600) {
             manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         }else{
             manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
