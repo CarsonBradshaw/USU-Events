@@ -26,6 +26,7 @@
             android:layout_marginTop="8dp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
+            android:textSize="16sp"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_image"
@@ -33,7 +34,7 @@
 
         <TextView
             android:id="@+id/list_item_event_location"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
@@ -50,13 +51,13 @@
 
         <TextView
             android:id="@+id/list_item_event_time"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:paddingBottom="8dp"
             android:textColor="@android:color/black"
             card_view:layout_constraintHorizontal_bias="0.0"
@@ -69,9 +70,6 @@
             android:id="@+id/list_item_event_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="-8dp"
             android:adjustViewBounds="true"
             android:cropToPadding="false"
             card_view:layout_constraintHorizontal_bias="0.0"
@@ -79,6 +77,38 @@
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:srcCompat="@drawable/test_background_1"/>
+
+        <TextView
+            android:id="@+id/list_item_event_trending_underline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorAccentCopper"
+            android:textColor="@color/colorAccentCopper"
+            android:textStyle="bold"
+            android:visibility="gone"
+            card_view:layout_constraintBottom_toTopOf="@+id/list_item_event_location"
+            card_view:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/list_item_event_trending_number_interested"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:text="17 Interested"
+            android:textColor="@color/colorAccentCopper"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            android:visibility="gone"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintRight_toRightOf="parent"
+            card_view:layout_constraintTop_toTopOf="@+id/list_item_event_trending_underline"/>
 
     </android.support.constraint.ConstraintLayout>
 
