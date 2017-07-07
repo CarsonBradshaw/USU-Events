@@ -114,15 +114,10 @@
         <RelativeLayout
             android:layout_width="72dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginBottom="8dp"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toTopOf="@+id/list_item_event_image"
+            card_view:layout_constraintBottom_toBottomOf="@+id/list_item_event_trending_underline"
             android:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_star"/>
 
             <android.support.v7.widget.CardView
                 android:layout_width="72dp"
@@ -130,14 +125,15 @@
                 android:layout_alignParentEnd="true"
                 android:alpha="1"
                 card_view:cardCornerRadius="5dp"
-                card_view:cardBackgroundColor="@color/colorAccentCopper">
+                card_view:cardBackgroundColor="@color/colorPrimaryBlue">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star"
+                    android:src="@drawable/ic_trending_star"
+                    android:layout_marginStart="2dp"
                     android:layout_gravity="center"
-                    android:tint="@color/colorPrimaryDarkBlue"/>
+                    android:tint="@color/colorAccentCopper"/>
 
             </android.support.v7.widget.CardView>
 
@@ -147,7 +143,7 @@
                 android:layout_alignParentEnd="true"
                 android:alpha="1"
                 card_view:cardCornerRadius="0dp"
-                card_view:cardBackgroundColor="@color/colorAccentCopper"/>
+                card_view:cardBackgroundColor="@color/colorPrimaryBlue"/>
 
         </RelativeLayout>
 
