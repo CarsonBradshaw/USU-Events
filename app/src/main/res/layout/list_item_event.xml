@@ -113,8 +113,8 @@
         <ImageView
             android:layout_width="46dp"
             android:layout_height="46dp"
-            android:src="@drawable/trending_background"
-            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_star"
+            android:tint="@color/colorAccentCopper"
             card_view:layout_constraintRight_toRightOf="@+id/list_item_event_trending_number_interested"
             card_view:layout_constraintLeft_toLeftOf="@+id/list_item_event_trending_number_interested"
             card_view:layout_constraintBottom_toBottomOf="@+id/list_item_event_image"
