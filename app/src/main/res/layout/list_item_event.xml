@@ -110,42 +110,18 @@
             card_view:layout_constraintRight_toRightOf="parent"
             card_view:layout_constraintTop_toTopOf="@+id/list_item_event_trending_underline"/>
 
-
-        <RelativeLayout
-            android:layout_width="72dp"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:src="@drawable/trending_background"
+            android:tint="@color/colorPrimary"
+            card_view:layout_constraintRight_toRightOf="@+id/list_item_event_trending_number_interested"
+            card_view:layout_constraintLeft_toLeftOf="@+id/list_item_event_trending_number_interested"
+            card_view:layout_constraintBottom_toBottomOf="@+id/list_item_event_image"
             android:layout_marginBottom="8dp"
-            card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintBottom_toBottomOf="@+id/list_item_event_trending_underline"
-            android:visibility="gone">
+            card_view:layout_constraintTop_toBottomOf="@+id/list_item_event_image"/>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="72dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:alpha="1"
-                card_view:cardCornerRadius="5dp"
-                card_view:cardBackgroundColor="@color/colorPrimaryBlue">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_trending_star"
-                    android:layout_marginStart="2dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/colorAccentCopper"/>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="4dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:alpha="1"
-                card_view:cardCornerRadius="0dp"
-                card_view:cardBackgroundColor="@color/colorPrimaryBlue"/>
-
-        </RelativeLayout>
 
     </android.support.constraint.ConstraintLayout>
 
