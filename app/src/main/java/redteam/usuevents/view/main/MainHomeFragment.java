@@ -18,6 +18,7 @@ import java.util.List;
 
 import redteam.usuevents.R;
 import redteam.usuevents.adapter.EventsAdapter;
+import redteam.usuevents.adapter.HomeEventsAdapter;
 import redteam.usuevents.model.Event;
 
 /**
@@ -62,7 +63,7 @@ public class MainHomeFragment extends Fragment {
             event.setNumberInterested(i);
             eventList.add(event);
         }
-        EventsAdapter eventAdapter = new EventsAdapter(eventList);
+        HomeEventsAdapter eventAdapter = new HomeEventsAdapter(eventList);
         mRecyclerView.setAdapter(eventAdapter);
         //Remove all above between comments when done figuring out configuration
 

@@ -7,16 +7,16 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="@string/main_subscriptions_notification_switch_text"
             android:textColor="@color/colorPrimaryBlue"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginTop="8dp"
             android:text="@string/main_subscriptions_manage_notifications"
             android:textColor="@color/colorPrimaryBlue"
@@ -42,10 +42,12 @@
 
     </android.support.constraint.ConstraintLayout>
 
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_main_subscriptions_recycler_view"
-        tools:context=".view.main.MainActivity"/>
+        tools:context=".view.main.MainActivity"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </LinearLayout>

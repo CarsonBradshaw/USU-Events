@@ -44,7 +44,8 @@ public class MainTrendingFragment extends Fragment {
 
         //RecyclerView test code, remove once finalized
         StaggeredGridLayoutManager manager;
-        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+        if((getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                && getActivity().getResources().getConfiguration().screenWidthDp >= 600)
                 || getActivity().getResources().getConfiguration().smallestScreenWidthDp >= 600) {
             manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         }else{
@@ -52,12 +53,12 @@ public class MainTrendingFragment extends Fragment {
         }
         mRecyclerView.setLayoutManager(manager);
         List<Event> eventList = new ArrayList<Event>();
-        for(int i = 10; i<25; i++){
+        for(int i = 0; i<25; i++){
             Event event = new Event();
             event.setBeginDateTime("Friday, Aug "+i+" 6:00-7:30 PM");
             event.setTitle("Aggie Football: USU vs New Mexico");
             event.setLocation("Maverik Stadium, Logan, UT");
-            event.setNumberInterested(i);
+            event.setNumberInterested(i * 10);
             eventList.add(event);
         }
         EventsAdapter eventAdapter = new EventsAdapter(eventList);
