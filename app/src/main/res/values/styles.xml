@@ -46,6 +46,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!--Subscriptions Switch Theme-->
+    <style name="SubscriptionsSwitchTheme" parent="Theme.AppCompat.Light">
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/colorAccentSilver</item>
+    </style>
+
     <!--Buttons-->
     <style name="ButtonPrimary">
         <item name="android:background">@drawable/button_primary_background</item>
