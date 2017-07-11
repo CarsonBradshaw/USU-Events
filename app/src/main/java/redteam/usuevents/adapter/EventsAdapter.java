@@ -1,5 +1,6 @@
 package redteam.usuevents.adapter;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.CardView;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import redteam.usuevents.R;
 import redteam.usuevents.model.Event;
+import redteam.usuevents.view.event.EventActivity;
 
 /**
  * Created by Admin on 6/29/2017.
@@ -118,11 +120,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
                 mNumberInterested = (TextView) itemView.findViewById(R.id.list_item_event_trending_number_interested);
                 applyTrendingStyles();
             }
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-
+            Intent intent = new Intent(itemView.getContext(), EventActivity.class);
+            itemView.getContext().startActivity(intent);
         }
     }
 }
