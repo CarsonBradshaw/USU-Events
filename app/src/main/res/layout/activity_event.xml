@@ -30,7 +30,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:paddingBottom="32dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -58,8 +58,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height=".5dp"
-                    android:background="@color/colorPrimary"
+                    android:layout_height="1dp"
+                    android:background="@color/material_divider"
                     android:layout_marginTop="12dp"/>
 
                 <RelativeLayout
@@ -80,7 +80,8 @@
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/activity_event_subscribe_image"
                         android:textColor="@android:color/black"
-                        android:textStyle="italic"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         android:text="Aggie Football"/>
 
                     <ImageView
@@ -108,8 +109,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height=".5dp"
-                    android:background="@color/colorPrimary"/>
+                    android:layout_height="1dp"
+                    android:background="@color/material_divider"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -130,10 +131,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="18dp"
+                        android:layout_marginStart="24dp"
                         android:layout_toEndOf="@+id/imageView5"
                         android:textColor="@android:color/black"
-                        android:alpha=".6"
                         android:text="Wednesday, July 22"/>
 
                     <TextView
@@ -143,7 +143,6 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/textView7"
                         android:textColor="@android:color/black"
-                        android:alpha=".6"
                         android:text="6:00 - 7:30 PM"/>
 
                 </RelativeLayout>
@@ -167,10 +166,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="18dp"
+                        android:layout_marginStart="24dp"
                         android:layout_toEndOf="@+id/imageView6"
                         android:textColor="@android:color/black"
-                        android:alpha=".6"
                         android:text="Maverik Stadium"/>
 
                     <TextView
@@ -180,7 +178,6 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/textView9"
                         android:textColor="@android:color/black"
-                        android:alpha=".6"
                         android:text="1234 Logan, UT 84321"/>
 
                 </RelativeLayout>
@@ -204,10 +201,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="18dp"
+                        android:layout_marginStart="24dp"
                         android:layout_toEndOf="@+id/imageView7"
                         android:textColor="@android:color/black"
-                        android:alpha=".6"
                         android:text="Free"/>
 
                 </RelativeLayout>
@@ -215,7 +211,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/material_divider"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginTop="12dp"/>
@@ -233,7 +229,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/material_divider"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginTop="16dp"/>
@@ -241,7 +237,7 @@
                 <!--Will need to adjust padding and or margin as well as remove background once fragment loading has been implemented-->
                 <FrameLayout
                     android:id="@+id/activity_event_map_fragment_container"
-                    android:layout_margin="20dp"
+                    android:layout_margin="32dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:background="@drawable/map_delete_when_done_activity_event"
@@ -254,11 +250,69 @@
 
 
         <!--Footer HERE with layout_alignParentBottom set to true-->
-        <TextView
+        <RelativeLayout
             android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TEST TEST TEST TEST TEST TEST TEST TEST"/>
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+
+            <View
+                android:layout_height="32dp"
+                android:layout_width="match_parent"
+                android:background="@android:color/white"
+                android:layout_alignParentBottom="true"/>
+
+            <View
+                android:layout_height="1dp"
+                android:layout_width="match_parent"
+                android:background="@color/material_divider"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="280dp"
+                android:layout_marginStart="12dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/button_number_interested"/>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/imageView3"
+                android:layout_alignStart="@+id/imageView3"
+                android:layout_centerVertical="true"
+                android:text="123 INTERESTED"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_trending_star"
+                android:background="@drawable/bordered_modal_card_button"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/imageView3"
+                android:layout_marginStart="8dp"/>
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:paddingEnd="7dp"
+                android:paddingStart="4dp"
+                android:paddingTop="2dp"
+                android:src="@drawable/ic_share"
+                android:background="@drawable/bordered_modal_card_button"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/imageView4"
+                android:layout_marginStart="8dp"/>
+
+        </RelativeLayout>
 
 
 
