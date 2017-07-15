@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
+    private AlertDialog.Builder mAlertDialogBuilder;
+
     private Toolbar mToolbar;
     private ImageView mFilterButton;
     private ImageView mMapButton;
@@ -54,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState!=null){
             mCurrentBottomNavItemId = savedInstanceState.getInt(ROTATION_STATE_KEY);
         }
+
+        //put alert dialog code in separate method
+        mAlertDialogBuilder = new AlertDialog.Builder(this, R.style.ProfileDialogTheme);
+        mAlertDialogBuilder.setView(R.layout.dialog_filter);
 
         verifySignedInStatus();
         bindViews();
@@ -93,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mAlertDialogBuilder.show();
             }
         });
 
