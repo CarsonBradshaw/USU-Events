@@ -39,7 +39,15 @@
         <item name="colorAccent">@color/colorAccentCopper</item>
         <item name="android:background">@color/colorPrimaryDarkBlue</item>
     </style>
-    
+
+    <!--MainActivity Dialog Theme-->
+    <style name="MainDialogTheme" parent="Base.Theme.AppCompat.Dialog">
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentCopper</item>
+        <item name="android:background">@color/colorPrimaryDarkBlue</item>
+    </style>
+
     <!--Fragment Trending Events Theme-->
     <style name="MainTrendingFragmentTheme" parent="CardView">
         <item name="cardBackgroundColor">@color/colorPrimaryBlue</item>

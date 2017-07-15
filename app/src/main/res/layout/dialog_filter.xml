@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:background="@color/colorPrimaryBlue">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,65 +15,87 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="120dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Sort By:"/>
+                android:text="Sort By"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold|italic"/>
 
             <View
-                android:layout_width="50dp"
+                android:layout_width="105dp"
                 android:layout_height="1dp"
-                android:layout_gravity="center_horizontal"
                 android:background="@color/colorAccentCopper"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Date"/>
+                android:layout_marginTop="8dp"
+                android:padding="4dp"
+                android:text="Date"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Popular"/>
+                android:padding="4dp"
+                android:text="Popular"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                />
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="120dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Filter By:"/>
+                android:text="View By"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold|italic"/>
 
             <View
-                android:layout_width="50dp"
+                android:layout_width="105dp"
                 android:layout_height="1dp"
-                android:layout_gravity="center_horizontal"
                 android:background="@color/colorAccentCopper"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="All"/>
+                android:layout_marginTop="8dp"
+                android:padding="4dp"
+                android:text="Categories"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="My Subscriptions"/>
+                android:padding="4dp"
+                android:text="Events"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                />
 
         </LinearLayout>
 
@@ -80,27 +104,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="View By:"/>
+        android:layout_marginTop="24dp"
+        android:text="Filter By"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"/>
 
     <View
-        android:layout_width="50dp"
+        android:layout_width="105dp"
         android:layout_height="1dp"
-        android:layout_gravity="center_horizontal"
         android:background="@color/colorAccentCopper"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Categories"/>
+        android:layout_marginTop="8dp"
+        android:padding="4dp"
+        android:text="All"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Events"/>
+        android:padding="4dp"
+        android:text="My Subscriptions"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        />
 
 
 </LinearLayout>

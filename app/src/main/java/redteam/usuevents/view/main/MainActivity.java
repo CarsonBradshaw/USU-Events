@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //put alert dialog code in separate method
-        mAlertDialogBuilder = new AlertDialog.Builder(this, R.style.ProfileDialogTheme);
+        mAlertDialogBuilder = new AlertDialog.Builder(this, R.style.MainDialogTheme);
         mAlertDialogBuilder.setView(R.layout.dialog_filter);
 
         verifySignedInStatus();
