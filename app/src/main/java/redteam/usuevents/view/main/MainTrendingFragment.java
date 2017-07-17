@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import redteam.usuevents.R;
-import redteam.usuevents.adapter.EventsAdapter;
+import redteam.usuevents.adapter.TrendingEventsAdapter;
 import redteam.usuevents.model.Event;
 
 /**
@@ -61,7 +60,7 @@ public class MainTrendingFragment extends Fragment {
             event.setNumberInterested(i * 10);
             eventList.add(event);
         }
-        EventsAdapter eventAdapter = new EventsAdapter(eventList);
+        TrendingEventsAdapter eventAdapter = new TrendingEventsAdapter(eventList);
         eventAdapter.setTrending(true);
         mRecyclerView.setAdapter(eventAdapter);
         //Remove all above between comments when done figuring out configuration

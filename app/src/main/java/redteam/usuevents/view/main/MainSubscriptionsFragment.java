@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import redteam.usuevents.R;
-import redteam.usuevents.adapter.EventsAdapter;
 import redteam.usuevents.adapter.HomeEventsAdapter;
 import redteam.usuevents.model.Event;
 

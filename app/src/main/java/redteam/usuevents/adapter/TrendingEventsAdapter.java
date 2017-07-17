@@ -2,7 +2,6 @@ package redteam.usuevents.adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,11 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,16 +21,16 @@ import redteam.usuevents.view.event.EventActivity;
  * Created by Admin on 6/29/2017.
  */
 
-public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolder> {
+public class TrendingEventsAdapter extends RecyclerView.Adapter<TrendingEventsAdapter.EventHolder> {
 
     private List<Event> mEventList;
     private boolean mTrending = false;
 
-    public EventsAdapter(){
+    public TrendingEventsAdapter(){
         this.mEventList = Collections.emptyList();
     }
 
-    public EventsAdapter(List<Event> eventList){
+    public TrendingEventsAdapter(List<Event> eventList){
         this.mEventList = eventList;
     }
 
