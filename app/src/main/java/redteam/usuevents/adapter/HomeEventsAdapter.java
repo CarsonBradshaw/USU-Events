@@ -26,6 +26,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
     private List<Event> mEventList;
     private boolean mTrending = false;
+    private boolean mSubscriptions = false;
 
     public HomeEventsAdapter(){
         this.mEventList = Collections.emptyList();
@@ -43,8 +44,15 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
         this.mTrending = bool;
     }
 
+    public void setSubscriptions(boolean bool){
+        this.mSubscriptions = bool;
+    }
+
     @Override
     public int getItemViewType(int position) {
+        if(mSubscriptions && position==0){
+            return R.layout.subscriptions_settings_header;
+        }
         return R.layout.list_item_event_home;
     }
 
