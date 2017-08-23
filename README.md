@@ -1,5 +1,8 @@
 # Connecting Students to Events
 
+## App Update - New UI Demo - Test Data Included 8/22/2017
+![Demo](https://user-images.githubusercontent.com/13813803/29599305-03ef5786-878c-11e7-80a2-4594c0a906e8.gif)
+
 USU Events was created to solve one simple problem: getting students to events. 
 
 
@@ -39,6 +42,3 @@ able to provide users updates tailored exactly to their subscriptions. No more c
 #### 4. Stay Up to Date Without Ever Laying Another Finger
 
 <br/>
-
-## App Update - New UI Demo - Test Data Included 8/22/2017
-![Demo](https://user-images.githubusercontent.com/13813803/29599305-03ef5786-878c-11e7-80a2-4594c0a906e8.gif)
