@@ -1,7 +1,19 @@
-# Connecting Students to Events
-
-## App Update - New UI Demo - Test Data Included 8/22/2017
+# Updated UI Demo - Test Data Included 8/22/2017
 ![Demo](https://user-images.githubusercontent.com/13813803/29599305-03ef5786-878c-11e7-80a2-4594c0a906e8.gif)
+
+<br/>
+
+# Sprint 2 Results
+![Demo](https://user-images.githubusercontent.com/13813803/29651045-d35bf18a-885b-11e7-967f-b108bf001ecd.gif)
+
+<br/>
+
+# Sprint 1 Results
+![Demo](https://user-images.githubusercontent.com/13813803/29648131-d5a06014-8849-11e7-9660-b46bfd73ba65.gif)
+
+<br/>
+
+# Connecting Students to Events
 
 USU Events was created to solve one simple problem: getting students to events. 
 
@@ -37,8 +49,12 @@ able to provide users updates tailored exactly to their subscriptions. No more c
 ## From the User's Perspective
 
 #### 1. Sign In
+With support for Google and Facebook sign-in built in, users don't have to worry about remembering a username and password. Anonymous login and phone number authentication are in the pipeline based off of Google's Firebase Authentication system.
 #### 2. Subscribe to Specific Channels or General Topics
+Choose exactly which channels or topics you want to receive notifications for. Interested only in the College of Engineering events or Hackathons? Great! Subscribe to exactly what you want.
 #### 3. Setup Notification Period
+Now that you've chosen what you want to be notified of, now you can choose when exactly you'd like to be notified. 
 #### 4. Stay Up to Date Without Ever Laying Another Finger
+Manage subsciptions or view all upcoming events at anytime. Get notified without ever having to look again.
 
 <br/>
