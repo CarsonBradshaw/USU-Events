@@ -3,6 +3,11 @@
 
 <br/>
 
+# Sprint 3 Results
+![Demo](https://user-images.githubusercontent.com/13813803/29651928-61aefdb6-8860-11e7-8bd0-92da6768a491.gif)
+
+<br/>
+
 # Sprint 2 Results
 ![Demo](https://user-images.githubusercontent.com/13813803/29651045-d35bf18a-885b-11e7-967f-b108bf001ecd.gif)
 
