@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,13 +17,15 @@ import java.util.List;
 import redteam.usuevents.R;
 import redteam.usuevents.model.Event;
 import redteam.usuevents.view.event.EventActivity;
+import redteam.usuevents.view.main.ManageSubscriptionsCallback;
 
 /**
  * Created by Admin on 7/8/2017.
  */
 
-public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.EventHolder> {
+public class HomeEventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
+    private ManageSubscriptionsCallback manageSubscriptionsCallback;
 
     private List<Event> mEventList;
     private boolean mTrending = false;
@@ -30,6 +33,10 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
 
     public HomeEventsAdapter(){
         this.mEventList = Collections.emptyList();
+    }
+
+    public void setManageSubscriptionsCallback(ManageSubscriptionsCallback callBack){
+        this.manageSubscriptionsCallback = callBack;
     }
 
     public HomeEventsAdapter(List<Event> eventList){
@@ -57,20 +64,34 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<HomeEventsAdapter.Ev
     }
 
     @Override
-    public HomeEventsAdapter.EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == R.layout.subscriptions_settings_header){
+            View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+            view.findViewById(R.id.subscriptions_header_manage_clickable_area).setOnClickListener(this);
+            return new RecyclerView.ViewHolder(view) {
+
+            };
+        }
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         return new HomeEventsAdapter.EventHolder(layoutInflater, parent, viewType, mTrending);
     }
 
     @Override
-    public void onBindViewHolder(HomeEventsAdapter.EventHolder holder, int position) {
-        Event event = mEventList.get(position);
-        holder.bind(event);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(mSubscriptions && position == 0)
+            return;
+        Event event = mEventList.get(position - (mSubscriptions ? 1 : 0));
+        ((EventHolder)holder).bind(event);
     }
 
     @Override
     public int getItemCount() {
-        return mEventList.size();
+        return mEventList.size() + (mSubscriptions ? 1 : 0);
+    }
+
+    @Override
+    public void onClick(View view) {
+        manageSubscriptionsCallback.updateManageViews();
     }
 
 

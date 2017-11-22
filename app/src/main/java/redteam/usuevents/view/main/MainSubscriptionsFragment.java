@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -21,9 +22,9 @@ import redteam.usuevents.model.Event;
  * Created by Admin on 6/14/2017.
  */
 
-public class MainSubscriptionsFragment extends Fragment {
+public class MainSubscriptionsFragment extends Fragment implements ManageSubscriptionsCallback {
 
-    private static View sView;
+    private View mView;
 
     private RecyclerView mRecyclerView;
 
@@ -35,18 +36,34 @@ public class MainSubscriptionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(sView==null){
-            sView = inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
+        if(mView==null){
+            mView = inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
         }
 
         bindViews();
 
         //RecyclerView test code, remove once finalized
-        StaggeredGridLayoutManager manager;
+        GridLayoutManager manager;
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+            manager = new GridLayoutManager(getContext(), 3);
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if(position > 0)
+                        return 1;
+                    return 3;
+                }
+            });
         }else{
-            manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            manager = new GridLayoutManager(getContext(), 2);
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if(position > 0)
+                        return 1;
+                    return 2;
+                }
+            });
         }
         mRecyclerView.setLayoutManager(manager);
         List<Event> eventList = new ArrayList<Event>();
@@ -60,14 +77,20 @@ public class MainSubscriptionsFragment extends Fragment {
             eventList.add(event);
         }
         HomeEventsAdapter eventAdapter = new HomeEventsAdapter(eventList);
+        eventAdapter.setSubscriptions(true);
+        eventAdapter.setManageSubscriptionsCallback(this);
         mRecyclerView.setAdapter(eventAdapter);
         //Remove all above between comments when done figuring out configuration
 
-        return sView;
+        return mView;
     }
 
     private void bindViews(){
-        mRecyclerView = (RecyclerView)sView.findViewById(R.id.fragment_main_subscriptions_recycler_view);
+        mRecyclerView = (RecyclerView)mView.findViewById(R.id.fragment_main_subscriptions_recycler_view);
     }
 
+    @Override
+    public void updateManageViews() {
+
+    }
 }

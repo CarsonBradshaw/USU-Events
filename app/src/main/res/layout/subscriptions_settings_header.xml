@@ -8,7 +8,9 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="3dp">
 
         <RelativeLayout
             android:id="@+id/subscriptions_header_notification_clickable_area"
@@ -24,7 +26,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:alpha=".8"
-                app:srcCompat="@drawable/ic_active_notification"/>
+                app:srcCompat="@drawable/ic_active_notification" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -35,7 +37,7 @@
                 android:layout_toEndOf="@+id/subscriptions_header_notification_icon"
                 android:text="Enabled"
                 android:textColor="@color/colorPrimaryBlue"
-                android:textStyle="bold|italic"/>
+                android:textStyle="bold|italic" />
 
         </RelativeLayout>
 
@@ -49,7 +51,7 @@
             android:padding="9.5dp"
             android:text="@string/main_subscriptions_manage_notifications"
             android:textColor="@color/colorPrimaryBlue"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
 
     </RelativeLayout>

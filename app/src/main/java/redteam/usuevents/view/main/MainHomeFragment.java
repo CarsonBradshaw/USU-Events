@@ -23,7 +23,7 @@ import redteam.usuevents.model.Event;
 
 public class MainHomeFragment extends Fragment {
 
-    private static View sView;
+    private View mView;
 
     private RecyclerView mRecyclerView;
 
@@ -35,8 +35,8 @@ public class MainHomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(sView==null){
-            sView = inflater.inflate(R.layout.fragment_main_home, container, false);
+        if(mView==null){
+            mView = inflater.inflate(R.layout.fragment_main_home, container, false);
         }
 
         bindViews();
@@ -64,11 +64,11 @@ public class MainHomeFragment extends Fragment {
         //Remove all above between comments when done figuring out configuration
 
 
-        return sView;
+        return mView;
     }
 
     private void bindViews(){
-        mRecyclerView = (RecyclerView)sView.findViewById(R.id.fragment_main_home_recycler_view);
+        mRecyclerView = (RecyclerView)mView.findViewById(R.id.fragment_main_home_recycler_view);
     }
 
 }
