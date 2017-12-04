@@ -20,8 +20,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.AccessToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ import redteam.usuevents.view.profile.ProfileActivity;
 public class MainActivity extends AppCompatActivity {
 
     private static final String ROTATION_STATE_KEY = "curBottomNavId";
+    public static final String EVENT_KEY = "eventKey";
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -151,7 +154,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadProfileImage(){
-        Glide.with(this).load(mFirebaseUser.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
+        String profileImageURL = "";
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            for(UserInfo profile : mFirebaseUser.getProviderData()) {
+                profileImageURL =  "https://graph.facebook.com/" + profile.getUid() + "/picture?height=500";
+            }
+        }else{
+            profileImageURL = mFirebaseUser.getPhotoUrl().toString();
+        }
+
+        Log.d("here21", profileImageURL);
+        Glide.with(this).load(profileImageURL).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
     }
 
     private void buildFragmentList() {

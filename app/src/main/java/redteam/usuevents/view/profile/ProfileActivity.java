@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.AccessToken;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import redteam.usuevents.R;
@@ -154,7 +156,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadProfileImage() {
-        Glide.with(this).load(mFirebaseUser.getPhotoUrl()).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
+        String profileImageURL = "";
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            for(UserInfo profile : mFirebaseUser.getProviderData()) {
+                profileImageURL =  "https://graph.facebook.com/" + profile.getUid() + "/picture?height=500";
+            }
+        }else{
+            profileImageURL = mFirebaseUser.getPhotoUrl().toString();
+        }
+        Glide.with(this).load(profileImageURL).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
     }
 
     private void setUserNameText() {

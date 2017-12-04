@@ -69,6 +69,7 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         List<Event> eventList = new ArrayList<Event>();
         for(int i = 10; i<25; i++){
             Event event = new Event();
+            event.setCategory("Aggie Football");
             event.setBeginDateTime("Friday, Aug "+i+" 6:00-7:30 PM");
             event.setTitle("Aggie Football: USU vs New Mexico");
             event.setLocation("Maverik Stadium, Logan, UT");

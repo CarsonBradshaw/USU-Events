@@ -2,6 +2,7 @@ package redteam.usuevents.model;
 
 import android.net.Uri;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by Admin on 6/21/2017.
  */
 
-public class Event {
+public class Event implements Serializable {
 
     private String beginDateTime;
     private String category;

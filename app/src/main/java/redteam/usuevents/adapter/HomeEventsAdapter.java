@@ -2,6 +2,7 @@ package redteam.usuevents.adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import java.util.List;
 import redteam.usuevents.R;
 import redteam.usuevents.model.Event;
 import redteam.usuevents.view.event.EventActivity;
+import redteam.usuevents.view.main.MainActivity;
 import redteam.usuevents.view.main.ManageSubscriptionsCallback;
 
 /**
@@ -150,6 +152,9 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(itemView.getContext(), EventActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(MainActivity.EVENT_KEY, mEvent);
+            intent.putExtras(bundle);
             itemView.getContext().startActivity(intent);
         }
     }
