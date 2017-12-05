@@ -1,6 +1,7 @@
 package redteam.usuevents.view.event;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.speech.RecognitionListener;
@@ -111,7 +112,18 @@ public class EventActivity extends AppCompatActivity {
         locationClickableArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                StringBuilder builder = new StringBuilder();
+                String[] locationArr = event.getLocation().split(" ");
+                for(int i = 0; i<locationArr.length; i++){
+                    builder.append(locationArr[i]);
+                    if(i < locationArr.length - 1){
+                        builder.append("+");
+                    }
+                }
+                Uri gmmIntentUri = Uri.parse("geo:"+event.getLatitude()+","+event.getLongitude()+"?q="+builder.toString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
             }
         });
     }
