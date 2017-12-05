@@ -115,7 +115,7 @@ public class HomeEventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             mTitle.setText(mEvent.getTitle());
             mLocation.setText(mEvent.getLocation());
-            mTime.setText(mEvent.getBeginDateTime());
+            mTime.setText(mEvent.getHumanReadableTime());
             if(mTrending){
                 mNumberInterested.setText(mEvent.getNumberInterested() + " Interested");
             }

@@ -113,6 +113,7 @@
                     android:background="@color/material_divider"/>
 
                 <RelativeLayout
+                    android:id="@+id/event_calendar_area"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp">
@@ -133,8 +134,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="24dp"
                         android:layout_toEndOf="@+id/imageView5"
-                        android:textColor="@android:color/black"
-                        android:text="Wednesday, July 22"/>
+                        android:text="Wednesday, December 13"
+                        android:textColor="@android:color/black"/>
 
                     <TextView
                         android:id="@+id/event_time"
@@ -142,12 +143,13 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/event_date"
-                        android:text="6:00 - 7:30 PM"
+                        android:text="6:00 - 9:30 PM"
                         android:textColor="@android:color/black"/>
 
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/event_location_area"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="24dp">
@@ -168,8 +170,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="24dp"
                         android:layout_toEndOf="@+id/imageView6"
-                        android:textColor="@android:color/black"
-                        android:text="Maverik Stadium"/>
+                        android:text="Maverik Stadium"
+                        android:textColor="@android:color/black"/>
 
                     <TextView
                         android:id="@+id/event_address"

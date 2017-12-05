@@ -52,12 +52,18 @@ public class MainHomeFragment extends Fragment {
         List<Event> eventList = new ArrayList<Event>();
         for(int i = 10; i<25; i++){
             Event event = new Event();
+            event.setBeginDateTime("2017-12-"+i+"T18:00:00-07:00");
             event.setCategory("Aggie Football");
-            event.setBeginDateTime("Friday, Aug "+i+" 6:00-7:30 PM");
-            event.setTitle("Aggie Football: USU vs New Mexico");
-            event.setLocation("Maverik Stadium, Logan, UT");
+            event.setDescription("Come watch your Aggies crush New Mexico.");
+            event.setEndDateTime("2017-12-"+i+"T21:00:00-07:00");
+            event.setEventId(i + "");
             event.setImageUri("http://global.web.usu.edu/images/uploads/Carlos/Utah%20State%20University-%20early%20summer.jpg");
+            event.setLatitude(41.750996996);
+            event.setLocation("Maverik Stadium, Logan, UT");
+            event.setLongitude(-111.806996772);
             event.setNumberInterested(i);
+            event.setTopic("mFootball");
+            event.setTitle("USU vs New Mexico");
             eventList.add(event);
         }
         HomeEventsAdapter eventAdapter = new HomeEventsAdapter(eventList);

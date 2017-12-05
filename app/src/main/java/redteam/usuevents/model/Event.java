@@ -1,8 +1,11 @@
 package redteam.usuevents.model;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -141,5 +144,20 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getHumanReadableTime(){
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssX");
+        Date date = new Date();
+        try {
+            date = sdf.parse(this.getBeginDateTime());
+            Log.d("here", date.getTime() + "");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat convertedFormat = new SimpleDateFormat("E, MMM d 'at' h:mm a");
+        String resultDate = convertedFormat.format(date);
+        return resultDate;
     }
 }
