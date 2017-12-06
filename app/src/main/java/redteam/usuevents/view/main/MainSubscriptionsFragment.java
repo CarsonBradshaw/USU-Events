@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,9 @@ import java.util.List;
 
 import redteam.usuevents.R;
 import redteam.usuevents.adapter.HomeEventsAdapter;
+import redteam.usuevents.adapter.ManageSubscriptionsAdapater;
 import redteam.usuevents.model.Event;
+import redteam.usuevents.model.Topic;
 
 /**
  * Created by Admin on 6/14/2017.
@@ -39,6 +40,9 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         if(mView==null){
             mView = inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
         }
+
+        if(mRecyclerView!=null)
+            return mView;
 
         bindViews();
 
@@ -98,6 +102,15 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
 
     @Override
     public void updateManageViews() {
-        mRecyclerView.setVisibility(View.GONE);
+        List<Topic> topicList = new ArrayList<>();
+        ManageSubscriptionsAdapater manageSubscriptionsAdapater = new ManageSubscriptionsAdapater(topicList);
+        manageSubscriptionsAdapater.setManageSubscriptionsCallback(this);
+        mRecyclerView.setAdapter(manageSubscriptionsAdapater);
+        //mRecyclerView.notifyAll();
+    }
+
+    @Override
+    public void saveManageState() {
+
     }
 }

@@ -6,4 +6,5 @@ package redteam.usuevents.view.main;
 
 public interface ManageSubscriptionsCallback {
     void updateManageViews();
+    void saveManageState();
 }
