@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -85,6 +86,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.profile_notifications:
+                        setResult(Activity.RESULT_OK, null);
+                        Log.d("testing1", "inProfileAcitivityBeforeFinish");
+                        finish();
                         break;
                     case R.id.profile_sign_out:
                         item.setChecked(true);

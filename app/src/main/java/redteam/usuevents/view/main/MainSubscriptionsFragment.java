@@ -98,6 +98,6 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
 
     @Override
     public void updateManageViews() {
-
+        mRecyclerView.setVisibility(View.GONE);
     }
 }

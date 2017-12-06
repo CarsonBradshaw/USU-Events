@@ -1,5 +1,6 @@
 package redteam.usuevents.view.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ROTATION_STATE_KEY = "curBottomNavId";
     public static final String EVENT_KEY = "eventKey";
+    public static final int PROFILE_ACTIVITY_RESULT_KEY = 9001;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -78,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putInt(ROTATION_STATE_KEY, mCurrentBottomNavItemId);
+        super.onSaveInstanceState(outState);
     }
 
     private void verifySignedInStatus(){
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent, ActivityOptionsCompat
+                startActivityForResult(intent, PROFILE_ACTIVITY_RESULT_KEY, ActivityOptionsCompat
                         .makeScaleUpAnimation(findViewById(R.id.bottom_navigation_view), 0, 0,MainActivity.this.getResources().getDisplayMetrics().widthPixels,
                                 MainActivity.this.getResources().getDisplayMetrics().heightPixels).toBundle());
             }
@@ -164,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
             profileImageURL = mFirebaseUser.getPhotoUrl().toString();
         }
 
-        Log.d("here21", profileImageURL);
         Glide.with(this).load(profileImageURL).apply(RequestOptions.fitCenterTransform()).into(mProfileImage);
     }
 
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, mFragmentList.get(pos))
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     private void switchFragmentFromItemId(int id){
@@ -209,4 +210,15 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("testing1", "onActivityResult");
+        if (requestCode == PROFILE_ACTIVITY_RESULT_KEY && resultCode == Activity.RESULT_OK) {
+            mCurrentBottomNavItemId = R.id.bottom_nav_subscriptions;
+            switchToCurrentFragment();
+            super.onPostResume();
+            ((MainSubscriptionsFragment)mFragmentList.get(2)).updateManageViews();
+        }
+    }//onActivityResult
 }
