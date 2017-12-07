@@ -2,6 +2,7 @@ package redteam.usuevents.view.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -34,7 +35,7 @@ import redteam.usuevents.R;
 import redteam.usuevents.view.login.LoginActivity;
 import redteam.usuevents.view.profile.ProfileActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UnsavedChangesCallback {
 
     private static final String ROTATION_STATE_KEY = "curBottomNavId";
     public static final String EVENT_KEY = "eventKey";
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Fragment> mFragmentList = new ArrayList<>(3);
     private int mCurrentBottomNavItemId = -1;
+    private boolean hasUnsavedChanges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAlertDialogBuilder.show();
+                if(!hasUnsavedChanges) mAlertDialogBuilder.show();
             }
         });
 
@@ -122,10 +124,43 @@ public class MainActivity extends AppCompatActivity {
         mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivityForResult(intent, PROFILE_ACTIVITY_RESULT_KEY, ActivityOptionsCompat
-                        .makeScaleUpAnimation(findViewById(R.id.bottom_navigation_view), 0, 0,MainActivity.this.getResources().getDisplayMetrics().widthPixels,
-                                MainActivity.this.getResources().getDisplayMetrics().heightPixels).toBundle());
+                if(hasUnsavedChanges){
+                    AlertDialog.Builder confirmSavedChangesDialog = new AlertDialog.Builder(MainActivity.this, R.style.ProfileDialogTheme);
+                    confirmSavedChangesDialog.setMessage("Save Changes?");
+                    confirmSavedChangesDialog.setCancelable(false);
+                    confirmSavedChangesDialog.setPositiveButton("Save All", new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ((MainSubscriptionsFragment)mFragmentList.get(2)).saveManageState();
+                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            startActivityForResult(intent, PROFILE_ACTIVITY_RESULT_KEY, ActivityOptionsCompat
+                                    .makeScaleUpAnimation(findViewById(R.id.bottom_navigation_view), 0, 0, MainActivity.this.getResources().getDisplayMetrics().widthPixels,
+                                            MainActivity.this.getResources().getDisplayMetrics().heightPixels).toBundle());
+                            hasUnsavedChanges = false;
+                        }
+                    });
+
+                    confirmSavedChangesDialog.setNegativeButton("Discard", new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //discard unsaved changes
+                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            startActivityForResult(intent, PROFILE_ACTIVITY_RESULT_KEY, ActivityOptionsCompat
+                                    .makeScaleUpAnimation(findViewById(R.id.bottom_navigation_view), 0, 0, MainActivity.this.getResources().getDisplayMetrics().widthPixels,
+                                            MainActivity.this.getResources().getDisplayMetrics().heightPixels).toBundle());
+                            hasUnsavedChanges = false;
+                        }
+                    });
+
+                    confirmSavedChangesDialog.show();
+                }else {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivityForResult(intent, PROFILE_ACTIVITY_RESULT_KEY, ActivityOptionsCompat
+                            .makeScaleUpAnimation(findViewById(R.id.bottom_navigation_view), 0, 0, MainActivity.this.getResources().getDisplayMetrics().widthPixels,
+                                    MainActivity.this.getResources().getDisplayMetrics().heightPixels).toBundle());
+                }
             }
         });
 
@@ -173,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         MainHomeFragment mainHomeFragment = MainHomeFragment.getInstance();
         MainTrendingFragment mainTrendingFragment = MainTrendingFragment.getInstance();
         MainSubscriptionsFragment mainSubscriptionsFragment = MainSubscriptionsFragment.getInstance();
+        mainSubscriptionsFragment.setUnsavedChangesCallbackListener(this);
 
         mFragmentList.add(mainHomeFragment);
         mFragmentList.add(mainTrendingFragment);
@@ -221,4 +257,9 @@ public class MainActivity extends AppCompatActivity {
             ((MainSubscriptionsFragment)mFragmentList.get(2)).updateManageViews();
         }
     }//onActivityResult
+
+    @Override
+    public void onUnsavedChange(boolean hasChanged) {
+        hasUnsavedChanges = hasChanged;
+    }
 }

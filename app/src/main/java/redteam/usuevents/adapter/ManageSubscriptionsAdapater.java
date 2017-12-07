@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import redteam.usuevents.R;
 import redteam.usuevents.model.Event;
@@ -30,6 +32,7 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
     private ManageSubscriptionsCallback manageSubscriptionsCallback;
 
     private List<Topic> mTopicList;
+    private Set<Topic> unsavedTopicChanges;
 
     public ManageSubscriptionsAdapater(){
         this.mTopicList = Collections.emptyList();
@@ -41,6 +44,7 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 
     public ManageSubscriptionsAdapater(List<Topic>topicList){
         this.mTopicList = topicList;
+        this.unsavedTopicChanges = new HashSet<>();
     }
 
     public void setTopicList(List<Topic> topicList){
@@ -86,11 +90,12 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onClick(View view) {
+        manageSubscriptionsCallback.updateUnsavedChangeState(false);
         manageSubscriptionsCallback.saveManageState();
     }
 
 
-    public static class TopicHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class TopicHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Topic mTopic;
 
@@ -138,6 +143,12 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 //            bundle.putSerializable(MainActivity.EVENT_KEY, mTopic);
 //            intent.putExtras(bundle);
 //            itemView.getContext().startActivity(intent);
+            if(unsavedTopicChanges.contains(mTopic)){
+                unsavedTopicChanges.remove(mTopic);
+            }else{
+                unsavedTopicChanges.add(mTopic);
+            }
+            manageSubscriptionsCallback.updateUnsavedChangeState(unsavedTopicChanges.size() > 0);
             overlay.setVisibility( overlay.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
             mTopic.setSubscribed(!mTopic.isSubscribed());
         }

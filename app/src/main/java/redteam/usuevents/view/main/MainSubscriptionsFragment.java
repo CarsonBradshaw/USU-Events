@@ -1,14 +1,21 @@
 package redteam.usuevents.view.main;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +25,8 @@ import redteam.usuevents.adapter.HomeEventsAdapter;
 import redteam.usuevents.adapter.ManageSubscriptionsAdapater;
 import redteam.usuevents.model.Event;
 import redteam.usuevents.model.Topic;
+import redteam.usuevents.view.login.LoginActivity;
+import redteam.usuevents.view.profile.ProfileActivity;
 
 /**
  * Created by Admin on 6/14/2017.
@@ -29,6 +38,8 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
 
     private RecyclerView mRecyclerView;
     private List<Topic> topicList;
+    private boolean hasUnsavedChanges;
+    private UnsavedChangesCallback unsavedChangesCallback;
 
 
     public static MainSubscriptionsFragment getInstance() {
@@ -160,5 +171,24 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         eventAdapter.setSubscriptions(true);
         eventAdapter.setManageSubscriptionsCallback(this);
         mRecyclerView.setAdapter(eventAdapter);
+        updateUnsavedChangeState(false);
+    }
+
+    @Override
+    public void updateUnsavedChangeState(boolean hasChanged) {
+        hasUnsavedChanges = hasChanged;
+        unsavedChangesCallback.onUnsavedChange(hasUnsavedChanges);
+    }
+
+    @Override
+    public void onPause() {
+        if(hasUnsavedChanges){
+
+        }
+        super.onPause();
+    }
+
+    public void setUnsavedChangesCallbackListener(UnsavedChangesCallback unsavedChangesCallback) {
+        this.unsavedChangesCallback = unsavedChangesCallback;
     }
 }
