@@ -53,14 +53,16 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
         if(position==0){
             return R.layout.subscriptions_settings_header;
         }
-        return R.layout.list_item_event_home;
+        return R.layout.list_item_topic_manage;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType == R.layout.subscriptions_settings_header){
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            view.findViewById(R.id.subscriptions_header_manage_clickable_area).setOnClickListener(this);
+            TextView manageText = (TextView)view.findViewById(R.id.subscriptions_header_manage_clickable_area);
+            manageText.setText("SAVE ALL");
+            manageText.setOnClickListener(this);
             return new RecyclerView.ViewHolder(view) {
 
             };
@@ -92,45 +94,39 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 
         private Topic mTopic;
 
-//        private TextView mTitle;
-//        private TextView mLocation;
-//        private TextView mTime;
-//        private ImageView mImage;
-//        private TextView mTitleUnderline;
-//        private TextView mNumberInterested;
-//        private CardView mCardView;
+        private View overlay;
+
+        private TextView mTitle;
+        private TextView mLocation;
+        private TextView mTime;
+        private ImageView mImage;
+        private TextView mTitleUnderline;
+        private TextView mNumberInterested;
+        private CardView mCardView;
 
         public void bind(Topic topic) {
             mTopic = topic;
 
-//            mTitle.setText(mTopic.getTitle());
-//            mLocation.setText(mTopic.getLocation());
-//            mTime.setText(mTopic.getHumanReadableTime());
-//            mNumberInterested.setText(mTopic.getNumberInterested() + " Interested");
+            mTitle.setText(mTopic.getTopic());
+            mLocation.setText(mTopic.getNumActiveEvents()+" Upcoming Events");
+            mTime.setText(mTopic.getNumSubscribers()+" Active Subscribers");
+            overlay.setVisibility(topic.isSubscribed() ? View.GONE : View.VISIBLE);
             //Glide has issues with loading on rotation from an abstracted adapter. Need to either migrate back into fragment or disallow rotation.
 //            Glide.with(itemView).load(mEvent.getImageUri()).apply(RequestOptions.fitCenterTransform()).into(mImage);
         }
 
-        public void applyTrendingStyles(){
-//            mCardView.setCardBackgroundColor(itemView.getResources().getColor(R.color.colorPrimary));
-//            mTitle.setTextColor(Color.WHITE);
-//            mLocation.setTextColor(Color.WHITE);
-//            mTime.setTextColor(Color.WHITE);
-//            mTitleUnderline.setVisibility(View.VISIBLE);
-//            mNumberInterested.setVisibility(View.VISIBLE);
-        }
 
         public TopicHolder(LayoutInflater inflater, ViewGroup parent, int layoutResourceId) {
             super(inflater.inflate(layoutResourceId, parent, false));
 
-//            mTitle = (TextView) itemView.findViewById(R.id.list_item_event_title);
-//            mLocation = (TextView) itemView.findViewById(R.id.list_item_event_location);
-//            mTime = (TextView) itemView.findViewById(R.id.list_item_event_time);
+            mTitle = (TextView) itemView.findViewById(R.id.list_item_event_title);
+            mLocation = (TextView) itemView.findViewById(R.id.list_item_event_location);
+            mTime = (TextView) itemView.findViewById(R.id.list_item_event_time);
+            overlay = (View) itemView.findViewById(R.id.topic_overlay);
 //            mImage = (ImageView) itemView.findViewById(R.id.list_item_event_image);
 //            mCardView = (CardView) itemView.findViewById(R.id.list_item_event_cardview);
 //            mTitleUnderline = (TextView) itemView.findViewById(R.id.list_item_event_trending_underline);
 //            mNumberInterested = (TextView) itemView.findViewById(R.id.list_item_event_trending_number_interested);
-            applyTrendingStyles();
 
             itemView.setOnClickListener(this);
         }
@@ -142,6 +138,8 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 //            bundle.putSerializable(MainActivity.EVENT_KEY, mTopic);
 //            intent.putExtras(bundle);
 //            itemView.getContext().startActivity(intent);
+            overlay.setVisibility( overlay.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+            mTopic.setSubscribed(!mTopic.isSubscribed());
         }
     }
 

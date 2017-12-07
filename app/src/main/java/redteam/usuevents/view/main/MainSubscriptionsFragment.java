@@ -28,6 +28,7 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
     private View mView;
 
     private RecyclerView mRecyclerView;
+    private List<Topic> topicList;
 
 
     public static MainSubscriptionsFragment getInstance() {
@@ -102,15 +103,62 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
 
     @Override
     public void updateManageViews() {
-        List<Topic> topicList = new ArrayList<>();
+        if(topicList == null) {
+            topicList = new ArrayList<>();
+            Topic t1 = new Topic();
+            t1.setTopic("Men's Basketball");
+            t1.setNumActiveEvents(12);
+            t1.setNumSubscribers(2264);
+            Topic t2 = new Topic();
+            t2.setTopic("USUSA");
+            t2.setNumActiveEvents(22);
+            t2.setNumSubscribers(3578);
+            Topic t3 = new Topic();
+            t3.setTopic("Men's Hockey");
+            t3.setNumSubscribers(240);
+            t3.setNumActiveEvents(10);
+            Topic t4 = new Topic();
+            t4.setTopic("Men's Football");
+            t4.setNumActiveEvents(1);
+            t4.setNumSubscribers(5442);
+            Topic t5 = new Topic();
+            t5.setTopic("Hunstman School of Business");
+            t5.setNumSubscribers(2310);
+            t5.setNumActiveEvents(5);
+
+            topicList.add(t1);
+            topicList.add(t2);
+            topicList.add(t3);
+            topicList.add(t4);
+            topicList.add(t5);
+        }
         ManageSubscriptionsAdapater manageSubscriptionsAdapater = new ManageSubscriptionsAdapater(topicList);
         manageSubscriptionsAdapater.setManageSubscriptionsCallback(this);
         mRecyclerView.setAdapter(manageSubscriptionsAdapater);
-        //mRecyclerView.notifyAll();
     }
 
     @Override
     public void saveManageState() {
-
+        List<Event> eventList = new ArrayList<Event>();
+        for(int i = 10; i<25; i++){
+            Event event = new Event();
+            event.setBeginDateTime("2017-12-"+i+"T18:00:00-07:00");
+            event.setCategory("Aggie Football");
+            event.setDescription("Come watch your Aggies crush New Mexico.");
+            event.setEndDateTime("2017-12-"+i+"T21:00:00-07:00");
+            event.setEventId(i + "");
+            event.setImageUri("http://global.web.usu.edu/images/uploads/Carlos/Utah%20State%20University-%20early%20summer.jpg");
+            event.setLatitude(41.750996996);
+            event.setLocation("Maverik Stadium, Logan, UT");
+            event.setLongitude(-111.806996772);
+            event.setNumberInterested(i);
+            event.setTopic("mFootball");
+            event.setTitle("USU vs New Mexico");
+            eventList.add(event);
+        }
+        HomeEventsAdapter eventAdapter = new HomeEventsAdapter(eventList);
+        eventAdapter.setSubscriptions(true);
+        eventAdapter.setManageSubscriptionsCallback(this);
+        mRecyclerView.setAdapter(eventAdapter);
     }
 }
