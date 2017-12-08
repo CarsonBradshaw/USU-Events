@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements UnsavedChangesCal
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!hasUnsavedChanges) mAlertDialogBuilder.show();
+                mAlertDialogBuilder.show();
             }
         });
 
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements UnsavedChangesCal
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //discard unsaved changes
+                            ((MainSubscriptionsFragment)mFragmentList.get(2)).discardChanges();
                             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                             startActivityForResult(intent, PROFILE_ACTIVITY_RESULT_KEY, ActivityOptionsCompat
                                     .makeScaleUpAnimation(findViewById(R.id.bottom_navigation_view), 0, 0, MainActivity.this.getResources().getDisplayMetrics().widthPixels,
@@ -179,12 +180,44 @@ public class MainActivity extends AppCompatActivity implements UnsavedChangesCal
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
 
-                mCurrentBottomNavItemId = item.getItemId();
-                switchFragmentFromItemId(mCurrentBottomNavItemId);
+                if(hasUnsavedChanges){
+                    AlertDialog.Builder confirmSavedChangesDialog = new AlertDialog.Builder(MainActivity.this, R.style.ProfileDialogTheme);
+                    confirmSavedChangesDialog.setMessage("Save Changes?");
+                    confirmSavedChangesDialog.setCancelable(false);
+                    confirmSavedChangesDialog.setPositiveButton("Save All", new DialogInterface.OnClickListener(){
 
-                return true;
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ((MainSubscriptionsFragment)mFragmentList.get(2)).saveManageState();
+                            mCurrentBottomNavItemId = item.getItemId();
+                            hasUnsavedChanges = false;
+                            switchToCurrentFragment();
+                        }
+                    });
+
+                    confirmSavedChangesDialog.setNegativeButton("Discard", new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //discard unsaved changes
+                            ((MainSubscriptionsFragment)mFragmentList.get(2)).discardChanges();
+                            mCurrentBottomNavItemId = item.getItemId();
+                            hasUnsavedChanges = false;
+                            switchToCurrentFragment();
+                        }
+                    });
+
+                    confirmSavedChangesDialog.show();
+                    return false;
+                }else {
+
+                    mCurrentBottomNavItemId = item.getItemId();
+                    switchFragmentFromItemId(mCurrentBottomNavItemId);
+
+                    return true;
+                }
             }
         });
 
@@ -256,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements UnsavedChangesCal
             super.onPostResume();
             ((MainSubscriptionsFragment)mFragmentList.get(2)).updateManageViews();
         }
-    }//onActivityResult
+    }
 
     @Override
     public void onUnsavedChange(boolean hasChanged) {

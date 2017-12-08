@@ -18,7 +18,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import redteam.usuevents.R;
 import redteam.usuevents.adapter.HomeEventsAdapter;
@@ -38,6 +40,7 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
 
     private RecyclerView mRecyclerView;
     private List<Topic> topicList;
+    private Set<Topic> unsavedTopicChanges;
     private boolean hasUnsavedChanges;
     private UnsavedChangesCallback unsavedChangesCallback;
 
@@ -116,6 +119,7 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
     public void updateManageViews() {
         if(topicList == null) {
             topicList = new ArrayList<>();
+            unsavedTopicChanges = new HashSet<>();
             Topic t1 = new Topic();
             t1.setTopic("Men's Basketball");
             t1.setNumActiveEvents(12);
@@ -143,7 +147,7 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
             topicList.add(t4);
             topicList.add(t5);
         }
-        ManageSubscriptionsAdapater manageSubscriptionsAdapater = new ManageSubscriptionsAdapater(topicList);
+        ManageSubscriptionsAdapater manageSubscriptionsAdapater = new ManageSubscriptionsAdapater(topicList, unsavedTopicChanges);
         manageSubscriptionsAdapater.setManageSubscriptionsCallback(this);
         mRecyclerView.setAdapter(manageSubscriptionsAdapater);
     }
@@ -172,6 +176,7 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         eventAdapter.setManageSubscriptionsCallback(this);
         mRecyclerView.setAdapter(eventAdapter);
         updateUnsavedChangeState(false);
+        unsavedTopicChanges.clear();
     }
 
     @Override
@@ -180,11 +185,15 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         unsavedChangesCallback.onUnsavedChange(hasUnsavedChanges);
     }
 
+    public void discardChanges(){
+        for(Topic topic : unsavedTopicChanges){
+            topic.setSubscribed(!topic.isSubscribed());
+        }
+        saveManageState();
+    }
+
     @Override
     public void onPause() {
-        if(hasUnsavedChanges){
-
-        }
         super.onPause();
     }
 

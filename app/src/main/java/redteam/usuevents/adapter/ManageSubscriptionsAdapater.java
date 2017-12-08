@@ -42,9 +42,9 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
         this.manageSubscriptionsCallback = callBack;
     }
 
-    public ManageSubscriptionsAdapater(List<Topic>topicList){
+    public ManageSubscriptionsAdapater(List<Topic>topicList, Set<Topic> unsavedTopicChanges){
         this.mTopicList = topicList;
-        this.unsavedTopicChanges = new HashSet<>();
+        this.unsavedTopicChanges = unsavedTopicChanges;
     }
 
     public void setTopicList(List<Topic> topicList){
