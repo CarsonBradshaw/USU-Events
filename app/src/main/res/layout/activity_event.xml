@@ -238,10 +238,10 @@
                 <!--Will need to adjust padding and or margin as well as remove background once fragment loading has been implemented-->
                 <FrameLayout
                     android:id="@+id/activity_event_map_fragment_container"
-                    android:layout_margin="32dp"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="@drawable/map_delete_when_done_activity_event"
+                    android:layout_margin="32dp"
+                    android:background="@drawable/map_background_delete_when_done"
                     />
 
 
