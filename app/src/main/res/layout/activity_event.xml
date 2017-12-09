@@ -219,14 +219,13 @@
                     android:layout_marginTop="12dp"/>
 
                 <TextView
-                    android:layout_marginTop="18dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="Event description would go here and would probably be somewhere between two and three sentences
-                    long. This string is meant to test the length of this event detail and should be removed after layout has been finalized."/>
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="18dp"
+                    android:text="Event description would go here and would probably be somewhere between two and three sentences long. This string is meant to test the length of this event detail and should be removed after layout has been finalized."
+                    android:textColor="@android:color/black"/>
 
                 <View
                     android:layout_width="match_parent"

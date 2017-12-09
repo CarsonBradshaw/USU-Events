@@ -12,6 +12,7 @@ import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginBehavior;
@@ -112,6 +113,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         //View "binding"
         mGoogleSignInButton = (SignInButton) findViewById(R.id.google_sign_in_button);
+
+        for (int i = 0; i < mGoogleSignInButton.getChildCount(); i++) {
+            View v = mGoogleSignInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setPadding(32, 0, 0, 0);
+                break;
+            }
+        }
+
         mFacebookSignInButton = (LoginButton) findViewById(R.id.facebook_sign_in_button);
         mProgressBar = (ProgressBar)findViewById(R.id.login_progress_bar);
 

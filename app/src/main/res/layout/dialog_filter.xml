@@ -174,7 +174,7 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:paddingTop="8dp"
-                android:text="My Subscriptions"
+                android:text="Subscriptions"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"/>

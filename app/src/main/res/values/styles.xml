@@ -16,7 +16,6 @@
     <!--Login Theme with USU Background-->
     <style name="AppTheme.LoginUSUBackground" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowBackground">@drawable/login_background_oldmain_vert</item>
     </style>
 
     <!--Login Theme with Solid Blue Background-->
