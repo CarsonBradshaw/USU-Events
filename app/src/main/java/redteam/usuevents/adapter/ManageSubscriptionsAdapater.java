@@ -55,14 +55,14 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemViewType(int position) {
         if(position==0){
-            return R.layout.subscriptions_settings_header;
+            return R.layout.subscriptions_settings_manage_header;
         }
         return R.layout.list_item_topic_manage;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == R.layout.subscriptions_settings_header){
+        if(viewType == R.layout.subscriptions_settings_manage_header){
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
             TextView manageText = (TextView)view.findViewById(R.id.subscriptions_header_manage_clickable_area);
             manageText.setText("SAVE ALL");
