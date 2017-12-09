@@ -43,6 +43,8 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
     private Set<Topic> unsavedTopicChanges;
     private boolean hasUnsavedChanges;
     private UnsavedChangesCallback unsavedChangesCallback;
+    private int notificationSettingStr = R.id.textView12;
+    private String mPrevText = "24 hours";
 
 
     public static MainSubscriptionsFragment getInstance() {
@@ -149,6 +151,8 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         }
         ManageSubscriptionsAdapater manageSubscriptionsAdapater = new ManageSubscriptionsAdapater(topicList, unsavedTopicChanges);
         manageSubscriptionsAdapater.setManageSubscriptionsCallback(this);
+        manageSubscriptionsAdapater.setNotificationSettingString(notificationSettingStr);
+        manageSubscriptionsAdapater.setPrevText(mPrevText);
         mRecyclerView.setAdapter(manageSubscriptionsAdapater);
     }
 
@@ -199,5 +203,11 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
 
     public void setUnsavedChangesCallbackListener(UnsavedChangesCallback unsavedChangesCallback) {
         this.unsavedChangesCallback = unsavedChangesCallback;
+    }
+
+    @Override
+    public void updateNotificationPeriod(int newPeriodString, String newString) {
+        notificationSettingStr = newPeriodString;
+        mPrevText = newString;
     }
 }

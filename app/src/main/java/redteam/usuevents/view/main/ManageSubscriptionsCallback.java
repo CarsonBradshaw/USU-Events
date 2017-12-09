@@ -8,4 +8,5 @@ public interface ManageSubscriptionsCallback {
     void updateManageViews();
     void saveManageState();
     void updateUnsavedChangeState(boolean hasChanged);
+    void updateNotificationPeriod(int newPeriodString, String newText);
 }

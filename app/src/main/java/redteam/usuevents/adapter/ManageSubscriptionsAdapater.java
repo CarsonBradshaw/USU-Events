@@ -3,13 +3,20 @@ package redteam.usuevents.adapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,6 +37,8 @@ import redteam.usuevents.view.main.ManageSubscriptionsCallback;
 public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private ManageSubscriptionsCallback manageSubscriptionsCallback;
+    private int mNotificationSettingString;
+    private String mPrevText;
 
     private List<Topic> mTopicList;
     private Set<Topic> unsavedTopicChanges;
@@ -61,12 +70,46 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         if(viewType == R.layout.subscriptions_settings_manage_header){
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            TextView manageText = (TextView)view.findViewById(R.id.subscriptions_header_manage_clickable_area);
+            final TextView manageText = (TextView)view.findViewById(R.id.subscriptions_header_manage_clickable_area);
             manageText.setText("SAVE ALL");
             manageText.setOnClickListener(this);
+            final TextView notificationSettingsText = (TextView)view.findViewById(R.id.notification_settings_time_text_view);
+            notificationSettingsText.setText(mPrevText);
+            ConstraintLayout constraintLayout = (ConstraintLayout)view.findViewById(R.id.subscriptions_header_manage_timer_clickable_area);
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(parent.getContext(), R.style.MainDialogTheme);
+                    alertDialogBuilder.setView(R.layout.dialog_choose_notification_delay);
+                    final AlertDialog alertDialog = alertDialogBuilder.show();
+                    final GridLayout gridLayout = (GridLayout) alertDialog.findViewById(R.id.grid_time_chooser);
+                    gridLayout.findViewById(mNotificationSettingString).setBackgroundResource(R.drawable.circle_selection_background);
+                    for(int i = 0; i<gridLayout.getChildCount(); i++){
+                        gridLayout.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                        if(view instanceof TextView){
+                                            gridLayout.findViewById(mNotificationSettingString).setBackgroundResource(0);
+                                            mNotificationSettingString = view.getId();
+                                            manageSubscriptionsCallback.updateNotificationPeriod(mNotificationSettingString, ((TextView) view).getText().toString());
+                                            notificationSettingsText.setText(((TextView) view).getText());
+                                            ((TextView) view).setBackgroundResource(R.drawable.circle_selection_background);
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    alertDialog.dismiss();
+                                                }
+                                            }, 100);
+                                            //alertDialog.dismiss();
+                                        }
+                                    }
+                            });
+                    }
+                }
+            });
             return new RecyclerView.ViewHolder(view) {
 
             };
@@ -92,6 +135,14 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
     public void onClick(View view) {
         manageSubscriptionsCallback.updateUnsavedChangeState(false);
         manageSubscriptionsCallback.saveManageState();
+    }
+
+    public void setNotificationSettingString(int notificationSettingString) {
+        mNotificationSettingString = notificationSettingString;
+    }
+
+    public void setPrevText(String newText){
+        mPrevText = newText;
     }
 
 
