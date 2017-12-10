@@ -8,6 +8,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 
     private List<Topic> mTopicList;
     private Set<Topic> unsavedTopicChanges;
+    private int[] drawableIds = new int[]{R.drawable.spectrum, R.drawable.ususa, R.drawable.hockey, R.drawable.football, R.drawable.huntsman};
 
     public ManageSubscriptionsAdapater(){
         this.mTopicList = Collections.emptyList();
@@ -120,10 +122,15 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(position == 0)
+        if(position == 0) {
+            StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setFullSpan(true);
+            holder.itemView.setLayoutParams(layoutParams);
             return;
+        }
         Topic topic = mTopicList.get(position - 1);
         ((TopicHolder)holder).bind(topic);
+        if(position>0)((TopicHolder)holder).mImage.setImageResource(drawableIds[position-1]);
     }
 
     @Override
@@ -155,7 +162,7 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
         private TextView mTitle;
         private TextView mLocation;
         private TextView mTime;
-        private ImageView mImage;
+        public ImageView mImage;
         private TextView mTitleUnderline;
         private TextView mNumberInterested;
         private CardView mCardView;
@@ -179,7 +186,7 @@ public class ManageSubscriptionsAdapater extends RecyclerView.Adapter<RecyclerVi
             mLocation = (TextView) itemView.findViewById(R.id.list_item_event_location);
             mTime = (TextView) itemView.findViewById(R.id.list_item_event_time);
             overlay = (View) itemView.findViewById(R.id.topic_overlay);
-//            mImage = (ImageView) itemView.findViewById(R.id.list_item_event_image);
+            mImage = (ImageView) itemView.findViewById(R.id.list_item_event_image);
 //            mCardView = (CardView) itemView.findViewById(R.id.list_item_event_cardview);
 //            mTitleUnderline = (TextView) itemView.findViewById(R.id.list_item_event_trending_underline);
 //            mNumberInterested = (TextView) itemView.findViewById(R.id.list_item_event_trending_number_interested);

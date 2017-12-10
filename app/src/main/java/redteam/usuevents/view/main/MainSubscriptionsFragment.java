@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,27 +65,11 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         bindViews();
 
         //RecyclerView test code, remove once finalized
-        GridLayoutManager manager;
+        StaggeredGridLayoutManager manager;
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            manager = new GridLayoutManager(getContext(), 3);
-            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if(position > 0)
-                        return 1;
-                    return 3;
-                }
-            });
+            manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         }else{
-            manager = new GridLayoutManager(getContext(), 2);
-            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if(position > 0)
-                        return 1;
-                    return 2;
-                }
-            });
+            manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         }
         mRecyclerView.setLayoutManager(manager);
         List<Event> eventList = new ArrayList<Event>();
@@ -153,6 +138,13 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         manageSubscriptionsAdapater.setManageSubscriptionsCallback(this);
         manageSubscriptionsAdapater.setNotificationSettingString(notificationSettingStr);
         manageSubscriptionsAdapater.setPrevText(mPrevText);
+        StaggeredGridLayoutManager manager;
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        }else{
+            manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        }
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(manageSubscriptionsAdapater);
     }
 
@@ -178,6 +170,13 @@ public class MainSubscriptionsFragment extends Fragment implements ManageSubscri
         HomeEventsAdapter eventAdapter = new HomeEventsAdapter(eventList);
         eventAdapter.setSubscriptions(true);
         eventAdapter.setManageSubscriptionsCallback(this);
+        StaggeredGridLayoutManager manager;
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        }else{
+            manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        }
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(eventAdapter);
         updateUnsavedChangeState(false);
         unsavedTopicChanges.clear();
